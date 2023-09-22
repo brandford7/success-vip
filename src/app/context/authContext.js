@@ -1,125 +1,136 @@
-// context/authContext.js
-//use client
-import { createContext, useContext, useState, useEffect } from "react";
+// authContext.js
 
-// Create the auth context
-export const AuthContext = createContext();
+import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation"; // Import the Next.js router
 
-// Auth Provider component
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter(); // Initialize the Next.js router
 
-  // You can fetch the user data from your API or local storage here
   useEffect(() => {
+    // Fetch user data or check local storage for a saved token and user info
     const fetchUserData = async () => {
       try {
-        // Fetch user data from your API or local storage
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setIsLoading(false);
+          return;
+        }
+
         const response = await fetch(
-          "https://jobsapi-cr7j.onrender.com/api/v1/auth/user",
+          "https://success-secrets-bet-api.onrender.com/api/v1/users/me", // Update with the user profile route
           {
-            method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // You may need to adjust the token storage method
+              Authorization: `Bearer ${token}`,
             },
           }
         );
 
-        if (!response.ok) {
-          // Handle error when fetching user data
-          throw new Error("Failed to fetch user data");
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
         }
 
-        const userData = await response.json();
-
-        // Set the user state
-        setUser(userData);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setIsLoading(false);
       }
     };
 
     fetchUserData();
   }, []);
 
-  const login = async (userData) => {
-    // Handle user login logic (e.g., making API requests)
+  const login = async (credentials) => {
+    // Make a POST request to the login route
     try {
       const response = await fetch(
-        "https://jobsapi-cr7j.onrender.com/api/v1/auth/login",
+        "https://success-secrets-bet-api.onrender.com/api/v1/auth/login", // Update with the login route
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(userData),
+          body: JSON.stringify(credentials),
         }
       );
 
-      if (!response.ok) {
-        // Handle login error
-        throw new Error("Login failed");
+      if (response.ok) {
+        const data = await response.json();
+        const { user, token } = data;
+        setUser(user);
+
+        // Save the token to local storage
+        localStorage.setItem("token", token);
+
+        // Redirect to the homepage after successful login
+        router.push("/"); // Update with the correct homepage route
+        return true;
+      } else {
+        // Handle login error here
+        return false;
       }
-
-      const responseData = await response.json();
-
-      // Once the user is logged in, set the user state
-      setUser(responseData.user);
-
-      // Save user data to local storage if needed
-      // localStorage.setItem('user', JSON.stringify(responseData.user));
     } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
-
-  const register = async (userData) => {
-    // Handle user registration logic (e.g., making API requests)
-    try {
-      const response = await fetch(
-        "https://jobsapi-cr7j.onrender.com/api/v1/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        }
-      );
-
-      if (!response.ok) {
-        // Handle registration error
-        throw new Error("Registration failed");
-      }
-
-      const responseData = await response.json();
-
-      // Once the user is registered, set the user state
-      setUser(responseData.user);
-
-      // Save user data to local storage if needed
-      // localStorage.setItem('user', JSON.stringify(responseData.user));
-    } catch (error) {
-      console.error("Registration error:", error);
+      console.error("Error during login:", error);
+      return false;
     }
   };
 
   const logout = () => {
-    // Handle user logout logic (e.g., making API requests)
-    // After logout, set the user state to null
+    // Clear user data and token from state and local storage
     setUser(null);
+    localStorage.removeItem("token");
 
-    // Clear user data from local storage if needed
-    // localStorage.removeItem('user');
+    // Redirect to the login page after logout
+    router.push("/login"); // Update with the correct login page route
+  };
+
+  // Register function for user registration
+  const register = async (formData) => {
+    try {
+      const response = await fetch(
+        "https://success-secrets-bet-api.onrender.com/api/v1/auth/register", // Update with the register route
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        // Redirect to the homepage after successful registration
+        router.push("/"); // Update with the correct homepage route
+        return true;
+      } else {
+        // Handle registration error here
+        return false;
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      return false;
+    }
+  };
+
+  const authContextValue = {
+    user,
+    login,
+    logout,
+    register,
+    isLoading,
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-// Custom hook for using the auth context
-export const useAuth = () => {
-  return useContext(AuthContext);
 };
