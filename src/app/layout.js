@@ -1,5 +1,6 @@
 "use client";
 import Header from "./components/header";
+import Footer from "./components/footer";
 import ToggleThemeButton from "./components/toggleTheme";
 import { AuthProvider } from "./context/authContext";
 import { ThemeProvider } from "./context/themeContext";
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
               <PredictionsProvider>
                 <Header />
                 {children}
+                <Footer/>
               </PredictionsProvider>
             </QueryClientProvider>
           </ThemeProvider>

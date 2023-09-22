@@ -7,23 +7,23 @@ import { usePredictionsContext } from "./context/predictionContext";
 import Pagination from "./components/pagination";
 import SearchBar from "./components/searchBar";
 import Sorting from "./components/sorting";
+import Filter from "./components/filter";
 
 function HomePage() {
   const { predictions } = usePredictionsContext(); // Access predictions from context
 
   // Filter the predictions based on the isVIP flag
   const freePredictions = predictions.filter((prediction) => !prediction.isVIP);
+  console.log(predictions);
 
   return (
     <div className="container mx-auto py-4">
       <SearchBar />
       <Sorting />
-      {/*<PredictionControls />*/}
+      <Filter />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {freePredictions.map((prediction) => (
-          <Predictions key={prediction.id} prediction={prediction} />
-        ))}
+      <div>
+        <Predictions predictions={freePredictions} />
       </div>
       <Pagination />
     </div>

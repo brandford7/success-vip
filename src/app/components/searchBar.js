@@ -6,7 +6,7 @@ const SearchBar = () => {
 
   return (
     <>
-      <div className="w-full md:w-1/2 lg:w-1/3 mb-2">
+      <div className="w-full md:w-1/2 lg:w-1/3 mb-2 px-5">
         <input
           type="text"
           placeholder="Search predictions..."

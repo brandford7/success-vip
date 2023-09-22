@@ -1,7 +1,6 @@
-// authContext.js
-
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Import the Next.js router
+import { useRouter } from "next/navigation";
+import axios from "axios"; // Import Axios
 
 const AuthContext = createContext();
 
@@ -12,10 +11,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter(); // Initialize the Next.js router
+  const router = useRouter();
 
   useEffect(() => {
-    // Fetch user data or check local storage for a saved token and user info
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -24,8 +22,8 @@ export const AuthProvider = ({ children }) => {
           return;
         }
 
-        const response = await fetch(
-          "https://success-secrets-bet-api.onrender.com/api/v1/users/me", // Update with the user profile route
+        const response = await axios.get(
+          "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -33,8 +31,8 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
-        if (response.ok) {
-          const userData = await response.json();
+        if (response.status === 200) {
+          const userData = response.data;
           setUser(userData);
         }
 
@@ -48,70 +46,57 @@ export const AuthProvider = ({ children }) => {
     fetchUserData();
   }, []);
 
-  const login = async (credentials) => {
-    // Make a POST request to the login route
-    try {
-      const response = await fetch(
-        "https://success-secrets-bet-api.onrender.com/api/v1/auth/login", // Update with the login route
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
+   const login = async (credentials) => {
+     try {
+       const response = await axios.post(
+         "https://success-secrets-bet-api.onrender.com/api/v1/auth/login", // Update with the login route
+         credentials,
+         {
+           headers: {
+             "Content-Type": "application/json",
+           },
+         }
+       );
 
-      if (response.ok) {
-        const data = await response.json();
-        const { user, token } = data;
-        setUser(user);
+       if (response.status === 200) {
+         const { user, token } = response.data;
+         setUser(user);
 
-        // Save the token to local storage
-        localStorage.setItem("token", token);
+         // Save the token to local storage
+         localStorage.setItem("token", token);
 
-        // Redirect to the homepage after successful login
-        router.push("/"); // Update with the correct homepage route
-        return true;
-      } else {
-        // Handle login error here
-        return false;
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      return false;
-    }
-  };
+         // Redirect to the homepage after successful login
+         router.push("/"); // Update with the correct homepage route
+         return true;
+       } else {
+         // Handle login error here
+         return false;
+       }
+     } catch (error) {
+       console.error("Error during login:", error);
+       return false;
+     }
+   };
+
 
   const logout = () => {
-    // Clear user data and token from state and local storage
     setUser(null);
     localStorage.removeItem("token");
 
-    // Redirect to the login page after logout
-    router.push("/login"); // Update with the correct login page route
+    router.push("/login");
   };
 
-  // Register function for user registration
   const register = async (formData) => {
     try {
-      const response = await fetch(
-        "https://success-secrets-bet-api.onrender.com/api/v1/auth/register", // Update with the register route
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
+      const response = await axios.post(
+        "https://success-secrets-bet-api.onrender.com/api/v1/auth/register",
+        formData
       );
 
-      if (response.ok) {
-        // Redirect to the homepage after successful registration
-        router.push("/"); // Update with the correct homepage route
+      if (response.status === 200) {
+        router.push("/");
         return true;
       } else {
-        // Handle registration error here
         return false;
       }
     } catch (error) {

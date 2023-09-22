@@ -1,89 +1,52 @@
-import { useEffect, useState } from "react";
+// components/AccountPage.js
+'use client'
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext";
+import axios from "axios";
 
-export default function Account() {
+const AccountPage = () => {
+  const { user } = useAuth(); // Get the authenticated user from your context
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    // Fetch user data from your backend API here and set it in the state
     const fetchUserData = async () => {
       try {
-        const response = await fetch("/api/user"); // Replace with your API endpoint
-        if (response.ok) {
-          const data = await response.json();
-          setUserData(data);
+        // Make an HTTP GET request to the user profile API using the user's ID
+        const response = await axios.get(
+          `https://success-secrets-bet-api.onrender.com/api/v1/users/profile`
+        );
+
+        if (response.status === 200) {
+          // Set the user data to state
+          setUserData(response.data);
         } else {
-          // Handle error
-          console.error("Error fetching user data");
+          // Handle error here
         }
       } catch (error) {
+        // Handle error here
         console.error("Error fetching user data:", error);
       }
     };
 
-    fetchUserData();
-  }, []);
-
-  const handleCancelSubscription = async () => {
-    try {
-      // Send a request to cancel the subscription to your backend API
-      const response = await fetch("/api/cancel-subscription", {
-        method: "POST",
-      });
-
-      if (response.ok) {
-        // Subscription canceled successfully, update the user interface
-        setUserData((prevData) => ({
-          ...prevData,
-          isSubscribed: false,
-        }));
-      } else {
-        // Handle error
-        console.error("Error canceling subscription");
-      }
-    } catch (error) {
-      console.error("Error canceling subscription:", error);
+    if (user) {
+      fetchUserData();
     }
-  };
-
-  const handleUpdatePaymentMethod = async () => {
-    // Implement the logic to update the payment method here
-    // This may involve showing a payment method update form or modal
-  };
+  }, [user]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-4">User Account</h1>
+    <div>
+      <h2 className="text-3xl font-semibold">Account Page</h2>
       {userData ? (
-        <div className="lg:flex">
-          <div className="lg:w-1/2">{/* Display user details */}</div>
-          <div className="lg:w-1/2 mt-4 lg:mt-0">
-            <h2 className="text-xl font-semibold mb-2">Subscription Status</h2>
-            {userData.isSubscribed ? (
-              <>
-                <p>You are subscribed to the premium plan.</p>
-                <button
-                  className="mt-2 bg-red-500 text-white rounded px-4 py-2"
-                  onClick={handleCancelSubscription}
-                >
-                  Cancel Subscription
-                </button>
-              </>
-            ) : (
-              <>
-                <p>You are not currently subscribed.</p>
-                <button
-                  className="mt-2 bg-blue-500 text-white rounded px-4 py-2"
-                  onClick={handleUpdatePaymentMethod}
-                >
-                  Update Payment Method
-                </button>
-              </>
-            )}
-          </div>
+        <div>
+          <p>Name: {userData.name}</p>
+          <p>Email: {userData.email}</p>
+          {/* Display other user details */}
         </div>
       ) : (
         <p>Loading user data...</p>
       )}
     </div>
   );
-}
+};
+
+export default AccountPage;
