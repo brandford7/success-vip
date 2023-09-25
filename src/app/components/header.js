@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  
-  FaTelegram,
-  FaYoutube,
-  FaHome,
- 
-} from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6"
+import { FaTelegram, FaYoutube, FaHome } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
 import Link from "next/link";
 import UserAvatar from "./userAvatar"; // Import the UserAvatar component
 import { useAuth } from "../context/authContext"; // Import your auth context
@@ -26,13 +20,7 @@ function Header() {
           Success Secrets Bet VIP
         </Link>
         <div className="hidden md:flex space-x-4 items-center">
-          <ul className="flex space-x-4">
-            <li>
-              <Link href="/" className="text-white">
-                {/* <FaHome className="inline-block mr-1" />*/}
-                Home
-              </Link>
-            </li>
+          <ul className="flex space-x-5">
             <li>
               <Link href="/vip" className="text-white">
                 VIP
@@ -44,7 +32,7 @@ function Header() {
                 href="https://x.com/successsecretbet"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center space-x-2 text-white"
+                className="flex items-center justify-center space-x-2 text-black"
               >
                 <FaSquareXTwitter size={24} />
               </a>
@@ -54,7 +42,7 @@ function Header() {
                 href="https://t.me/Successsecretbet"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center space-x-2 text-white"
+                className="flex items-center justify-center space-x-2 text-blue-800"
               >
                 <FaTelegram size={24} />
               </a>
@@ -64,7 +52,7 @@ function Header() {
                 href="https://www.youtube.com/@successsecretbet"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center space-x-2 text-white"
+                className="flex items-center justify-center space-x-2 text-red-500"
               >
                 <FaYoutube size={24} />
               </a>
@@ -104,27 +92,13 @@ function Header() {
       {menuOpen && (
         <nav className="md:hidden fixed inset-0 bg-blue-500 w-70vw h-screen flex flex-col justify-center text-white z-10 transform transition-transform duration-300 ease-in-out">
           <ul className="p-4 space-y-4 text-white text-center">
-            <li>
-              <Link href="/" className="text-white text-2xl">
-                <FaHome className="inline-block mr-1" />
-                Home
-              </Link>
-            </li>
+           
             <li>
               <Link href="/vip" className="text-white text-2xl">
                 VIP Predictions
               </Link>
             </li>
-            <li className="md:hidden">
-              <Link href="/about" className="text-white text-2xl">
-                About Us
-              </Link>
-            </li>
-            <li className="md:hidden">
-              <Link href="/privacy" className="text-white text-2xl">
-                Privacy
-              </Link>
-            </li>
+           
             <li>
               <a
                 href="https://x.com/successsecretbet"

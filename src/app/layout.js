@@ -22,17 +22,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <ThemeProvider>
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+         
+          <AuthProvider>
+            <ThemeProvider>
               <PredictionsProvider>
                 <Header />
                 {children}
-                <Footer/>
+                <Footer />
               </PredictionsProvider>
-            </QueryClientProvider>
-          </ThemeProvider>
-        </AuthProvider>
+            </ThemeProvider>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

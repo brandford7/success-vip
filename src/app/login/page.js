@@ -3,11 +3,13 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext"; // Import your auth context
 import Link from "next/link"; // Import Link from Next.js for navigation
-
+import { useRouter } from "next/navigation";
 function LoginPage() {
   const { login } = useAuth(); // Use your authentication context here
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const router =useRouter()
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
@@ -21,6 +23,7 @@ function LoginPage() {
 
     if (success) {
       // Redirect or perform actions upon successful login
+      router.push('/')
     } else {
       // Handle login failure
     }

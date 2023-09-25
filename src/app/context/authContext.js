@@ -1,6 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
+// authContext.js
+import { createContext, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios"; // Import Axios
+import axios from "axios";
+import { useQuery } from "react-query";
 
 const AuthContext = createContext();
 
@@ -8,81 +10,76 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+const fetchUserData = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Token not found");
+  }
+
+  const response = await axios.get(
+    "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (response.status === 200) {
+    return response.data;
+  } else {
+    throw new Error("Error fetching user data");
+  }
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setIsLoading(false);
-          return;
+  // Use React Query to fetch user data
+  const { data: userData } = useQuery("userData", fetchUserData, {
+    retry: false,
+    onSuccess: (data) => {
+      setUser(data);
+      setIsLoading(false);
+    },
+    onError: () => {
+      setUser(null);
+      setIsLoading(false);
+    },
+  });
+
+  const login = async (credentials) => {
+    try {
+      const response = await axios.post(
+        "https://success-secrets-bet-api.onrender.com/api/v1/auth/login",
+        credentials,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
+      );
 
-        const response = await axios.get(
-          "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const userData = response.data;
-          setUser(userData);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setIsLoading(false);
+      if (response.status === 200) {
+        const { user, token } = response.data;
+        setUser(user);
+        localStorage.setItem("token", token);
+        router.push("/");
+        return true;
+      } else {
+        return false;
       }
-    };
-
-    fetchUserData();
-  }, []);
-
-   const login = async (credentials) => {
-     try {
-       const response = await axios.post(
-         "https://success-secrets-bet-api.onrender.com/api/v1/auth/login", // Update with the login route
-         credentials,
-         {
-           headers: {
-             "Content-Type": "application/json",
-           },
-         }
-       );
-
-       if (response.status === 200) {
-         const { user, token } = response.data;
-         setUser(user);
-
-         // Save the token to local storage
-         localStorage.setItem("token", token);
-
-         // Redirect to the homepage after successful login
-         router.push("/"); // Update with the correct homepage route
-         return true;
-       } else {
-         // Handle login error here
-         return false;
-       }
-     } catch (error) {
-       console.error("Error during login:", error);
-       return false;
-     }
-   };
-
+    } catch (error) {
+      console.error("Error during login:", error);
+      return false;
+    }
+  };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("token");
-
     router.push("/login");
   };
 
@@ -105,11 +102,47 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const editUserField = async (field, value) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return false;
+      }
+
+      const response = await axios.put(
+        "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
+        { field, value },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // Update the local user object with the edited value
+        setUser((prevUser) => ({
+          ...prevUser,
+          [field]: value,
+        }));
+        return true;
+      } else {
+        // Handle edit error here
+        return false;
+      }
+    } catch (error) {
+      console.error("Error during edit:", error);
+      return false;
+    }
+  };
+
   const authContextValue = {
     user,
     login,
     logout,
     register,
+    fetchUserData,
+    editUserField,
     isLoading,
   };
 
