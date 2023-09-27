@@ -18,6 +18,10 @@ const AccountPage = () => {
     retry: false,
   });
 
+/*const { data: userSubscriptionsData } = useQuery("plans", fetchSubscriptions, {
+  retry: false,
+});
+*/
   const [isEditing, setIsEditing] = useState(false);
   const [editedField, setEditedField] = useState("");
   const [editedValue, setEditedValue] = useState("");

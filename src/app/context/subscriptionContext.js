@@ -1,7 +1,7 @@
+"use client";
 import { createContext, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
 
 const SubscriptionsContext = createContext();
 
@@ -11,7 +11,6 @@ export const useSubscriptions = () => {
 
 export const SubscriptionsProvider = ({ children }) => {
   // Your API base URL
-
 
   const BASE_URL = "https://success-secrets-bet-api.onrender.com/api/v1";
 
@@ -23,6 +22,8 @@ export const SubscriptionsProvider = ({ children }) => {
     return response.data;
   };
 
+   
+
   // Function to create a subscription
   const createSubscription = async (planCode) => {
     const response = await axios.post(`${BASE_URL}/subscriptions/create`, {
@@ -31,28 +32,27 @@ export const SubscriptionsProvider = ({ children }) => {
     return response.data;
   };
 
-   const fetchUserSubscriptions = async () => {
-     try {
-       if (!user || !user.token) {
-         throw new Error("User is not authenticated or token is missing");
-       }
+  const fetchUserSubscriptions = async () => {
+    try {
+      if (!user || !user.token) {
+        throw new Error("User is not authenticated or token is missing");
+      }
 
-       const response = await axios.get(
-         `${BASE_URL}/subscriptions/user-subscriptions`,
-         {
-           headers: {
-             Authorization: `Bearer ${user.token}`,
-           },
-         }
-       );
+      const response = await axios.get(
+        `${BASE_URL}/subscriptions/subscription`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
 
-       return response.data;
-     } catch (error) {
-       console.error("Error fetching user subscriptions:", error);
-       throw error;
-     }
-   };
-
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user subscriptions:", error);
+      throw error;
+    }
+  };
 
   // Function to update payment method
   const updatePaymentMethod = async (paymentMethodId) => {
@@ -65,12 +65,11 @@ export const SubscriptionsProvider = ({ children }) => {
     return response.data;
   };
 
-
   const subscriptionsContextValue = {
     fetchPlans,
     createSubscription,
     updatePaymentMethod,
-    fetchUserSubscriptions
+    fetchUserSubscriptions,
   };
 
   return (
