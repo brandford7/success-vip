@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 const SubscriptionsContext = createContext();
 
@@ -9,41 +11,15 @@ export const useSubscriptions = () => {
 
 export const SubscriptionsProvider = ({ children }) => {
   // Your API base URL
+
+
   const BASE_URL = "https://success-secrets-bet-api.onrender.com/api/v1";
 
-  // Function to fetch plans
-const fetchPlans = async () => {
-  if (!user) {
-    throw new Error("User is not authenticated");
-  }
+  const router = useRouter();
 
-  const response = await axios.get(`${BASE_URL}/subscriptions/plans`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-};
-
-
-  // Function to initialize a transaction with a plan
-  const initializeTransactionWithPlan = async (planCode) => {
-    if (!user) {
-      throw new Error("User is not authenticated");
-    }
-
-    const response = await axios.post(
-      `${BASE_URL}/subscriptions/initialize-transaction`,
-      {
-        plan: planCode,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+  // Function to fetch plans (No authentication required)
+  const fetchPlans = async () => {
+    const response = await axios.get(`${BASE_URL}/subscriptions/plans`);
     return response.data;
   };
 
@@ -54,6 +30,29 @@ const fetchPlans = async () => {
     });
     return response.data;
   };
+
+   const fetchUserSubscriptions = async () => {
+     try {
+       if (!user || !user.token) {
+         throw new Error("User is not authenticated or token is missing");
+       }
+
+       const response = await axios.get(
+         `${BASE_URL}/subscriptions/user-subscriptions`,
+         {
+           headers: {
+             Authorization: `Bearer ${user.token}`,
+           },
+         }
+       );
+
+       return response.data;
+     } catch (error) {
+       console.error("Error fetching user subscriptions:", error);
+       throw error;
+     }
+   };
+
 
   // Function to update payment method
   const updatePaymentMethod = async (paymentMethodId) => {
@@ -66,14 +65,12 @@ const fetchPlans = async () => {
     return response.data;
   };
 
-  // Other subscription-related functions can be added here
 
   const subscriptionsContextValue = {
     fetchPlans,
-    initializeTransactionWithPlan,
     createSubscription,
     updatePaymentMethod,
-    // Add other functions here
+    fetchUserSubscriptions
   };
 
   return (

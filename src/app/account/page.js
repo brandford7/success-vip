@@ -7,6 +7,7 @@ import Link from "next/link";
 
 const AccountPage = () => {
   const { user, fetchUserData, editUserField } = useAuth();
+  
 
   const {
     data: userData,
@@ -120,7 +121,7 @@ const AccountPage = () => {
               <div>
                 <h3 className="font-semibold mb-2">Subscriptions:</h3>
                 <ul>
-                  {userData.subscriptions.map((subscription, index) => (
+                  {fetchUserSubscriptions.map((subscription, index) => (
                     <li key={index}>
                       {/* Render subscription details here */}
                     </li>
