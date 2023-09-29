@@ -1,68 +1,58 @@
-'use client'
-
-import Link from "next/link";
+"use client";
+import React, { useState } from "react";
+import Link from "next/link"; // Import Link for navigation
+import { useAuth } from "../context/authContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const RegisterPage = () => {
-const router = useRouter();
-const [formData, setFormData] = useState({
-  username: "",
-  email: "",
-  password: "",
-});
+  const { register, user } = useAuth();
 
-const [errors, setErrors] = useState({});
+  const router = useRouter();
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData({ ...formData, [name]: value });
-};
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
+  const [message, setMessage] = useState("");
 
-      // Perform form validation here
-      const validationErrors = {};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-      // Check for required fields
-      if (!formData.username) {
-        validationErrors.username = "Username is required";
-      }
-      if (!formData.email) {
-        validationErrors.email = "Email is required";
-      }
-      if (!formData.password) {
-        validationErrors.password = "Password is required";
-      } else if (formData.password.length < 6) {
-        validationErrors.password = "Password must be at least 6 characters";
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      // You can add more validation logic here for username and email
+    try {
+      const response = await register(formData);
 
-      if (Object.keys(validationErrors).length === 0) {
-        // Perform email availability check here
-        const emailIsAvailable = await checkEmailAvailability(formData.email);
+      if (response.success) {
+        setMessage("Registration successful. You can now log in.");
 
-        if (emailIsAvailable) {
-          // Registration is successful, redirect to login
-          router.push("/login");
-        } else {
-          validationErrors.email = "Email is already taken";
-          setErrors(validationErrors);
-        }
+        // Redirect to the login page after successful registration
+        router.push("/login");
       } else {
-        setErrors(validationErrors);
+        setMessage(response.message);
       }
-    };
+    } catch (error) {
+      console.error("Error during registration:", error);
+      setMessage("An error occurred during registration.");
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-extrabold text-gray-800 mb-6">
-          Register a New Account
-        </h2>
-        <form className="space-y-4">
+    <div className="container mx-auto mt-10 p-4 lg:w-1/3">
+      <h2 className="text-3xl font-semibold mb-4">Register</h2>
+      {message && <p className="text-red-500 mb-4">{message}</p>}
+      {user ? (
+        <p>You are already logged in as {user.email}.</p>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="username"
@@ -71,13 +61,13 @@ const handleChange = (e) => {
               Username
             </label>
             <input
+              type="text"
               id="username"
               name="username"
-              type="text"
-              autoComplete="username"
+              value={formData.username}
+              onChange={handleInputChange}
               required
-              className="mt-1 px-3 py-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-              placeholder="Username"
+              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
@@ -85,16 +75,16 @@ const handleChange = (e) => {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email address
+              Email
             </label>
             <input
+              type="email"
               id="email"
               name="email"
-              type="email"
-              autoComplete="email"
+              value={formData.email}
+              onChange={handleInputChange}
               required
-              className="mt-1 px-3 py-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-              placeholder="Email address"
+              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
@@ -105,36 +95,32 @@ const handleChange = (e) => {
               Password
             </label>
             <input
+              type="password"
               id="password"
               name="password"
-              type="password"
-              autoComplete="current-password"
+              value={formData.password}
+              onChange={handleInputChange}
               required
-              className="mt-1 px-3 py-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-              placeholder="Password"
+              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full"
             >
               Register
             </button>
           </div>
         </form>
-        <div className="mt-4 text-sm">
-          <p className="text-gray-600">
-            Already have an account?
-            <Link
-              href="/login"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Log in
-            </Link>
-          </p>
-        </div>
-      </div>
+      )}
+      {/* Link to the login page */}
+      <p className="mt-4 text-center">
+        Already have an account?{" "}
+        <Link href="/login" className="text-blue-500">
+          Login here
+        </Link>
+      </p>
     </div>
   );
 };

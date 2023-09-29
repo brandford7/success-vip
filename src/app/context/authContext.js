@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (response.status === 200) {
-        router.push("/");
+        router.push("/login");
         return true;
       } else {
         return false;

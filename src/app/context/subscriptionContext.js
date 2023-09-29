@@ -22,8 +22,6 @@ export const SubscriptionsProvider = ({ children }) => {
     return response.data;
   };
 
-   
-
   // Function to create a subscription
   const createSubscription = async (planCode) => {
     const response = await axios.post(`${BASE_URL}/subscriptions/create`, {

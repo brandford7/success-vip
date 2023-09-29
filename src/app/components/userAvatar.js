@@ -23,7 +23,7 @@ const UserAvatar = () => {
         <p className="text-white">Welcome, {user.username}</p>
         <img
           src={user?.avatarUrl || "/default-avatar.jpg "} // Use the user's avatar URL or a default image
-          alt={user.name}
+          alt={user.username}
           className="w-10 h-10 rounded-full object-cover text-gray-500"
         />
       </div>

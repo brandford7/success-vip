@@ -13,8 +13,8 @@ const YourComponent = () => {
   console.log(axiosInstance);
 
   const signUpForPlanMutation = useMutation(async (planCode) => {
-    const { data } = await axiosInstance.post(
-      "/subscriptions/initialize-transaction-with-plan",
+    const { data } = await axios.post(
+      "https://success-secrets-bet-api.onrender.com/api/v1/subscriptions/initialize-transaction-with-plan",
       {
         email: userEmail,
         amount: 50, // Change this to your desired amount
