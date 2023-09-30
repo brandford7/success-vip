@@ -33,7 +33,8 @@ const RegisterPage = () => {
 
       if (response.success) {
         setMessage("Registration successful. You can now log in.");
-
+        setFormData(null)
+        console.log(response)
         // Redirect to the login page after successful registration
         router.push("/login");
       } else {

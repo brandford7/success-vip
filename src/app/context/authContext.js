@@ -1,6 +1,6 @@
-'use client'
+"use client";
 // authContext.js
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "react-query";
@@ -11,45 +11,45 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-const fetchUserData = async () => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    throw new Error("Token not found");
-  }
-
-  const response = await axios.get(
-    "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  if (response.status === 200) {
-    return response.data;
-  } else {
-    throw new Error("Error fetching user data");
-  }
-};
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+ 
+
+  useEffect(() => {
+    // Check if the user data and token exist in localStorage
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+
+    if (storedUser && storedToken) {
+      // If they exist, set the user data
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   // Use React Query to fetch user data
-  const { data: userData } = useQuery("userData", fetchUserData, {
-    retry: false,
-    onSuccess: (data) => {
-      setUser(data);
-      setIsLoading(false);
-    },
-    onError: () => {
-      setUser(null);
-      setIsLoading(false);
-    },
-  });
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token not found");
+    }
+
+    const response = await axios.get(
+      "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Error fetching user data");
+    }
+  };
 
   const login = async (credentials) => {
     try {
@@ -65,11 +65,15 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         const { user, token } = response.data;
-        setUser(user);
+
+        // Store the token and user data in localStorage
         localStorage.setItem("token", token);
-        router.push("/");
+        localStorage.setItem("user", JSON.stringify(user));
+
+        setUser(user);
         return true;
       } else {
+        console.error("Login failed. Response status:", response.status);
         return false;
       }
     } catch (error) {

@@ -32,6 +32,9 @@ export const SubscriptionsProvider = ({ children }) => {
 
   const fetchUserSubscriptions = async () => {
     try {
+      // Get user and token from local storage
+      const user = JSON.parse(localStorage.getItem("user"));
+
       if (!user || !user.token) {
         throw new Error("User is not authenticated or token is missing");
       }
