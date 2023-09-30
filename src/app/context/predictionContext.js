@@ -1,4 +1,5 @@
- 
+
+ "use client"
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosInstance } from "../../../config";
 import { useCallback } from "react";

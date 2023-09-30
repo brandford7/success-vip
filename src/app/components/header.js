@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import { FaTelegram, FaYoutube, FaHome } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
