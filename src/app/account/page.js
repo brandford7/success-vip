@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { useQuery } from "react-query";
 import { useAuth } from "../context/authContext";
@@ -39,7 +38,8 @@ const AccountPage = () => {
                   You are currently on the {subscription.plan.name} plan
                 </p>
                 <p className="font-bold">
-                  Status: <span className="text-green-500">{subscription.status}</span>
+                  Status:{" "}
+                  <span className="text-green-500">{subscription.status}</span>
                 </p>
                 <p className="font-bold">
                   Subscription Code: {subscription.subscription_code}

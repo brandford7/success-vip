@@ -1,5 +1,4 @@
 "use client";
-
 import Predictions from "./components/predictions";
 import { usePredictions } from "./context/predictionContext";
 import Pagination from "./components/pagination";
