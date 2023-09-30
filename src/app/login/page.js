@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext"; // Import your auth context
+
+'use client'
 import Link from "next/link"; // Import Link from Next.js for navigation
 import { useRouter } from "next/navigation";
 function LoginPage() {

@@ -11,10 +11,11 @@ import { PredictionsProvider } from "./context/predictionContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+/*export const metadata = {
   title: "Success Secrets Bet",
   description: "The Home Of Betting Tips",
 };
+*/
 
 export default function RootLayout({ children }) {
   const queryClient = new QueryClient();

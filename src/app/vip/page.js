@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Predictions from "../components/predictions"; // Import the Predictions component
 import { usePredictions } from "../context/predictionContext";
