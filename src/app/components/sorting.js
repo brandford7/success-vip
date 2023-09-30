@@ -1,9 +1,9 @@
 import React from "react";
-import { usePredictionsContext } from "../context/predictionContext";
+import { usePredictions } from "../context/predictionContext";
 
 const Sorting = () => {
   const { sortField, setSortField, sortOrder, setSortOrder } =
-    usePredictionsContext();
+    usePredictions();
 
   return (
     <div className="flex flex-wrap items-center justify-between mb-4 px-5">

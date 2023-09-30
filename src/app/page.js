@@ -1,13 +1,13 @@
 "use client";
 
 import Predictions from "./components/predictions";
-import { usePredictionsContext } from "./context/predictionContext";
+import { usePredictions } from "./context/predictionContext";
 import Pagination from "./components/pagination";
 import SearchBar from "./components/searchBar";
 import Filter from "./components/filter";
 
 function HomePage() {
-  const { predictions } = usePredictionsContext();
+  const { predictions } = usePredictions();
 
   // Filter the predictions based on the isVIP flag
   const freePredictions = predictions.filter((prediction) => !prediction.isVIP);

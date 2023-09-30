@@ -2,10 +2,10 @@
 // authContext.js
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import { useQuery } from "react-query";
+import { axiosInstance } from "../../../config";
 
 const AuthContext = createContext();
+
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -35,8 +35,8 @@ export const AuthProvider = ({ children }) => {
       throw new Error("Token not found");
     }
 
-    const response = await axios.get(
-      "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
+    const response = await axiosInstance.get(
+      `/users/profile`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await axios.post(
-        "https://success-secrets-bet-api.onrender.com/api/v1/auth/login",
+      const response = await axiosInstance.post(
+        "auth/login",
         credentials,
         {
           headers: {
@@ -90,8 +90,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     try {
-      const response = await axios.post(
-        "https://success-secrets-bet-api.onrender.com/api/v1/auth/register",
+      const response = await axiosInstance.post(
+        "/auth/register",
         formData
       );
 
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const response = await axios.put(
-        "https://success-secrets-bet-api.onrender.com/api/v1/users/profile",
+        "/users/profile",
         { field, value },
         {
           headers: {

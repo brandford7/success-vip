@@ -2,7 +2,7 @@
 
 import React from "react";
 import Predictions from "../components/predictions"; // Import the Predictions component
-import { usePredictionsContext } from "../context/predictionContext";
+import { usePredictions } from "../context/predictionContext";
 import Pagination from "../components/pagination";
 import SearchBar from "../components/searchBar";
 import { useAuth } from "../context/authContext";
@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 
 function HomePage() {
-  const { predictions } = usePredictionsContext(); // Access predictions from context
+  const { predictions } = usePredictions(); // Access predictions from context
   const { user, fetchUserData } = useAuth();
   // Filter the predictions based on the isVIP flag
   const {
@@ -27,12 +27,13 @@ function HomePage() {
   const vipPredictions = predictions.filter(
     (prediction) => prediction.isVIP === true
   );
+console.log(vipPredictions)
 
   if (!user) {
     return (
       <div className="container mx-auto mt-10 px-4">
         <p className="text-lg">
-          You are not logged in. Please{" "}
+          You are not logged in. Please
           <Link href="/login" className="text-blue-500 hover:underline">
             Log in
           </Link>

@@ -1,8 +1,8 @@
 import React from "react";
-import { usePredictionsContext } from "../context/predictionContext";
+import { usePredictions } from "../context/predictionContext";
 
 const SearchBar = () => {
-  const { searchTerm, setSearchTerm } = usePredictionsContext();
+  const { searchTerm, setSearchTerm } = usePredictions();
 
   return (
     <>

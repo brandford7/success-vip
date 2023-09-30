@@ -1,5 +1,5 @@
 import React from "react";
-import { usePredictionsContext } from "../context/predictionContext";
+import { usePredictions } from "../context/predictionContext";
 
 function PredictionControls() {
   const {
@@ -15,7 +15,7 @@ function PredictionControls() {
     setPage,
     pageSize,
     setPageSize,
-  } = usePredictionsContext();
+  } = usePredictions();
 
   return (
     <div className="container mx-auto py-4 flex flex-wrap justify-between items-center">

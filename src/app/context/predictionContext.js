@@ -1,11 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios"; // Import Axios
+ 
+import { createContext, useContext, useEffect, useState } from "react";
+import { axiosInstance } from "../../../config";
+import { useCallback } from "react";
 
-const PREDICTIONS_API_URL = process.env.API_URL || "https://success-secrets-bet-api.onrender.com/api/v1/predictions";
+
 
 const PredictionsContext = createContext();
 
-export const usePredictionsContext = () => {
+export const usePredictions = () => {
   return useContext(PredictionsContext);
 };
 
@@ -40,7 +42,7 @@ export const PredictionsProvider = ({ children }) => {
   };
 
   // Function to fetch predictions based on filter parameters
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -53,7 +55,9 @@ export const PredictionsProvider = ({ children }) => {
         selectedDate,
         selectedCompetition,
       });
-      const response = await axios.get(`${PREDICTIONS_API_URL}?${queryParams.toString()}`);
+      const response = await axiosInstance.get(
+        `/predictions?${queryParams.toString()}`
+      );
       const data = response.data;
       setPredictions(data.predictions);
       setIsLoading(false);
@@ -61,12 +65,12 @@ export const PredictionsProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  };
+  });
 
   // Fetch predictions initially
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const contextValue = {
     predictions,
@@ -93,31 +97,7 @@ export const PredictionsProvider = ({ children }) => {
   };
 
   return (
-    <PredictionsContext.Provider
-      value={{
-        predictions,
-        searchTerm,
-        setSearchTerm,
-        sortField,
-        setSortField,
-        sortOrder,
-        setSortOrder,
-        isVIP,
-        setIsVIP,
-        page,
-        setPage,
-        pageSize,
-        setPageSize,
-        selectedDate,
-        setSelectedDate,
-        selectedCompetition,
-        setSelectedCompetition,
-        isLoading,
-        error,
-        applyFilters,
-        resetFilters,
-      }}
-    >
+    <PredictionsContext.Provider value={contextValue}>
       {children}
     </PredictionsContext.Provider>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { usePredictionsContext } from "../context/predictionContext";
+import { usePredictions } from "../context/predictionContext";
 
 const Filter = () => {
   const {
@@ -9,7 +9,7 @@ const Filter = () => {
     setSelectedCompetition,
     applyFilters,
     resetFilters,
-  } = usePredictionsContext();
+  } = usePredictions();
 
   return (
     <div className="flex flex-wrap justify-center">

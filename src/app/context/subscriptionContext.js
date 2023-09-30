@@ -2,6 +2,7 @@
 import { createContext, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { axiosInstance } from "../../../config";
 
 const SubscriptionsContext = createContext();
 
@@ -12,19 +13,17 @@ export const useSubscriptions = () => {
 export const SubscriptionsProvider = ({ children }) => {
   // Your API base URL
 
-  const BASE_URL = "https://success-secrets-bet-api.onrender.com/api/v1";
-
   const router = useRouter();
 
   // Function to fetch plans (No authentication required)
   const fetchPlans = async () => {
-    const response = await axios.get(`${BASE_URL}/subscriptions/plans`);
+    const response = await axiosInstance.get(`/subscriptions/plans`);
     return response.data;
   };
 
   // Function to create a subscription
   const createSubscription = async (planCode) => {
-    const response = await axios.post(`${BASE_URL}/subscriptions/create`, {
+    const response = await axios.post(`/subscriptions/create`, {
       plan: planCode,
     });
     return response.data;
@@ -39,14 +38,11 @@ export const SubscriptionsProvider = ({ children }) => {
         throw new Error("User is not authenticated or token is missing");
       }
 
-      const response = await axios.get(
-        `${BASE_URL}/subscriptions/subscription`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await axiosInstance.get(`/subscriptions/subscription`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       return response.data;
     } catch (error) {
@@ -57,18 +53,23 @@ export const SubscriptionsProvider = ({ children }) => {
 
   // Function to update payment method
   const updatePaymentMethod = async (paymentMethodId) => {
-    const response = await axios.post(
-      `${BASE_URL}/subscriptions/update-payment-method`,
-      {
-        payment_method: paymentMethodId,
-      }
-    );
+    const response = await axios.get(`/subscriptions/update-payment-method`, {
+      payment_method: paymentMethodId,
+    });
+    return response.data;
+  };
+
+  const cancelSubscription = async (paymentMethodId) => {
+    const response = await axios.post(`/subscriptions/cancel-subscription`, {
+     code,token
+    });
     return response.data;
   };
 
   const subscriptionsContextValue = {
     fetchPlans,
     createSubscription,
+    cancelSubscription,
     updatePaymentMethod,
     fetchUserSubscriptions,
   };

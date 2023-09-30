@@ -1,13 +1,15 @@
-'use client'
+"use client";
 
 import React from "react";
 import { useQuery } from "react-query";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
+import { useSubscriptions } from "../context/subscriptionContext";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const AccountPage = () => {
   const { user, fetchUserData } = useAuth();
-
+  const { cancelSubscription } = useSubscriptions();
   const {
     data: userData,
     isLoading,
@@ -21,7 +23,7 @@ const AccountPage = () => {
   const subscription = userData?.subscriptions[0];
 
   return (
-    <div className="container mx-auto mt-10 px-4">
+    <div className="container mx-auto mt-10 px-4 space-y-5">
       <h2 className="text-3xl font-semibold mb-4">Account Dashboard</h2>
       <div className="bg-white rounded-lg shadow-lg p-4">
         {isLoading && <p className="text-gray-600">Loading user data...</p>}
@@ -32,13 +34,17 @@ const AccountPage = () => {
               Hi {userData.username}, welcome to your account dashboard!
             </p>
             {subscription ? (
-              <>
-                <p className="mt-4">
+              <section className="space-y-5">
+                <p className="mt-4 font-bold">
                   You are currently on the {subscription.plan.name} plan
                 </p>
-                <p>Status: {subscription.status}</p>
-                <p>Subscription Code: {subscription.subscription_code}</p>
-                <p>
+                <p className="font-bold">
+                  Status: <span className="text-green-500">{subscription.status}</span>
+                </p>
+                <p className="font-bold">
+                  Subscription Code: {subscription.subscription_code}
+                </p>
+                <p className="font-bold">
                   Card on file: {subscription.authorization.brand} card ending
                   in {subscription.authorization.last4} expires on{" "}
                   {subscription.authorization.exp_month}/
@@ -50,16 +56,28 @@ const AccountPage = () => {
                     subscription.next_payment_date
                   ).toLocaleDateString()}
                 </p>
-                <a
-                  href={`https://success-secrets-bet-api.onrender.com/api/v1//update-payment-method?subscription_code=${subscription.subscription_code}`}
-                  target="_blank"
-                  className="text-blue-500 hover:underline"
-                >
-                  Manage subscription
-                </a>
-              </>
+                <div className="flex flex-col">
+                  <Link
+                    className="text-blue-500 hover:underline"
+                    href={`${BASE_URL}/subscriptions/update-payment-method?subscription_code=${subscription.subscription_code}" target="_blank`}
+                  >
+                    Manage subscription
+                  </Link>
+                  <button
+                    className="text-red-500 hover:underline"
+                    onClick={() =>
+                      cancelSubscription(
+                        subscription.subscription_code,
+                        subscription.subscription_code
+                      )
+                    }
+                  >
+                    Cancel subscription
+                  </button>
+                </div>
+              </section>
             ) : (
-              <>
+              <section className="space-y-5">
                 <p className="mt-4">
                   You are currently not subscribed to any plan.
                 </p>
@@ -73,7 +91,7 @@ const AccountPage = () => {
                     </a>
                   </Link>
                 </div>
-              </>
+              </section>
             )}
           </>
         )}

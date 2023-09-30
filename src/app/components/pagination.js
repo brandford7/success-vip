@@ -1,8 +1,8 @@
 import React from "react";
-import { usePredictionsContext } from "../context/predictionContext";
+import { usePredictions } from "../context/predictionContext";
 
 const Pagination = () => {
-  const { page, setPage, pageSize, setPageSize } = usePredictionsContext();
+  const { page, setPage, pageSize, setPageSize } = usePredictions();
 
   const pageSizeOptions = [10, 20, 30]; // You can customize the page size options
 
