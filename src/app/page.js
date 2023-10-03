@@ -11,6 +11,8 @@ function HomePage() {
   // Filter the predictions based on the isVIP flag
   const freePredictions = predictions.filter((prediction) => !prediction.isVIP);
 
+  if (!freePredictions) <div>Loading...</div>;
+
   return (
     <div className="container mx-auto py-4">
       <SearchBar />
@@ -20,6 +22,7 @@ function HomePage() {
       <div>
         <Predictions predictions={freePredictions} />
       </div>
+
       <Pagination />
     </div>
   );
