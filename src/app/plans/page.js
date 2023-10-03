@@ -2,22 +2,21 @@
 import { useMutation, useQuery } from "react-query";
 import { useSubscriptions } from "../context/subscriptionContext";
 import { useAuth } from "../context/authContext";
-import axios from "axios";
 import { axiosInstance } from "../../../config";
 
-const YourComponent = () => {
+const PlansPage = () => {
   const { fetchPlans } = useSubscriptions();
   const { user } = useAuth();
   const userEmail = user ? user.email : "";
 
-  console.log(axiosInstance);
+ 
 
   const signUpForPlanMutation = useMutation(async (planCode) => {
-    const { data } = await axios.post(
-      "https://success-secrets-bet-api.onrender.com/api/v1/subscriptions/initialize-transaction-with-plan",
+    const { data } = await axiosInstance.post(
+      "/subscriptions/initialize-transaction-with-plan",
       {
         email: userEmail,
-        amount: 50, // Change this to your desired amount
+        amount: 50.0, // Change this to your desired amount
         plan: planCode,
       }
     );
@@ -35,8 +34,7 @@ const YourComponent = () => {
     retry: false,
   });
 
- 
-
+  console.log(plansData);
 
   const handleSubscribe = (planCode) => {
     signUpForPlanMutation.mutate(planCode);
@@ -69,4 +67,4 @@ const YourComponent = () => {
   );
 };
 
-export default YourComponent;
+export default PlansPage;
