@@ -1,24 +1,23 @@
 'use client'
-
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext"; // Import your auth context
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import Link from "next/link"; // Import Link from Next.js for navigation
 import { useRouter } from "next/navigation";
+
 function LoginPage() {
   const { login } = useAuth(); // Use your authentication context here
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword,setShowPassword] =useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
+  const router = useRouter();
 
-
-  const router = useRouter()
-  
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
@@ -32,9 +31,11 @@ function LoginPage() {
 
     if (success) {
       // Redirect or perform actions upon successful login
-      router.push('/')
+      router.push("/");
+      toast.success("Login successful");
     } else {
       // Handle login failure
+      toast.error("Invalid credentials. Please try again.");
     }
   };
 
@@ -42,7 +43,6 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-       
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Log in to your account
           </h2>
@@ -162,6 +162,17 @@ function LoginPage() {
           </p>
         </div>
       </div>
+      <ToastContainer // Add the ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

@@ -6,17 +6,22 @@ import { axiosInstance } from "../../../config";
 
 const PlansPage = () => {
   const { fetchPlans } = useSubscriptions();
-  const { user } = useAuth();
-  const userEmail = user ? user.email : "";
+  const {  fetchUserData } = useAuth();
+  
+  const { data: userData } = useQuery("userData", fetchUserData, {
+    retry: false,
+  });
 
- 
+  const userEmail = userData ? userData.email : "";
 
+
+  console.log(userData);
   const signUpForPlanMutation = useMutation(async (planCode) => {
     const { data } = await axiosInstance.post(
       "/subscriptions/initialize-transaction-with-plan",
       {
         email: userEmail,
-        amount: 50.0, // Change this to your desired amount
+        amount: 50, // Change this to your desired amount
         plan: planCode,
       }
     );

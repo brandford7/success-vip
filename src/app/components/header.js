@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { FaTelegram, FaYoutube, FaHome } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
@@ -7,7 +7,7 @@ import UserAvatar from "./userAvatar"; // Import the UserAvatar component
 import { useAuth } from "../context/authContext"; // Import your auth context
 
 function Header() {
-  const { user, logout } = useAuth(); // Use your authentication context here.
+  const { user } = useAuth(); // Use your authentication context here.
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -22,7 +22,11 @@ function Header() {
         </Link>
         <div className="hidden md:flex space-x-4 items-center">
           <ul className="flex space-x-5">
-            <li>
+            <li
+              onClick={() => {
+                setMenuOpen(!menuOpen);
+              }}
+            >
               <Link href="/vip" className="text-white">
                 VIP
               </Link>
@@ -93,13 +97,12 @@ function Header() {
       {menuOpen && (
         <nav className="md:hidden fixed inset-0 bg-blue-500 w-70vw h-screen flex flex-col justify-center text-white z-10 transform transition-transform duration-300 ease-in-out">
           <ul className="p-4 space-y-4 text-white text-center">
-           
             <li>
               <Link href="/vip" className="text-white text-2xl">
                 VIP Predictions
               </Link>
             </li>
-           
+
             <li>
               <a
                 href="https://x.com/successsecretbet"

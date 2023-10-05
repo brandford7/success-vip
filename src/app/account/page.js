@@ -85,10 +85,10 @@ const AccountPage = () => {
                   To get started, explore our subscription plans:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                  <Link href="/plans">
-                    <a className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 text-center">
+                  <Link href="/plans"
+                    className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 text-center">
                       Explore Plans
-                    </a>
+                  
                   </Link>
                 </div>
               </section>

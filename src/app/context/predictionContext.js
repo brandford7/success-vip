@@ -66,7 +66,7 @@ export const PredictionsProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  });
+  },[isVIP, page, pageSize, searchTerm, selectedCompetition, selectedDate, sortField, sortOrder]);
 
   // Fetch predictions initially
   useEffect(() => {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaTelegram, FaYoutube } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
@@ -39,18 +40,18 @@ function Footer() {
           </li>
         </ul>
         <div className="md:flex md:justify-center space-x-4 mt-4">
-          <a
+          <Link
             href="/privacy"
             className="text-white hover:text-gray-200 transition duration-300"
           >
             Privacy
-          </a>
-          <a
+          </Link>
+          <Link
             href="/about"
             className="text-white hover:text-gray-200 transition duration-300"
           >
             About Us
-          </a>
+          </Link>
         </div>
         <p className="mt-4 text-sm md:text-base">
           &copy; {new Date().getFullYear()} Success Secrets Bet VIP
