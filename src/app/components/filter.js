@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { usePredictions } from "../context/predictionContext";
 
 const Filter = () => {
@@ -11,12 +11,24 @@ const Filter = () => {
     resetFilters,
   } = usePredictions();
 
+ useEffect(() => {
+   // Get today's date in "YYYY-MM-DD" format
+   const today = new Date();
+   const yyyy = today.getFullYear();
+   const mm = String(today.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+   const dd = String(today.getDate()).padStart(2, "0");
+
+   const formattedDate = `${yyyy}-${mm}-${dd}`;
+   setSelectedDate(formattedDate);
+ }, [setSelectedDate]);
+
   return (
     <div className="flex flex-wrap justify-center">
       <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <input
           type="date"
           value={selectedDate}
+          
           onChange={(e) => setSelectedDate(e.target.value)}
           className="w-full border rounded-lg py-2 px-3"
         />

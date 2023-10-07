@@ -5,9 +5,9 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 
 function Footer() {
   return (
-    <footer className="bg-blue-500 py-6 md:py-8 absolute bottom-0 w-full">
+    <footer className="bg-blue-500 py-6 md:py-8">
       <div className="container mx-auto text-white text-center">
-        <ul className="flex justify-center space-x-4">
+        <ul className="flex justify-center space-x-4 mb-4">
           <li>
             <a
               href="https://x.com/successsecretbet"
