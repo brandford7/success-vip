@@ -30,14 +30,26 @@ console.log(vipPredictions)
 
   if (!user) {
     return (
-      <div className="container mx-auto mt-10 px-4">
-        <p className="text-lg">
-          You are not logged in. Please
-          <Link href="/login" className="text-blue-500 hover:underline">
-            Log in
-          </Link>
-          to access your account.
-        </p>
+      <div className="container mx-auto py-4">
+       
+        <div
+          className="max-h-screen overflow-y-auto"
+          style={{ maxHeight: "calc(100vh - 200px)" }}
+        >
+          {isLoading ? (
+            // Render a loading indicator while data is loading
+            <p className="flex justify-center w-full mx-auto p-6">
+              Loading predictions...
+            </p>
+          ) : (
+            // Render predictions once data has loaded
+            <div>
+              <Predictions predictions={vipPredictions} />
+            </div>
+          )}
+        </div>
+
+        <Pagination />
       </div>
     );
   }
