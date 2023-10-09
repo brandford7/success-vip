@@ -1,54 +1,95 @@
 "use client";
-import React from "react";
-import Predictions from "../components/predictions"; // Import the Predictions component
+import React, { useEffect, useState } from "react";
+import Predictions from "../components/predictions";
 import { usePredictions } from "../context/predictionContext";
 import Pagination from "../components/pagination";
 import SearchBar from "../components/searchBar";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
 import { useQuery } from "react-query";
+import { axiosInstance } from "../../../config";
+// Import your axios instance
 
 function HomePage() {
-  const { predictions } = usePredictions(); // Access predictions from context
+  const { predictions } = usePredictions();
   const { user, fetchUserData } = useAuth();
-  // Filter the predictions based on the isVIP flag
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const {
     data: userData,
-    isLoading,
-    isError,
-  } = useQuery("userData", () => fetchUserData(user), {
+    isLoading: userIsLoading,
+    isError: userIsError,
+  } = useQuery("userData", () => fetchUserData(), {
     retry: false,
     enabled: !!user,
   });
 
-  const subscription = userData?.subscriptions[0];
+  const customer_id = userData?.customer.customerId;
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("Token is missing or expired");
+          return;
+        }
+
+        const response = await axiosInstance.get(
+          `/subscriptions/subscription?customer=${customer_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setSubscriptions(response.data);
+        } else {
+          console.error(`Error fetching subscriptions: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error("Error during fetchSubscriptions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubscriptions();
+  }, [customer_id]);
+
+  let subscription = subscriptions[0];
+
+  
+  // Check if the user is subscribed to VIP predictions
+  const isSubscribedToVIP = subscriptions.some(
+    (subscription) => subscription.productName === "VIP Predictions"
+  );
 
   const vipPredictions = predictions.filter(
     (prediction) => prediction.isVIP === true
   );
-console.log(vipPredictions)
 
   if (!user) {
     return (
       <div className="container mx-auto py-4">
-       
         <div
           className="max-h-screen overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 200px)" }}
         >
-          {isLoading ? (
-            // Render a loading indicator while data is loading
+          {userIsLoading ? (
             <p className="flex justify-center w-full mx-auto p-6">
               Loading predictions...
             </p>
           ) : (
-            // Render predictions once data has loaded
             <div>
               <Predictions predictions={vipPredictions} />
             </div>
           )}
         </div>
-
         <Pagination />
       </div>
     );
@@ -56,7 +97,8 @@ console.log(vipPredictions)
 
   return (
     <div className="container mx-auto py-4">
-      {subscription ? (
+      {subscription &&
+      subscription.customer.id === userData.customer.customerId ? (
         <>
           <SearchBar />
           <div>

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../context/authContext";
@@ -28,34 +28,33 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const response = await register(formData);
+    const response = await register(formData);
 
-      if (response.success) {
-        toast.success("Registration Successful");
-        setFormData({
-          username: "",
-          email: "",
-          password: "",
-        });
-        router.push("/login");
-      } else {
-        setErrorMessage(response.message);
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
-      setErrorMessage("An error occurred during registration.");
-    } finally {
-      setLoading(false);
+    if (response.success) {
+      // Show a success toast
+      toast.success("Registration Successful", {className: 'green-500'});
+
+      // Redirect to the login page
+    
+     
+    } else {
+      setErrorMessage(response.message);
     }
-  };
-
+  } catch (error) {
+    console.error("Error during registration:", error);
+    setErrorMessage("An error occurred during registration.");
+  } finally {
+    setLoading(false);
+     router.push("/login");
+  }
+};
   return (
-    <div className="container mx-auto mt-10 p-4 lg:w-1/3">
+    <div className="h-screen container mx-auto mt-10 p-4 lg:w-1/3">
       <h2 className="text-3xl font-semibold mb-4">Register</h2>
       {errorMessage && (
         <p className="text-red-500 mb-4 text-center">{errorMessage}</p>

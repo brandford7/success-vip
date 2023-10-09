@@ -6,7 +6,6 @@ import { axiosInstance } from "../../../config";
 
 const AuthContext = createContext();
 
-
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -15,8 +14,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-
- 
 
   useEffect(() => {
     // Check if the user data and token exist in localStorage
@@ -35,14 +32,11 @@ export const AuthProvider = ({ children }) => {
       throw new Error("Token not found");
     }
 
-    const response = await axiosInstance.get(
-      `/users/profile`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axiosInstance.get(`/users/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (response.status === 200) {
       return response.data;
@@ -53,15 +47,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await axiosInstance.post(
-        "auth/login",
-        credentials,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axiosInstance.post("auth/login", credentials, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.status === 200) {
         const { user, token } = response.data;
@@ -90,22 +80,17 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     try {
-      const response = await axiosInstance.post(
-        "/auth/register",
-        formData
-      );
-
-      if (response.status === 200) {
-        router.push("/login");
-        return true;
-      } else {
-        return false;
-      }
+      const response = await axiosInstance.post("/auth/register", formData);
+      return response.data; // Return the response data
     } catch (error) {
       console.error("Error during registration:", error);
-      return false;
+      return {
+        success: false,
+        message: "An error occurred during registration.",
+      }; // Return an error response
     }
   };
+
 
   const editUserField = async (field, value) => {
     try {
@@ -143,6 +128,7 @@ export const AuthProvider = ({ children }) => {
 
   const authContextValue = {
     user,
+  
     login,
     logout,
     register,

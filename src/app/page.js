@@ -12,7 +12,7 @@ function HomePage() {
   const freePredictions = predictions.filter((prediction) => !prediction.isVIP);
 
   return (
-    <div className="container mx-auto py-4">
+    <div className="container mx-auto py-4 ">
       <SearchBar />
       <Filter />
 

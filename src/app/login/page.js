@@ -31,8 +31,9 @@ function LoginPage() {
 
     if (success) {
       // Redirect or perform actions upon successful login
-      router.push("/");
+   
       toast.success("Login successful");
+         router.push("/");
     } else {
       // Handle login failure
       toast.error("Invalid credentials. Please try again.");

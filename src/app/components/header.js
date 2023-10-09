@@ -1,34 +1,40 @@
 "use client";
-import React, { useState } from "react";
-import { FaTelegram, FaYoutube, FaHome } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { useState } from "react";
 import Link from "next/link";
-import UserAvatar from "./userAvatar"; // Import the UserAvatar component
-import { useAuth } from "../context/authContext"; // Import your auth context
+import { useRouter } from "next/navigation";
+import { FaTelegram, FaYoutube } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import UserAvatar from "./userAvatar";
+import { useAuth } from "../context/authContext";
 
-function Header() {
-  const { user } = useAuth(); // Use your authentication context here.
+const Header = () => {
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  const handleMenuItemClick = () => {
+    closeMenu();
+  };
+
   return (
-    <header className="bg-blue-500 py-4 px-2">
+    <header className="bg-blue-500 py-5">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-white text-2xl font-bold px-5">
           Success Secrets Bet VIP
         </Link>
         <div className="hidden md:flex space-x-4 items-center">
           <ul className="flex space-x-5">
-            <li
-              onClick={() => {
-                setMenuOpen(!menuOpen);
-              }}
-            >
-              <Link href="/vip" className="text-white">
-                VIP
+            <li onClick={handleMenuItemClick}>
+              <Link href="/vip">
+                <span className="text-white cursor-pointer">VIP</span>
               </Link>
             </li>
 
@@ -97,9 +103,11 @@ function Header() {
       {menuOpen && (
         <nav className="md:hidden fixed inset-0 bg-blue-500 w-70vw h-screen flex flex-col justify-center text-white z-10 transform transition-transform duration-300 ease-in-out">
           <ul className="p-4 space-y-4 text-white text-center">
-            <li>
-              <Link href="/vip" className="text-white text-2xl">
-                VIP Predictions
+            <li onClick={handleMenuItemClick}>
+              <Link href="/vip">
+                <span className="text-white cursor-pointer text-2xl">
+                  VIP Predictions
+                </span>
               </Link>
             </li>
 
@@ -109,6 +117,7 @@ function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-2 text-black"
+                onClick={closeMenu}
               >
                 <FaSquareXTwitter size={24} />
               </a>
@@ -119,6 +128,7 @@ function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-2 text-blue-900"
+                onClick={closeMenu}
               >
                 <FaTelegram size={24} />
               </a>
@@ -129,6 +139,7 @@ function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-2 text-red-500"
+                onClick={closeMenu}
               >
                 <FaYoutube size={24} />
               </a>
@@ -163,6 +174,6 @@ function Header() {
       )}
     </header>
   );
-}
+};
 
 export default Header;
