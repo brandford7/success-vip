@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Predictions from "../..//components/predictions"; // Import the Predictions component
+import Predictions from "../../components/predictions"; // Import the Predictions component
 import { usePredictions } from "@/app/context/predictionContext";
 
 const AllPredictions=() =>{
