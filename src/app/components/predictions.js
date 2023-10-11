@@ -3,24 +3,16 @@ import React from "react";
 import { useAuth } from "../context/authContext";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { VscCheck, VscChromeClose } from "react-icons/vsc";
+import Link from 'next/link'
 const Predictions = ({ predictions }) => {
   const { user, fetchUserData } = useAuth(); // Access the user's role from your authentication context
   const queryClient = useQueryClient();
 
   // Query to fetch user data
 
-  const {
-    data: userData,
-    isLoading,
-    isError,
-  } = useQuery("userData", () => fetchUserData(), {
-    retry: false,
-    enabled: !!user,
-  });
-  console.log(userData);
 
   // Access the user's role
-  const userRole = userData?.role;
+  const userRole = user?.role;
 
   // Check if the user has the admin role
   const isAdmin = userRole === "admin";
@@ -102,12 +94,12 @@ const Predictions = ({ predictions }) => {
                 </td>
                 {isAdmin && (
                   <td className="border-b border-gray-300 py-2 px-4">
-                    <button
-                      onClick={() => handleEdit(prediction._id)}
-                      className="bg-blue-500 text-white p-1 px-2 rounded-lg mr-2"
-                    >
-                      Edit
-                    </button>
+                    <Link href='/admin/edit-prediction/predictionId'>
+                      
+                      <button className="bg-blue-500 text-white p-1 px-2 rounded-lg mr-2">
+                        Edit
+                      </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(prediction._id)}
                       className="bg-red-500 text-white p-1 px-2 rounded-lg"

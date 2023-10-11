@@ -11,7 +11,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({name:"", role:""});
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.status === 200) {
-        const { user, token } = response.data;
+        const { user:{name,role}, token } = response.data;
 
         // Store the token and user data in localStorage
         localStorage.setItem("token", token);
