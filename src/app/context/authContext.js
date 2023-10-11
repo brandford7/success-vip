@@ -45,32 +45,34 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (credentials) => {
-    try {
-      const response = await axiosInstance.post("auth/login", credentials, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+ const login = async (credentials) => {
+  try {
+    const response = await axiosInstance.post("auth/login", credentials, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      if (response.status === 200) {
-        const { user:{name,role}, token } = response.data;
+    if (response.status === 200) {
+      const { user: { name, role }, token } = response.data;
 
-        // Store the token and user data in localStorage
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
+      // Store the token and user data in localStorage
+      localStorage.setItem("token", token);
 
-        setUser(user);
-        return true;
-      } else {
-        console.error("Login failed. Response status:", response.status);
-        return false;
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
+      // Store the user data as an object in localStorage
+      localStorage.setItem("user", JSON.stringify({ name, role }));
+
+      setUser({ name, role }); // Update the user state with name and role
+      return true;
+    } else {
+      console.error("Login failed. Response status:", response.status);
       return false;
     }
-  };
+  } catch (error) {
+    console.error("Error during login:", error);
+    return false;
+  }
+};
 
   const logout = () => {
     setUser(null);

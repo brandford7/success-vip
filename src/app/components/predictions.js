@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { VscCheck, VscChromeClose } from "react-icons/vsc";
 import Link from 'next/link'
 const Predictions = ({ predictions }) => {
-  const { user, fetchUserData } = useAuth(); // Access the user's role from your authentication context
+  const { user} = useAuth(); // Access the user's role from your authentication context
   const queryClient = useQueryClient();
 
   // Query to fetch user data
