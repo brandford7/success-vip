@@ -75,6 +75,8 @@ const AccountPage = () => {
   }, [customer_id]);
   let subscription = subscriptions[0];
 
+  console.log(userData)
+
   return (
     <div className="h-screen container mx-auto mt-10 px-4 space-y-5">
       <h2 className="text-3xl font-semibold mb-4">Account Dashboard</h2>

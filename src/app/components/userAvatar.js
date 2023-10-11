@@ -6,6 +6,7 @@ const UserAvatar = () => {
   const { user, logout } = useAuth(); // Use your authentication context here.
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };

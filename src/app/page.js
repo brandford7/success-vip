@@ -17,7 +17,7 @@ function HomePage() {
       <Filter />
 
       <div
-        className="max-h-screen overflow-y-auto"
+        className="h-screen overflow-y-auto"
         style={{ maxHeight: "calc(100vh - 200px)" }}
       >
         {isLoading ? (

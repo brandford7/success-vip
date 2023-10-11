@@ -1,17 +1,48 @@
+"use client";
 import React from "react";
 import { useAuth } from "../context/authContext";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { VscCheck, VscChromeClose } from "react-icons/vsc";
+const Predictions = ({ predictions }) => {
+  const { user, fetchUserData } = useAuth(); // Access the user's role from your authentication context
+  const queryClient = useQueryClient();
 
-function Prediction({ predictions }) {
-  const { user } = useAuth(); // Access the user's role from your authentication context
+  // Query to fetch user data
 
-  const isAdmin = user && user.role === "admin"; // Check if the user has the admin role
+  const {
+    data: userData,
+    isLoading,
+    isError,
+  } = useQuery("userData", () => fetchUserData(), {
+    retry: false,
+    enabled: !!user,
+  });
+  console.log(userData);
 
-  const handleEdit = (predictionId) => {
-    // Handle the edit action (e.g., navigate to an edit page)
-  };
+  // Access the user's role
+  const userRole = userData?.role;
+
+  // Check if the user has the admin role
+  const isAdmin = userRole === "admin";
+
+  // Mutation for deleting a prediction
+  const deletePrediction = useMutation(
+    (predictionId) => handleDelete(predictionId),
+    {
+      onSuccess: () => {
+        // Invalidate and refetch the predictions query after a successful delete
+        queryClient.invalidateQueries("predictions");
+      },
+    }
+  );
 
   const handleDelete = (predictionId) => {
     // Handle the delete action (e.g., show a confirmation dialog and make a delete request)
+    // You can use the `deletePrediction.mutate(predictionId)` to trigger the delete mutation
+  };
+
+  const handleEdit = (predictionId) => {
+    // Handle the edit action (e.g., navigate to the edit page for the prediction)
   };
 
   return (
@@ -61,7 +92,13 @@ function Prediction({ predictions }) {
                   {prediction.odd}
                 </td>
                 <td className="border-b border-gray-300 py-2 px-4">
-                  {prediction.result}
+                  {prediction.status === "won" ? (
+                    <VscCheck className="text-green-500" /> // Won
+                  ) : prediction.status === "lost" ? (
+                    <VscChromeClose className="text-red-500" /> // Lost
+                  ) : (
+                    prediction.result // Display the status text if not won or lost
+                  )}
                 </td>
                 {isAdmin && (
                   <td className="border-b border-gray-300 py-2 px-4">
@@ -86,6 +123,5 @@ function Prediction({ predictions }) {
       </div>
     </div>
   );
-}
-
-export default Prediction;
+};
+export default Predictions;

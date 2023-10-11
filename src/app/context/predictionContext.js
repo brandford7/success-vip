@@ -1,10 +1,6 @@
-
- "use client"
 import { createContext, useContext, useEffect, useState } from "react";
 import { axiosInstance } from "../../../config";
 import { useCallback } from "react";
-
-
 
 const PredictionsContext = createContext();
 
@@ -56,9 +52,7 @@ export const PredictionsProvider = ({ children }) => {
         selectedDate,
         selectedCompetition,
       });
-      const response = await axiosInstance.get(
-        `/predictions?${queryParams.toString()}`
-      );
+      const response = await axiosInstance.get(`/predictions?${queryParams.toString()}`);
       const data = response.data;
       setPredictions(data.predictions);
       setIsLoading(false);
@@ -66,7 +60,7 @@ export const PredictionsProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  },[isVIP, page, pageSize, searchTerm, selectedCompetition, selectedDate, sortField, sortOrder]);
+  }, [isVIP, page, pageSize, searchTerm, selectedCompetition, selectedDate, sortField, sortOrder]);
 
   // Fetch predictions initially
   useEffect(() => {
@@ -97,8 +91,52 @@ export const PredictionsProvider = ({ children }) => {
     resetFilters,
   };
 
+  const getAllPredictions = async () => {
+    setIsLoading(true);
+    try {
+      const queryParams = new URLSearchParams({
+        searchTerm,
+        sortField,
+        sortOrder,
+        isVIP,
+        page,
+        pageSize,
+        selectedDate,
+        selectedCompetition,
+      });
+      const response = await axiosInstance.get(`/predictions?${queryParams.toString()}`);
+      const data = response.data;
+      setPredictions(data.predictions);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  };
+
+ const deletePrediction = async (predictionId) => {
+  try {
+    await axiosInstance.delete(`/predictions/${predictionId}`);
+    // Optionally, you can refresh the predictions list after deletion
+    fetchData();
+  } catch (error) {
+    console.error("Error deleting prediction:", error);
+  }
+};
+
+  const editPrediction = async (predictionId, updatedPrediction) => {
+   
+  try {
+    await axiosInstance.patch(`/predictions/${predictionId}`, updatedData);
+    // Optionally, you can refresh the predictions list after editing
+    //fetchData();
+  } catch (error) {
+    console.error("Error editing prediction:", error);
+  }
+  };
+
   return (
-    <PredictionsContext.Provider value={contextValue}>
+    <PredictionsContext.Provider value={{ ...contextValue, getAllPredictions, deletePrediction, editPrediction }}>
       {children}
     </PredictionsContext.Provider>
   );
