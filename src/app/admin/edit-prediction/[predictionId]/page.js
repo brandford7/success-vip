@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import {usePredictions} from '../../context/predictionContext'
+import {usePredictions} from '../../../context/predictionContext'
 import { axiosInstance } from "../../../../../config";
 
 function EditPrediction() {
