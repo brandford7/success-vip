@@ -25,8 +25,8 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-500 py-5">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="bg-blue-500 py-5 px-5">
+      <div className="container mx-auto flex justify-between items-center px-5 ">
         <Link href="/" className="text-white text-2xl font-bold px-5">
           Success Secrets Bet VIP
         </Link>

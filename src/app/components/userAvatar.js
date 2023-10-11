@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
+import Image from 'next/image'
 
 const UserAvatar = () => {
   const { user, logout } = useAuth(); // Use your authentication context here.
@@ -16,17 +17,18 @@ console.log(user)
   };
 
   return (
-    <div className="relative inline-block  ">
+    <div className="relative inline-block ">
       <div
         className="flex items-center space-x-4 cursor-pointer"
         onClick={toggleDropdown}
       >
-        <p className="text-white">Welcome, {user.username}</p>
-        <img
-          src={user?.avatarUrl || "/default-avatar.jpg "} // Use the user's avatar URL or a default image
+        <p className="text-white px-5">Welcome, {user.name}</p>
+        <Image
+          src= "/default-avatar.jpg " // Use the user's avatar URL or a default image
           alt={user.name}
-          className="w-10 h-10 rounded-full object-cover text-gray-500"
+         width='25' height='25' className=" rounded-full object-cover text-gray-500"
         />
+        
       </div>
 
       {isDropdownOpen && (
