@@ -1,7 +1,9 @@
 'use client'
 import React, { useState } from "react";
+import { usePredictions } from "../../context/predictionContext";
 
 const PostPrediction=()=> {
+   const { postPrediction } = usePredictions();
   const [predictionData, setPredictionData] = useState({
     competition: "",
     game: "",
@@ -22,6 +24,9 @@ const PostPrediction=()=> {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    postPrediction( predictionData).then(() => {
+      console.log("Prediction postedd successfully");
+    });
     // Handle the submission of the prediction data (e.g., send to an API)
     console.log("Prediction Data:", predictionData);
   };

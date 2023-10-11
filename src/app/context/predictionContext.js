@@ -114,6 +114,17 @@ export const PredictionsProvider = ({ children }) => {
     }
   };
 
+  const postPrediction = async () => {
+  try {
+    await axiosInstance.post('/predictions');
+    // Optionally, you can refresh the predictions list after deletion
+    fetchData();
+  } catch (error) {
+    console.error("Error deleting prediction:", error);
+  }
+};
+
+
  const deletePrediction = async (predictionId) => {
   try {
     await axiosInstance.delete(`/predictions/${predictionId}`);
@@ -136,7 +147,7 @@ export const PredictionsProvider = ({ children }) => {
   };
 
   return (
-    <PredictionsContext.Provider value={{ ...contextValue, getAllPredictions, deletePrediction, editPrediction }}>
+    <PredictionsContext.Provider value={{ ...contextValue, getAllPredictions,postPrediction, deletePrediction, editPrediction }}>
       {children}
     </PredictionsContext.Provider>
   );
