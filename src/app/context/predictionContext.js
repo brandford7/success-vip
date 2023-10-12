@@ -1,7 +1,13 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { axiosInstance } from "../../../config";
-import { useCallback } from "react";
 
+// Create the context
 const PredictionsContext = createContext();
 
 export const usePredictions = () => {
@@ -21,21 +27,20 @@ export const PredictionsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const applyFilters = () => {
-    // Fetch predictions based on search, sort, filter, and pagination parameters
+  // Function to apply filters and fetch predictions
+  const applyFilters = useCallback(() => {
     fetchData();
-  };
+  }, [search, sortField, sortOrder, isVIP, page, pageSize, date, competition]);
 
+  // Function to reset filters to their initial state
   const resetFilters = () => {
-    // Reset filter values to their initial state
     setSearch("");
     setSortField("createdAt");
     setSortOrder("desc");
     setIsVIP(false);
     setDate("");
     setCompetition("");
-    // Fetch predictions with the new filter values
-    fetchData();
+    applyFilters(); // Fetch predictions after resetting filters
   };
 
   // Function to fetch predictions based on filter parameters
@@ -52,7 +57,9 @@ export const PredictionsProvider = ({ children }) => {
         date,
         competition,
       });
-      const response = await axiosInstance.get(`/predictions?${queryParams.toString()}`);
+      const response = await axiosInstance.get(
+        `/predictions?${queryParams.toString()}`
+      );
       const data = response.data;
       setPredictions(data.predictions);
       setIsLoading(false);
@@ -60,7 +67,7 @@ export const PredictionsProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  }, [isVIP, page, pageSize, search, competition, date, sortField, sortOrder]);
+  }, [search, sortField, sortOrder, isVIP, page, pageSize, date, competition]);
 
   // Fetch predictions initially
   useEffect(() => {
@@ -91,63 +98,8 @@ export const PredictionsProvider = ({ children }) => {
     resetFilters,
   };
 
-  const getAllPredictions = async () => {
-    setIsLoading(true);
-    try {
-      const queryParams = new URLSearchParams({
-        searchTerm,
-        sortField,
-        sortOrder,
-        isVIP,
-        page,
-        pageSize,
-        selectedDate,
-        selectedCompetition,
-      });
-      const response = await axiosInstance.get(`/predictions?${queryParams.toString()}`);
-      const data = response.data;
-      setPredictions(data.predictions);
-      setIsLoading(false);
-    } catch (error) {
-      setError(error);
-      setIsLoading(false);
-    }
-  };
-
-  const postPrediction = async () => {
-  try {
-    await axiosInstance.post('/predictions');
-    // Optionally, you can refresh the predictions list after deletion
-    fetchData();
-  } catch (error) {
-    console.error("Error deleting prediction:", error);
-  }
-};
-
-
- const deletePrediction = async (predictionId) => {
-  try {
-    await axiosInstance.delete(`/predictions/${predictionId}`);
-    // Optionally, you can refresh the predictions list after deletion
-    fetchData();
-  } catch (error) {
-    console.error("Error deleting prediction:", error);
-  }
-};
-
-  const editPrediction = async (predictionId, updatedPrediction) => {
-   
-  try {
-    await axiosInstance.patch(`/predictions/${predictionId}`, updatedData);
-    // Optionally, you can refresh the predictions list after editing
-    //fetchData();
-  } catch (error) {
-    console.error("Error editing prediction:", error);
-  }
-  };
-
   return (
-    <PredictionsContext.Provider value={{ ...contextValue, getAllPredictions,postPrediction, deletePrediction, editPrediction }}>
+    <PredictionsContext.Provider value={contextValue}>
       {children}
     </PredictionsContext.Provider>
   );
