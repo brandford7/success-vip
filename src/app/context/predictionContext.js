@@ -10,14 +10,14 @@ export const usePredictions = () => {
 
 export const PredictionsProvider = ({ children }) => {
   const [predictions, setPredictions] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [isVIP, setIsVIP] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedCompetition, setSelectedCompetition] = useState("");
+  const [date, setDate] = useState("");
+  const [competition, setCompetition] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -28,12 +28,12 @@ export const PredictionsProvider = ({ children }) => {
 
   const resetFilters = () => {
     // Reset filter values to their initial state
-    setSearchTerm("");
+    setSearch("");
     setSortField("createdAt");
     setSortOrder("desc");
     setIsVIP(false);
-    setSelectedDate("");
-    setSelectedCompetition("");
+    setDate("");
+    setCompetition("");
     // Fetch predictions with the new filter values
     fetchData();
   };
@@ -43,14 +43,14 @@ export const PredictionsProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
-        searchTerm,
+        search,
         sortField,
         sortOrder,
         isVIP,
         page,
         pageSize,
-        selectedDate,
-        selectedCompetition,
+        date,
+        competition,
       });
       const response = await axiosInstance.get(`/predictions?${queryParams.toString()}`);
       const data = response.data;
@@ -60,7 +60,7 @@ export const PredictionsProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  }, [isVIP, page, pageSize, searchTerm, selectedCompetition, selectedDate, sortField, sortOrder]);
+  }, [isVIP, page, pageSize, search, competition, date, sortField, sortOrder]);
 
   // Fetch predictions initially
   useEffect(() => {
@@ -69,8 +69,8 @@ export const PredictionsProvider = ({ children }) => {
 
   const contextValue = {
     predictions,
-    searchTerm,
-    setSearchTerm,
+    search,
+    setSearch,
     sortField,
     setSortField,
     sortOrder,
@@ -81,10 +81,10 @@ export const PredictionsProvider = ({ children }) => {
     setPage,
     pageSize,
     setPageSize,
-    selectedDate,
-    setSelectedDate,
-    selectedCompetition,
-    setSelectedCompetition,
+    date,
+    setDate,
+    competition,
+    setCompetition,
     isLoading,
     error,
     applyFilters,

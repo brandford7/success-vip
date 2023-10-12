@@ -2,7 +2,7 @@ import React from "react";
 import { usePredictions } from "../context/predictionContext";
 
 const SearchBar = () => {
-  const { searchTerm, setSearchTerm } = usePredictions();
+  const { search, setSearch} = usePredictions();
 
   return (
     <>
@@ -10,8 +10,8 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Search predictions..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full border p-2 rounded-lg"
         />
       </div>

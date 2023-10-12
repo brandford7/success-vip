@@ -91,9 +91,9 @@ const Header = () => {
             </svg>
           </button>
         </div>
-        {user ? (
+        {user ? 
           <UserAvatar />
-        ) : (
+         : (
           <Link href="/login" className="text-white">
             Login
           </Link>

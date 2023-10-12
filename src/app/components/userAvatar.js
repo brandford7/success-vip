@@ -27,7 +27,7 @@ const UserAvatar = () => {
 
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg">
-          <ul>
+          <ul className='text-black'>
             {user.role === "admin" && (
               <li
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"

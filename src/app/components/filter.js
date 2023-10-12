@@ -3,10 +3,10 @@ import { usePredictions } from "../context/predictionContext";
 
 const Filter = () => {
   const {
-    selectedDate,
-    setSelectedDate,
-    selectedCompetition,
-    setSelectedCompetition,
+    date,
+    setDate,
+    competition,
+    setCompetition,
     applyFilters,
     resetFilters,
   } = usePredictions();
@@ -19,17 +19,17 @@ const Filter = () => {
    const dd = String(today.getDate()).padStart(2, "0");
 
    const formattedDate = `${yyyy}-${mm}-${dd}`;
-   setSelectedDate(formattedDate);
- }, [setSelectedDate]);
+   setDate(formattedDate);
+ }, [setDate]);
 
   return (
     <div className="flex flex-wrap justify-center">
       <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <input
           type="date"
-          value={selectedDate}
+          value={date}
           
-          onChange={(e) => setSelectedDate(e.target.value)}
+          onChange={(e) => setDate(e.target.value)}
           className="w-full border rounded-lg py-2 px-3"
         />
       </div>
@@ -37,8 +37,8 @@ const Filter = () => {
         <input
           type="text"
           placeholder="Competition"
-          value={selectedCompetition}
-          onChange={(e) => setSelectedCompetition(e.target.value)}
+          value={competition}
+          onChange={(e) => setCompetition(e.target.value)}
           className="w-full border rounded-lg py-2 px-3"
         />
       </div>
