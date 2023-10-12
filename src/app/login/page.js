@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import Link from "next/link"; // Import Link from Next.js for navigation
-import { useRouter } from "next/navigation";
+import { useRouter,redirect } from "next/navigation";
 
 function LoginPage() {
   const { login } = useAuth(); // Use your authentication context here
@@ -33,7 +33,7 @@ function LoginPage() {
       // Redirect or perform actions upon successful login
    
       toast.success("Login successful");
-         router.push("/");
+         redirect("/");
     } else {
       // Handle login failure
       toast.error("Invalid credentials. Please try again.");

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
-import Image from 'next/image'
+import {VscChevronDown} from 'react-icons/vsc'
 
 const UserAvatar = () => {
   const { user, logout } = useAuth(); // Use your authentication context here.
@@ -23,10 +23,9 @@ console.log(user)
         onClick={toggleDropdown}
       >
         <p className="text-white px-5">Welcome, {user.name}</p>
-        <Image
-          src= "/default-avatar.jpg " // Use the user's avatar URL or a default image
-          alt={user.name}
-         width='25' height='25' className=" rounded-full object-cover text-gray-500"
+        <VscChevronDown
+  
+         className=" rounded-full w-10 h-10 object-cover text-gray-500"
         />
         
       </div>

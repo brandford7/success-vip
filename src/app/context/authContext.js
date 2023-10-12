@@ -1,7 +1,7 @@
 "use client";
 // authContext.js
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter,redirect } from "next/navigation";
 import { axiosInstance } from "../../../config";
 
 const AuthContext = createContext();
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("token");
-    router.push("/login");
+    redirect("/login");
   };
 
   const register = async (formData) => {
