@@ -1,7 +1,7 @@
 "use client";
 // authContext.js
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter,redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { axiosInstance } from "../../../config";
 
 const AuthContext = createContext();
@@ -11,7 +11,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({ name: "", role: "" });
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -45,39 +45,42 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
- const login = async (credentials) => {
-  try {
-    const response = await axiosInstance.post("auth/login", credentials, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const login = async (credentials) => {
+    try {
+      const response = await axiosInstance.post("auth/login", credentials, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (response.status === 200) {
-      const { user: { name, role }, token } = response.data;
+      if (response.status === 200) {
+        const {
+          user: { name, role },
+          token,
+        } = response.data;
 
-      // Store the token and user data in localStorage
-      localStorage.setItem("token", token);
+        // Store the token and user data in localStorage
+        localStorage.setItem("token", token);
 
-      // Store the user data as an object in localStorage
-      localStorage.setItem("user", JSON.stringify({ name, role }));
+        // Store the user data as an object in localStorage
+        localStorage.setItem("user", JSON.stringify({ name, role }));
 
-      setUser({ name, role }); // Update the user state with name and role
-      return true;
-    } else {
-      console.error("Login failed. Response status:", response.status);
+        setUser({ name, role }); // Update the user state with name and role
+        return true;
+      } else {
+        console.error("Login failed. Response status:", response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
       return false;
     }
-  } catch (error) {
-    console.error("Error during login:", error);
-    return false;
-  }
-};
+  };
 
   const logout = () => {
-    setUser(null);
+    setUser({ name: "", role: "" });
     localStorage.removeItem("token");
-    redirect("/login");
+    router.push("/login");
   };
 
   const register = async (formData) => {
@@ -92,7 +95,6 @@ export const AuthProvider = ({ children }) => {
       }; // Return an error response
     }
   };
-
 
   const editUserField = async (field, value) => {
     try {
@@ -130,7 +132,7 @@ export const AuthProvider = ({ children }) => {
 
   const authContextValue = {
     user,
-  
+
     login,
     logout,
     register,

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
-import {VscChevronDown} from 'react-icons/vsc'
+import { VscChevronDown } from "react-icons/vsc";
 
 const UserAvatar = () => {
   const { user, logout } = useAuth(); // Use your authentication context here.
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-console.log(user)
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -23,11 +22,7 @@ console.log(user)
         onClick={toggleDropdown}
       >
         <p className="text-white px-5">Welcome, {user.name}</p>
-        <VscChevronDown
-  
-         className=" rounded-full w-10 h-10 object-cover text-gray-500"
-        />
-        
+        <VscChevronDown className=" rounded-full w-10 h-10 object-cover text-gray-500" />
       </div>
 
       {isDropdownOpen && (
