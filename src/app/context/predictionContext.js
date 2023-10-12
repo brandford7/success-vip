@@ -27,22 +27,6 @@ export const PredictionsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Function to apply filters and fetch predictions
-  const applyFilters = useCallback(() => {
-    fetchData();
-  }, [search, sortField, sortOrder, isVIP, page, pageSize, date, competition]);
-
-  // Function to reset filters to their initial state
-  const resetFilters = () => {
-    setSearch("");
-    setSortField("createdAt");
-    setSortOrder("desc");
-    setIsVIP(false);
-    setDate("");
-    setCompetition("");
-    applyFilters(); // Fetch predictions after resetting filters
-  };
-
   // Function to fetch predictions based on filter parameters
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -69,10 +53,63 @@ export const PredictionsProvider = ({ children }) => {
     }
   }, [search, sortField, sortOrder, isVIP, page, pageSize, date, competition]);
 
+  // Function to apply filters and fetch predictions
+  const applyFilters = useCallback(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Function to reset filters to their initial state
+  const resetFilters = () => {
+    setSearch("");
+    setSortField("createdAt");
+    setSortOrder("desc");
+    setIsVIP(false);
+    setDate("");
+    setCompetition("");
+    applyFilters(); // Fetch predictions after resetting filters
+  };
+
   // Fetch predictions initially
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const postPrediction = async (newPrediction) => {
+    try {
+      const response = await axiosInstance.post("/predictions", newPrediction);
+      if (response.status === 201) {
+        // Prediction posted successfully, you may update the predictions list
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Error posting prediction:", error);
+    }
+  };
+
+  // Function to delete a prediction by ID
+  const deletePrediction = async (predictionId) => {
+    try {
+      await axiosInstance.delete(`/predictions/${predictionId}`);
+      // Prediction deleted successfully, you may update the predictions list
+      fetchData();
+    } catch (error) {
+      console.error("Error deleting prediction:", error);
+    }
+  };
+
+  // Function to edit a prediction by ID
+  const editPrediction = async (predictionId, updatedPrediction) => {
+    try {
+      await axiosInstance.patch(
+        `/predictions/${predictionId}`,
+        updatedPrediction
+      );
+      // Prediction edited successfully, you may update the predictions list
+      fetchData();
+    } catch (error) {
+      console.error("Error editing prediction:", error);
+    }
+  };
 
   const contextValue = {
     predictions,
@@ -96,6 +133,9 @@ export const PredictionsProvider = ({ children }) => {
     error,
     applyFilters,
     resetFilters,
+    postPrediction,
+    deletePrediction,
+    editPrediction,
   };
 
   return (

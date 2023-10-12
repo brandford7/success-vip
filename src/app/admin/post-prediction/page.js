@@ -1,6 +1,9 @@
 'use client'
 import React, { useState } from "react";
 import { usePredictions } from "../../context/predictionContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const PostPrediction=()=> {
    const { postPrediction } = usePredictions();
@@ -22,14 +25,15 @@ const PostPrediction=()=> {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postPrediction( predictionData).then(() => {
-      console.log("Prediction postedd successfully");
-    });
-    // Handle the submission of the prediction data (e.g., send to an API)
-    console.log("Prediction Data:", predictionData);
-  };
+   const handleSubmit = async (e) => {
+     e.preventDefault();
+     try {
+       await postPrediction(newPrediction);
+       toast.success("Prediction posted successfully!");
+     } catch (error) {
+       toast.error("Error posting prediction.");
+     }
+   };
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
@@ -167,6 +171,17 @@ const PostPrediction=()=> {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

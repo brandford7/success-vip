@@ -17,17 +17,16 @@ const UserAvatar = () => {
 
   return (
     <div className="relative inline-block ">
-      <div
-        className="flex items-center space-x-4 cursor-pointer"
-        onClick={toggleDropdown}
-      >
-        <p className="text-white px-5">Welcome, {user.name}</p>
-        <VscChevronDown className=" rounded-full w-10 h-10 object-cover text-gray-500" />
+      <div className="flex items-center space-x-2 cursor-pointer">
+        <p className="text-white px-4">Welcome, {user.name}</p>
+        <div onClick={toggleDropdown}>
+          <VscChevronDown className=" rounded-full w-10 h-10 text-black" />{" "}
+        </div>
       </div>
 
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg">
-          <ul className='text-black'>
+          <ul className="text-black">
             {user.role === "admin" && (
               <li
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"

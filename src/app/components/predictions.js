@@ -1,69 +1,48 @@
-"use client";
 import React from "react";
 import { useAuth } from "../context/authContext";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { usePredictions } from "../context/predictionContext";
 import { VscCheck, VscChromeClose } from "react-icons/vsc";
-import Link from 'next/link'
+import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useMutation, useQueryClient } from "react-query";
+
+// Define a mutation function for deleting a prediction
+
 const Predictions = ({ predictions }) => {
-  const { user} = useAuth(); // Access the user's role from your authentication context
+  const { user } = useAuth();
+  const { deletePrediction } = usePredictions();
   const queryClient = useQueryClient();
-
-  // Query to fetch user data
-
-
-  // Access the user's role
   const userRole = user?.role;
-
-  // Check if the user has the admin role
   const isAdmin = userRole === "admin";
 
-  // Mutation for deleting a prediction
-  const deletePrediction = useMutation(
-    (predictionId) => handleDelete(predictionId),
-    {
-      onSuccess: () => {
-        // Invalidate and refetch the predictions query after a successful delete
-        queryClient.invalidateQueries("predictions");
-      },
-    }
-  );
-
-  const handleDelete = (predictionId) => {
-    // Handle the delete action (e.g., show a confirmation dialog and make a delete request)
-    // You can use the `deletePrediction.mutate(predictionId)` to trigger the delete mutation
-  };
-
-  const handleEdit = (predictionId) => {
-    // Handle the edit action (e.g., navigate to the edit page for the prediction)
-  };
+  
+  // Use a mutation hook to handle the delete prediction action
+  const handleDelete = useMutation(deletePrediction, {
+    onMutate: (id) => {
+      // When the mutation starts, you can use onMutate to store the prediction
+      // being deleted in case you need it later (e.g., to undo the delete).
+      queryClient.setQueryData("predictions", (prev) =>
+        prev.filter((prediction) => prediction.id !== id)
+      );
+    },
+    onError: () => {
+      // If there's an error, you can display an error toast
+      toast.error("Error deleting prediction");
+    },
+    onSettled: () => {
+      // When the mutation is completed (either success or failure), you can refetch the predictions
+      queryClient.invalidateQueries("predictions");
+    },
+  });
 
   return (
     <div className="max-w-screen-lg mx-auto mb-4">
       <div className="overflow-x-auto">
         <table className="w-full table-auto border-collapse">
+          {/* ... Table header ... */}
           <thead>
-            <tr className="bg-gray-200">
-              <th className="border-b border-gray-300 py-2 px-4 text-left">
-                Competition
-              </th>
-              <th className="border-b border-gray-300 py-2 px-4 text-left">
-                Game
-              </th>
-              <th className="border-b border-gray-300 py-2 px-4 text-left">
-                Tip
-              </th>
-              <th className="border-b border-gray-300 py-2 px-4 text-left">
-                Odd
-              </th>
-              <th className="border-b border-gray-300 py-2 px-4 text-left">
-                Result
-              </th>
-              {isAdmin && (
-                <th className="border-b border-gray-300 py-2 px-4 text-left">
-                  Actions
-                </th>
-              )}
-            </tr>
+            <tr className="bg-gray-200">{/* ... Table headers ... */}</tr>
           </thead>
           <tbody>
             {predictions.map((prediction, index) => (
@@ -78,34 +57,35 @@ const Predictions = ({ predictions }) => {
                   {prediction.game}
                 </td>
                 <td className="border-b border-gray-300 py-2 px-4">
-                  {prediction.tip}
+                  {/* ... Other fields ... */}
                 </td>
                 <td className="border-b border-gray-300 py-2 px-4">
-                  {prediction.odd}
-                </td>
-                <td className="border-b border-gray-300 py-2 px-4">
+                  {/* Display the prediction result */}
                   {prediction.status === "won" ? (
-                    <VscCheck className="text-green-500" /> // Won
+                    <VscCheck className="text-green-500" />
                   ) : prediction.status === "lost" ? (
-                    <VscChromeClose className="text-red-500" /> // Lost
+                    <VscChromeClose className="text-red-500" />
                   ) : (
-                    prediction.result // Display the status text if not won or lost
+                    prediction.result
                   )}
                 </td>
                 {isAdmin && (
-                  <td className="border-b border-gray-300 py-2 px-4">
-                    <Link href='/admin/edit-prediction/predictionId'>
-                      
-                      <button className="bg-blue-500 text-white p-1 px-2 rounded-lg mr-2">
-                        Edit
+                  <td className="border-b border-gray-300 py-2 px-4" space-y-1>
+                    {/* Provide a link for editing the prediction */}
+                   
+                      <Link href={`/admin/edit-prediction/${prediction._id}`} >
+                        <button className="bg-blue-500 text-white p-1 px-2  rounded-lg mr-2">
+                          Edit
+                        </button>
+                      </Link>
+                      {/* Add a button to delete the prediction */}
+                      <button
+                        onClick={() => handleDelete.mutate(prediction._id)}
+                        className="bg-red-500 text-white p-1 px-2 rounded-lg"
+                      >
+                        Delete
                       </button>
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(prediction._id)}
-                      className="bg-red-500 text-white p-1 px-2 rounded-lg"
-                    >
-                      Delete
-                    </button>
+                  
                   </td>
                 )}
               </tr>
@@ -113,7 +93,19 @@ const Predictions = ({ predictions }) => {
           </tbody>
         </table>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
+
 export default Predictions;

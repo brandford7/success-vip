@@ -1,12 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import {usePredictions} from '../../../context/predictionContext'
+import { usePredictions } from "../../../context/predictionContext";
 import { axiosInstance } from "../../../../../config";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditPrediction() {
   const router = useRouter();
-  const { updatePrediction } = usePredictions();
+  const { editPrediction } = usePredictions();
 
   const [predictionData, setPredictionData] = useState({
     competition: "",
@@ -18,7 +20,9 @@ function EditPrediction() {
     status: "pending",
   });
 
-  const predictionId = router.query.id; // Get the ID from the route parameters
+  const { predictionId } = router.query;
+ 
+  // Get the ID from the route parameters
 
   useEffect(() => {
     if (predictionId) {
@@ -48,13 +52,13 @@ function EditPrediction() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (predictionId) {
-      // Update the prediction data if the ID is available
-      updatePrediction(predictionId, predictionData).then(() => {
-        console.log("Prediction updated successfully");
-      });
+    try {
+      await editPrediction(predictionId, updatedPrediction);
+      toast.success("Prediction updated successfully!");
+    } catch (error) {
+      toast.error("Error updating prediction.");
     }
   };
 
@@ -77,6 +81,17 @@ function EditPrediction() {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

@@ -23,7 +23,7 @@ const Filter = () => {
  }, [setDate]);
 
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-wrap justify-center px-5">
       <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <input
           type="date"
