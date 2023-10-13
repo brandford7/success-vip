@@ -1,16 +1,14 @@
-"use client";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FaTelegram, FaYoutube } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import UserAvatar from "./userAvatar";
 import { useAuth } from "../context/authContext";
+import Image from "next/image";
 
 const Header = () => {
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -25,12 +23,33 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-500 py-5 px-5">
-      <div className="container mx-auto flex justify-between items-center px-5 ">
-        <Link href="/" className="text-white text-2xl font-bold px-5">
-          Success Secrets Bet VIP
+    <header className="bg-blue-500 py-5 md:py-10">
+      <div className="container mx-auto flex justify-between items-center px-5">
+        <div className="flex items-center absolute top-1 right-5">
+          {" "}
+          <div className="flex items-center space-x-2">
+            {user?.name !== "" && (
+              <p className="text-white">{`Welcome, ${user.name}`}</p>
+            )}
+            <UserAvatar />
+          </div>
+        </div>
+        <Link
+          href="/"
+          className="flex items-center  absolute top-1 left-5 pb-5 space-x-2"
+        >
+          <h1 className="hidden text-white text-2xl font-bold">
+            Success Secrets Bet
+          </h1>
+          <Image
+            src="/success-image.webp"
+            alt="success secrets bet"
+            width="30"
+            height="30"
+          />
         </Link>
-        <div className="hidden md:flex space-x-4 items-center">
+
+        <div className="hidden md:flex space-x-4 items-center p-2  w-2/3">
           <ul className="flex space-x-5">
             <li onClick={handleMenuItemClick}>
               <Link href="/vip">
@@ -70,9 +89,9 @@ const Header = () => {
             </li>
           </ul>
         </div>
-        <div className="md:hidden">
+        <div className="md:hidden text-center">
           <button
-            className="text-white p-2 focus:outline-none"
+            className="text-white py-5 px-20 focus:outline-none"
             onClick={toggleMenu}
           >
             <svg
@@ -91,14 +110,8 @@ const Header = () => {
             </svg>
           </button>
         </div>
-        {user?.name !== '' ? 
-          <UserAvatar />
-         : (
-          <Link href="/login" className="text-white">
-            Login
-          </Link>
-        )}
       </div>
+
       {/* Mobile Menu */}
       {menuOpen && (
         <nav className="md:hidden fixed inset-0 bg-blue-500 w-70vw h-screen flex flex-col justify-center text-white z-10 transform transition-transform duration-300 ease-in-out">
@@ -145,11 +158,7 @@ const Header = () => {
               </a>
             </li>
 
-            {user?.name !== '' && (
-              <li>
-                <UserAvatar />
-              </li>
-            )}
+            {user?.name !== "" && <UserAvatar />}
           </ul>
           <button
             className="text-white p-2 absolute top-4 right-4 focus:outline-none"

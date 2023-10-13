@@ -160,7 +160,7 @@ const PostPrediction = () => {
               htmlFor="isVIP"
               className="block text-sm font-medium text-gray-700"
             >
-              Is VIP
+              IsVIP
             </label>
             <select
               id="isVIP"
@@ -170,8 +170,8 @@ const PostPrediction = () => {
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
             >
-              <option value="true">True</option>
-              <option value="false">False</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
             </select>
           </div>
           <div className="mb-4">

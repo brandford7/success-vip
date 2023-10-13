@@ -16,11 +16,14 @@ const UserAvatar = () => {
   };
 
   return (
-    <div className="relative inline-block ">
-      <div className="flex items-center space-x-2 cursor-pointer">
-        <p className="text-white px-4">Welcome, {user?.name}</p>
-        <div onClick={toggleDropdown}>
-          <VscChevronDown className=" rounded-full w-10 h-10 text-black" />{" "}
+    <div className="relative inline-block">
+      
+      <div
+        className="flex flex-col items-center space-x-2 cursor-pointer"
+        onClick={toggleDropdown}
+      >
+        <div>
+          <VscChevronDown className="rounded-full w-5 h-5 text-black" />
         </div>
       </div>
 
@@ -36,7 +39,7 @@ const UserAvatar = () => {
               </li>
             )}
             <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="px-4 py-2 hover-bg-gray-100 cursor-pointer"
               onClick={closeDropdown} // Close the dropdown when the link is clicked
             >
               <Link href="/account">Account</Link>
