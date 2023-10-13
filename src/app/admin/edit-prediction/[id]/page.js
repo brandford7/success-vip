@@ -5,9 +5,9 @@ import { usePredictions } from "../../../context/predictionContext";
 import { axiosInstance } from "../../../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-impor/ Use "next/router" instead of "next/navigation"
 
-// ... (other imports)
+
+
 
 function EditPrediction({ params: {id}}) {
   const router = useRouter();
@@ -29,7 +29,7 @@ function EditPrediction({ params: {id}}) {
       // Fetch prediction data when the component loads and 'id' is available
       getPredictionData(id);
     }
-  }, [router.query.id]);
+  }, [id]);
 
   const getPredictionData = async (id) => {
     try {
@@ -213,8 +213,8 @@ function EditPrediction({ params: {id}}) {
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
             >
-              <option value={false}>true</option>
-              <option value={true}>false</option>
+              <option value={false}>no</option>
+              <option value={true}>yes</option>
             </select>
           </div>
           <div>
