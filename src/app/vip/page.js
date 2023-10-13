@@ -10,7 +10,7 @@ import { useQuery } from "react-query";
 import { axiosInstance } from "../../../config";
 // Import your axios instance
 
-function HomePage() {
+const VIPPage=() =>{
   const { predictions } = usePredictions();
   const { user, fetchUserData } = useAuth();
   const [subscriptions, setSubscriptions] = useState([]);
@@ -126,4 +126,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default VIPPage;

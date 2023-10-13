@@ -48,6 +48,7 @@ const Predictions = ({ predictions, header }) => {
               <th>Tip</th>
               <th>Odd</th>
               <th>Result</th>
+              {prediction.status !== "pending" && <th>Result</th>}
               <th>Actions</th>
             </tr>
           </thead>
@@ -70,13 +71,14 @@ const Predictions = ({ predictions, header }) => {
                   {prediction.odd}
                 </td>
                 <td className="border-b border-gray-300 py-2 px-4">
-                  {/* Display the prediction result */}
-                  {prediction.status === "won" ? (
-                    <VscCheck className="text-green-500" />
-                  ) : prediction.status === "lost" ? (
-                    <VscChromeClose className="text-red-500" />
+                  {prediction.result}
+                </td>
+                <td>
+                  {prediction.status !== "pending" &&
+                  prediction.status === "won" ? (
+                    <VscCheck className="w-5 h-5 text-green-500" />
                   ) : (
-                    prediction.result
+                    <VscChromeClose className=" w-5 h-5 text-red-500" />
                   )}
                 </td>
                 {isAdmin && (
