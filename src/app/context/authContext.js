@@ -78,9 +78,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser({ name: "", role: "" });
+    setUser(null);
+    console.log(user)
+     localStorage.removeItem("user");
     localStorage.removeItem("token");
     router.push("/login");
+    
   };
 
   const register = async (formData) => {

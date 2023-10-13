@@ -10,7 +10,7 @@ import { useAuth } from "../context/authContext";
 const Header = () => {
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
+  
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
