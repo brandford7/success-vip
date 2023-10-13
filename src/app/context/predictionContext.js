@@ -22,7 +22,7 @@ export const PredictionsProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
-  const [isVIP, setIsVIP] = useState(false);
+  const [isVIP, setIsVIP] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [date, setDate] = useState("");
