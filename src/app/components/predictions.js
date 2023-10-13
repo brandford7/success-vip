@@ -48,6 +48,7 @@ const Predictions = ({ predictions, header }) => {
               <th>Tip</th>
               <th>Odd</th>
               <th>Result</th>
+              <th></th>
               
               <th>Actions</th>
             </tr>
