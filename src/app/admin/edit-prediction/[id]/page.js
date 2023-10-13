@@ -5,7 +5,7 @@ import { usePredictions } from "../../../context/predictionContext";
 import { axiosInstance } from "../../../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/router"; // Use "next/router" instead of "next/navigation"
+impor/ Use "next/router" instead of "next/navigation"
 
 // ... (other imports)
 
