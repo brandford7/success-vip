@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { usePredictions } from "../../../context/predictionContext";
@@ -6,7 +6,7 @@ import { axiosInstance } from "../../../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function EditPrediction() {
+function EditPrediction( { params: { id}}) {
   const router = useRouter();
   const { editPrediction } = usePredictions();
 
@@ -20,48 +20,57 @@ function EditPrediction() {
     status: "pending",
     isVIP: false, // Default value
   });
+ //const { id } = router.query;
 
-  const { predictionId } = router.query;
 
-  // Get the ID from the route parameters
 
-  useEffect(() => {
-    if (predictionId) {
-      // Fetch prediction data when the component loads and the ID is available
-      getPredictionData(predictionId);
-    }
-  }, [predictionId]);
+const getPredictionData = async (id) => {
+  try {
 
-  const getPredictionData = async (id) => {
-    try {
-      const response = await axiosInstance.get(`/predictions/${id}`);
-      if (response.status === 200) {
-        setPredictionData(response.data);
-      } else {
-        console.error(`Error fetching prediction: ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error("Error during fetchPredictionData:", error);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPredictionData({
-      ...predictionData,
-      [name]: value,
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get(`/predictions/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await editPrediction(predictionId, predictionData);
-      toast.success("Prediction updated successfully!");
-    } catch (error) {
-      toast.error("Error updating prediction.");
+    if (response.status === 200) {
+      setPredictionData(response.data);
+    } else {
+      console.error(`Error fetching prediction: ${response.statusText}`);
     }
+  } catch (error) {
+    console.error("Error during fetchPredictionData:", error);
+  }
   };
+  
+useEffect(() => {
+  if (id) {
+    // Fetch prediction data when the component loads and 'id' is available
+    getPredictionData(id);
+  }
+}, [id]);
+
+  //console.log(getPredictionData(id));
+
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setPredictionData({
+    ...predictionData,
+    [name]: value,
+  });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await editPrediction(id, predictionData);
+    toast.success("Prediction updated successfully!");
+    router.push()
+  } catch (error) {
+    toast.error("Error updating prediction.");
+  }
+};
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
@@ -197,7 +206,7 @@ function EditPrediction() {
               htmlFor="isVIP"
               className="block text-sm font-medium text-gray-700"
             >
-              VIP Prediction
+              isVIP
             </label>
             <select
               id="isVIP"
@@ -207,8 +216,8 @@ function EditPrediction() {
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
             >
-              <option value={false}>No</option>
-              <option value={true}>Yes</option>
+              <option value={false}>true</option>
+              <option value={true}>false</option>
             </select>
           </div>
           <div>
@@ -237,3 +246,4 @@ function EditPrediction() {
 }
 
 export default EditPrediction;
+

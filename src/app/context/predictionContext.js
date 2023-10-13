@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { axiosInstance } from "../../../config";
-import { useAuth } from "../context/authContext";
+
 
 // Create the context
 const PredictionsContext = createContext();
@@ -16,7 +16,7 @@ export const usePredictions = () => {
 };
 
 export const PredictionsProvider = ({ children }) => {
-  const { user } = useAuth();
+  
 
   const [predictions, setPredictions] = useState([]);
   const [search, setSearch] = useState("");

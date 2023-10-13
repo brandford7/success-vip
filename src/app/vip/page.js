@@ -75,7 +75,7 @@ function HomePage() {
 
   if (!user) {
     return (
-      <div className="container mx-auto py-4">
+      <div className="container mx-auto px-4">
         <div
           className="max-h-screen overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 200px)" }}

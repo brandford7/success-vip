@@ -9,20 +9,19 @@ import { useMutation, useQueryClient } from "react-query";
 
 // Define a mutation function for deleting a prediction
 
-const Predictions = ({ predictions,header }) => {
+const Predictions = ({ predictions, header }) => {
   const { user } = useAuth();
   const { deletePrediction } = usePredictions();
   const queryClient = useQueryClient();
   const userRole = user?.role;
   const isAdmin = userRole === "admin";
 
-  
   // Use a mutation hook to handle the delete prediction action
   const handleDelete = useMutation(deletePrediction, {
     onMutate: (id) => {
       // When the mutation starts, you can use onMutate to store the prediction
       // being deleted in case you need it later (e.g., to undo the delete).
-   /*   queryClient.setQueryData("predictions", (prev) =>
+      /*   queryClient.setQueryData("predictions", (prev) =>
         prev.filter((prediction) => prediction.id !== id)
       );*/
     },
@@ -84,7 +83,10 @@ const Predictions = ({ predictions,header }) => {
                   <td className="border-b border-gray-300 py-2 px-4 space-y-5">
                     {/* Provide a link for editing the prediction */}
 
-                    <Link href={`/admin/edit-prediction/${prediction._id}`}>
+                    <Link
+                      href="/admin/edit-prediction/[id]"
+                      as={`/admin/edit-prediction/${prediction._id}`}
+                    >
                       <button className="bg-blue-500 text-white p-1 px-2  rounded-lg mr-2">
                         Edit
                       </button>
