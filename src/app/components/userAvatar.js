@@ -18,7 +18,7 @@ const UserAvatar = () => {
   return (
     <div className="relative inline-block ">
       <div className="flex items-center space-x-2 cursor-pointer">
-        <p className="text-white px-4">Welcome, {user.name}</p>
+        <p className="text-white px-4">Welcome, {user?.name}</p>
         <div onClick={toggleDropdown}>
           <VscChevronDown className=" rounded-full w-10 h-10 text-black" />{" "}
         </div>

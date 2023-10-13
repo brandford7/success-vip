@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }) => {
     register,
     fetchUserData,
     editUserField,
-    isLoading,
+    isLoading, setIsLoading
   };
 
   return (

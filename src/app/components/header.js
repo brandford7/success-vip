@@ -91,7 +91,7 @@ const Header = () => {
             </svg>
           </button>
         </div>
-        {user ? 
+        {user?.name !== '' ? 
           <UserAvatar />
          : (
           <Link href="/login" className="text-white">
@@ -145,7 +145,7 @@ const Header = () => {
               </a>
             </li>
 
-            {user && (
+            {user?.name !== '' && (
               <li>
                 <UserAvatar />
               </li>
