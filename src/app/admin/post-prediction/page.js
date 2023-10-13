@@ -1,21 +1,26 @@
-'use client'
+"use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "react-query";
+
 import { usePredictions } from "../../context/predictionContext";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-const PostPrediction=()=> {
-   const { postPrediction } = usePredictions();
+const PostPrediction = () => {
+  const { postPrediction } = usePredictions();
   const [predictionData, setPredictionData] = useState({
     competition: "",
     game: "",
     tip: "",
     odd: "",
+    isVIP:'false',
     result: "pending",
     date: "",
     status: "pending",
   });
+
+  const router = useRouter();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,15 +30,17 @@ const PostPrediction=()=> {
     });
   };
 
-   const handleSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       await postPrediction(newPrediction);
-       toast.success("Prediction posted successfully!");
-     } catch (error) {
-       toast.error("Error posting prediction.");
-     }
-   };
+   
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await postPrediction(predictionData);
+        toast.success("Prediction posted successfully!");
+        router.push("/admin/all-predictions");
+      } catch (error) {
+        toast.error("Error posting prediction.");
+      }
+    };
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
@@ -127,6 +134,46 @@ const PostPrediction=()=> {
               required
             />
           </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="result"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={predictionData.status}
+              onChange={handleInputChange}
+              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              <option value="pending">Pending</option>
+              <option value="won">Won</option>
+              <option value="lost">Lost</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="isVIP"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Is VIP
+            </label>
+            <select
+              id="isVIP"
+              name="isVIP"
+              value={predictionData.isVIP}
+              onChange={handleInputChange}
+              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+              required
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div>
           <div className="mb-4">
             <label
               htmlFor="date"
@@ -139,23 +186,6 @@ const PostPrediction=()=> {
               id="date"
               name="date"
               value={predictionData.date}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="status"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Status
-            </label>
-            <input
-              type="text"
-              id="status"
-              name="status"
-              value={predictionData.status}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -184,6 +214,6 @@ const PostPrediction=()=> {
       />
     </div>
   );
-}
+};
 
 export default PostPrediction;

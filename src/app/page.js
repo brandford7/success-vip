@@ -28,7 +28,7 @@ function HomePage() {
         ) : (
           // Render predictions once data has loaded
           <div>
-            <Predictions predictions={freePredictions} />
+            <Predictions predictions={freePredictions} header='Free Predictions' />
           </div>
         )}
       </div>

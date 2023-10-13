@@ -16,12 +16,12 @@ const AdminDashboard = () => {
           >
             Post Prediction
           </Link>
-          <Link
+          {/*  <Link
             href="/admin/edit-prediction"
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
           >
             Edit Prediction
-          </Link>
+  </Link>*/}
           <Link
             href="/admin/all-predictions"
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"

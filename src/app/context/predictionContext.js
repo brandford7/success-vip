@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { axiosInstance } from "../../../config";
+import { useAuth } from "../context/authContext";
 
 // Create the context
 const PredictionsContext = createContext();
@@ -15,6 +16,8 @@ export const usePredictions = () => {
 };
 
 export const PredictionsProvider = ({ children }) => {
+  const { user } = useAuth();
+
   const [predictions, setPredictions] = useState([]);
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState("createdAt");
@@ -76,7 +79,18 @@ export const PredictionsProvider = ({ children }) => {
 
   const postPrediction = async (newPrediction) => {
     try {
-      const response = await axiosInstance.post("/predictions", newPrediction);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      const response = await axiosInstance.post("/predictions", newPrediction, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       if (response.status === 201) {
         // Prediction posted successfully, you may update the predictions list
         fetchData();
@@ -89,7 +103,17 @@ export const PredictionsProvider = ({ children }) => {
   // Function to delete a prediction by ID
   const deletePrediction = async (predictionId) => {
     try {
-      await axiosInstance.delete(`/predictions/${predictionId}`);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      await axiosInstance.delete(`/predictions/${predictionId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       // Prediction deleted successfully, you may update the predictions list
       fetchData();
     } catch (error) {
@@ -100,9 +124,21 @@ export const PredictionsProvider = ({ children }) => {
   // Function to edit a prediction by ID
   const editPrediction = async (predictionId, updatedPrediction) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
       await axiosInstance.patch(
         `/predictions/${predictionId}`,
-        updatedPrediction
+        updatedPrediction,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       // Prediction edited successfully, you may update the predictions list
       fetchData();
