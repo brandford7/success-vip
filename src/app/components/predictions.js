@@ -49,8 +49,8 @@ const Predictions = ({ predictions, header }) => {
               <th>Odd</th>
               <th>Result</th>
               <th></th>
-              
-              <th>Actions</th>
+
+              {isAdmin && <th>Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -74,13 +74,13 @@ const Predictions = ({ predictions, header }) => {
                 <td className="border-b border-gray-300 py-2 px-4">
                   {prediction.result}
                 </td>
-                <td>
+                <td className="border-b border-gray-300 py-2 px-4">
                   {prediction.status !== "pending" &&
-                  prediction.status === "won" ? (
-                    <VscCheck className="w-5 h-5 text-green-500" />
-                  ) : (
-                    <VscChromeClose className=" w-5 h-5 text-red-500" />
-                  )}
+                    (prediction.status === "won" ? (
+                      <VscCheck className="w-5 h-5 text-green-500" />
+                    ) : (
+                      <VscChromeClose className=" w-5 h-5 text-red-500" />
+                    ))}
                 </td>
                 {isAdmin && (
                   <td className="border-b border-gray-300 py-2 px-4 space-y-5">
