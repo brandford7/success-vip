@@ -48,7 +48,7 @@ const Predictions = ({ predictions, header }) => {
               <th>Tip</th>
               <th>Odd</th>
               <th>Result</th>
-              {prediction.status !== "pending" && <th>Result</th>}
+              
               <th>Actions</th>
             </tr>
           </thead>
