@@ -77,28 +77,33 @@ export const PredictionsProvider = ({ children }) => {
     fetchData();
   }, [fetchData]);
 
-  const postPrediction = async (newPrediction) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("User is not authenticated");
-        return;
-      }
-
-      const response = await axiosInstance.post("/predictions", newPrediction, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.status === 201) {
-        // Prediction posted successfully, you may update the predictions list
-        fetchData();
-      }
-    } catch (error) {
-      console.error("Error posting prediction:", error);
+ const postPrediction = async (newPrediction) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("User is not authenticated");
+      return;
     }
-  };
+
+    console.log("Posting prediction...");
+    const response = await axiosInstance.post("/predictions", newPrediction, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Prediction posted:", response);
+
+    if (response.status === 201) {
+      console.log("Prediction posted successfully");
+      // Prediction posted successfully, you may update the predictions list
+      fetchData();
+    }
+  } catch (error) {
+    console.error("Error posting prediction:", error);
+  }
+};
 
   // Function to delete a prediction by ID
   const deletePrediction = async (predictionId) => {

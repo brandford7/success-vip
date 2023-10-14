@@ -45,7 +45,7 @@ const Header = () => {
           href="/"
           className="flex items-center  absolute top-1 left-5 pb-5 space-x-2"
         >
-          <h1 className="hidden text-white text-2xl font-bold">
+          <h1 className="hidden md:inline-block text-white text-2xl font-bold">
             Success Secrets Bet
           </h1>
           <Image

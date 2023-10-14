@@ -9,12 +9,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 const PostPrediction = () => {
   const { postPrediction } = usePredictions();
+
   const [predictionData, setPredictionData] = useState({
     competition: "",
     game: "",
     tip: "",
     odd: "",
-    isVIP:'false',
+    isVIP: false,
     result: "pending",
     date: "",
     status: "pending",
@@ -23,24 +24,24 @@ const PostPrediction = () => {
   const router = useRouter();
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setPredictionData({
       ...predictionData,
-      [name]: value,
+      [name]: type === "checkbox" ? e.target.checked : value,
     });
   };
 
-   
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        await postPrediction(predictionData);
-        toast.success("Prediction posted successfully!");
-        router.push("/admin/all-predictions");
-      } catch (error) {
-        toast.error("Error posting prediction.");
-      }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await postPrediction(predictionData);
+      toast.success("Prediction posted successfully!");
+      router.push("/admin/all-predictions");
+    } catch (error) {
+      toast.error("Error posting prediction.");
+    }
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
