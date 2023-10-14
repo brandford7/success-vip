@@ -26,7 +26,6 @@ const Header = () => {
     <header className="bg-blue-500 py-5 md:py-10">
       <div className="container mx-auto flex justify-between items-center px-5">
         <div className="flex items-center absolute top-1 right-5">
-          {" "}
           <div className="flex items-center space-x-2">
             {user?.name !== "" && (
               <p className="text-white">{`Welcome, ${user.name}`}</p>
@@ -46,10 +45,11 @@ const Header = () => {
             alt="success secrets bet"
             width="30"
             height="30"
+            className="rounded-full"
           />
         </Link>
 
-        <div className="hidden md:flex space-x-4 items-center p-2  w-2/3">
+        <div className="hidden md:flex space-x-4 items-center mx-auto ">
           <ul className="flex space-x-5">
             <li onClick={handleMenuItemClick}>
               <Link href="/vip">
@@ -89,7 +89,7 @@ const Header = () => {
             </li>
           </ul>
         </div>
-        <div className="md:hidden text-center">
+        <div className="md:hidden text-center mx-auto">
           <button
             className="text-white py-5 px-20 focus:outline-none"
             onClick={toggleMenu}
@@ -158,7 +158,12 @@ const Header = () => {
               </a>
             </li>
 
-            {user?.name !== "" && <UserAvatar />}
+            {user?.name !== "" && (
+              <div className="flex items-center text-center justify-center space-x-2">
+                <p className=" text-white">{`Welcome, ${user.name}`}</p>
+                <UserAvatar />
+              </div>
+            )}
           </ul>
           <button
             className="text-white p-2 absolute top-4 right-4 focus:outline-none"
