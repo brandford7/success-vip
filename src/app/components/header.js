@@ -25,14 +25,18 @@ const Header = () => {
   return (
     <header className="bg-blue-500 py-5 md:py-10">
       <div className="container mx-auto flex justify-between items-center px-5">
-        <div className="flex items-center absolute top-1 right-5">
-          <div className="flex items-center space-x-2">
-            {user?.name !== "" && (
+        {user?.name !== "" ? (
+          <div className="flex items-center absolute top-1 right-5">
+            <div className="flex items-center space-x-2">
               <p className="text-white">{`Welcome, ${user.name}`}</p>
-            )}
-            <UserAvatar />
+              <UserAvatar />{" "}
+            </div>
+            :
           </div>
-        </div>
+        ) : (
+         <p className="flex items-center absolute right-10 text-white">Login</p>
+        )}
+
         <Link
           href="/"
           className="flex items-center  absolute top-1 left-5 pb-5 space-x-2"

@@ -78,12 +78,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser(null);
-    console.log(user)
-     localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    router.push("/login");
+    setUser({ name: "", role: "" });
     
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    console.log(user);
+    router.push("/login");
   };
 
   const register = async (formData) => {
@@ -141,7 +141,8 @@ export const AuthProvider = ({ children }) => {
     register,
     fetchUserData,
     editUserField,
-    isLoading, setIsLoading
+    isLoading,
+    setIsLoading,
   };
 
   return (
