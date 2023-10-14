@@ -67,7 +67,7 @@ const Header = () => {
 
             <li>
               <a
-                href="https://x.com/successsecretbet"
+                href="https://x.com/successecretbet"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-2 text-black"
