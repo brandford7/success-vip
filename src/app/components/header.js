@@ -31,10 +31,14 @@ const Header = () => {
               <p className="text-white">{`Welcome, ${user.name}`}</p>
               <UserAvatar />{" "}
             </div>
-            :
           </div>
         ) : (
-         <p className="flex items-center absolute right-10 text-white">Login</p>
+          <Link href="/login">
+            {" "}
+            <p className="flex items-center absolute right-10 text-white">
+              Login
+            </p>
+          </Link>
         )}
 
         <Link
