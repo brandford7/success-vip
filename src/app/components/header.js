@@ -26,21 +26,19 @@ const Header = () => {
     <header className="bg-blue-500 py-5 md:py-10">
       <div className="container mx-auto flex justify-between items-center px-5">
         {user?.name !== "" ? (
-          <div className="flex items-center absolute top-1 right-5">
+          <div className="flex items-center absolute top-1 right-12">
             <div className="flex items-center space-x-2">
               <p className="text-white">{`Welcome, ${user.name}`}</p>
-              <UserAvatar />{" "}
+              <UserAvatar />
             </div>
           </div>
         ) : (
           <Link href="/login">
-            {" "}
-            <p className="flex items-center absolute right-10 text-white">
+            <p className="flex items-center top-1 md:mx-auto absolute right-10 text-white">
               Login
             </p>
           </Link>
         )}
-
         <Link
           href="/"
           className="flex items-center  absolute top-1 left-5 pb-5 space-x-2"
@@ -56,8 +54,33 @@ const Header = () => {
             className="rounded-full"
           />
         </Link>
-
-        <div className="hidden md:flex space-x-4 items-center mx-auto ">
+        {/*hamburger menu below */}
+        <div className="md:hidden text-center absolute right-0">
+          <button
+            className="text-white py-5 px-2 focus:outline-none"
+            onClick={toggleMenu}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          </button>
+        </div>
+       <div className="hidden md:flex space-x-4 items-center mx-auto "><Link href="/vip">
+          <span className="text-white cursor-pointer">VIP</span>
+        </Link></div>
+        {/*social icons */}{" "}
+        {/*  <div className="hidden md:flex space-x-4 items-center mx-auto ">
           <ul className="flex space-x-5">
             <li onClick={handleMenuItemClick}>
               <Link href="/vip">
@@ -96,28 +119,7 @@ const Header = () => {
               </a>
             </li>
           </ul>
-        </div>
-        <div className="md:hidden text-center mx-auto">
-          <button
-            className="text-white py-5 px-20 focus:outline-none"
-            onClick={toggleMenu}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            </svg>
-          </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Menu */}

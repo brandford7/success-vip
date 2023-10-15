@@ -1,10 +1,11 @@
-import React from "react";
-import { usePredictions } from "../context/predictionContext";
+import React, { useEffect } from "react";
+import { usePredictions } from "../context/PredictionsContext";
 
-function PredictionControls() {
+const PredictionsControls = () => {
   const {
-    searchTerm,
-    setSearchTerm,
+    predictions,
+    search,
+    setSearch,
     sortField,
     setSortField,
     sortOrder,
@@ -15,36 +16,59 @@ function PredictionControls() {
     setPage,
     pageSize,
     setPageSize,
+    date,
+    setDate,
+    competition,
+    setCompetition,
+    isLoading,
+    error,
+    applyFilters,
+    resetFilters, // Access the resetFilters function
   } = usePredictions();
 
+  useEffect(() => {
+    // Use the `predictions` data or any other logic to display the predictions list
+  }, [predictions]);
+
+  // Handle search and filters, similar to the user's component
+  const handleSearch = () => {
+    setPage(1);
+    applyFilters();
+  };
+
   return (
-    <div className="container mx-auto py-4 flex flex-wrap justify-between items-center">
-     
+    <div>
+      <input
+        type="text"
+        placeholder="Search Predictions"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Competition"
+        value={competition}
+        onChange={(e) => setCompetition(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
+      <select value={isVIP} onChange={(e) => setIsVIP(e.target.value)}>
+        <option value="">All</option>
+        <option value="true">VIP</option>
+        <option value="false">Non-VIP</option>
+      </select>
+      <button onClick={handleSearch}>Search</button>
 
-      {/* Sorting options */}
-      <div className="w-full md:w-1/4 lg:w-1/6 mb-2 flex items-center">
-        <select
-          value={sortField}
-          onChange={(e) => setSortField(e.target.value)}
-          className="w-full border p-2 rounded-lg"
-        >
-          {/* Add your sorting options */}
-        </select>
-      </div>
-      <div className="w-full md:w-1/4 lg:w-1/6 mb-2 flex items-center">
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="w-full border p-2 rounded-lg"
-        >
-          {/* Add sorting order options */}
-        </select>
-      </div>
+      {/* Reset filters button */}
+      <button onClick={resetFilters}>Reset Filters</button>
 
-      {/* Pagination */}
-      
+      {/* Rest of the code to display predictions, pagination, etc. */}
     </div>
   );
-}
+};
 
-export default PredictionControls;
+export default PredictionsControls;

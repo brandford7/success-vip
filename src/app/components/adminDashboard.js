@@ -1,4 +1,3 @@
-
 import React from "react";
 import Link from "next/link";
 
@@ -11,17 +10,18 @@ const AdminDashboard = () => {
         </h1>
         <div className="space-y-2">
           <Link
+            href="/admin/users"
+            className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
+          >
+            All Users
+          </Link>
+          <Link
             href="/admin/post-prediction"
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
           >
             Post Prediction
           </Link>
-          {/*  <Link
-            href="/admin/edit-prediction"
-            className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
-          >
-            Edit Prediction
-  </Link>*/}
+
           <Link
             href="/admin/all-predictions"
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"

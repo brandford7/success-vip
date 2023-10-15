@@ -87,8 +87,8 @@ const Predictions = ({ predictions, header }) => {
                     {/* Provide a link for editing the prediction */}
 
                     <Link
-                      href="/admin/edit-prediction/[id]"
-                      as={`/admin/edit-prediction/${prediction._id}`}
+                      href="/admin//predictions/edit-prediction/[id]"
+                      as={`/admin/predictions/edit-prediction/${prediction._id}`}
                     >
                       <button className="bg-blue-500 text-white p-1 px-2  rounded-lg mr-2">
                         Edit

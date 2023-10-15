@@ -1,59 +1,31 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { usePredictions } from "../../../context/predictionContext";
-import { axiosInstance } from "../../../../../config";
+import { useAuth } from "../../../../context/authContext";
+import { axiosInstance } from "../../../../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
-
-function EditPrediction({ params: {id}}) {
+function EditUser({ params: { id } }) {
   const router = useRouter();
-  const { editPrediction } = usePredictions();
-
-  const [predictionData, setPredictionData] = useState({
-    competition: "",
-    game: "",
-    tip: "",
-    odd: "",
-    result: "pending",
-    date: "", // Initialize date field
-    status: "pending",
-    isVIP: false, // Initialize isVIP field
+  const { getUserById, editUserDetails } = useAuth();
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
   });
 
   useEffect(() => {
     if (id) {
       // Fetch prediction data when the component loads and 'id' is available
-      getPredictionData(id);
+      getUserById(id);
     }
-  }, [id]);
-
-  const getPredictionData = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axiosInstance.get(`/predictions/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.status === 200) {
-        setPredictionData(response.data);
-      } else {
-        console.error(`Error fetching prediction: ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error("Error during fetchPredictionData:", error);
-    }
-  };
+  }, [getUserById, id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setPredictionData({
-      ...predictionData,
+    setUserData({
+      ...userData,
       [name]: value,
     });
   };
@@ -61,11 +33,11 @@ function EditPrediction({ params: {id}}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await editPrediction(id, predictionData); // Use router.query.id
+      await editUserDetails(id, userData); // Use router.query.id
       toast.success("Prediction updated successfully!");
-      router.push('/admin/all-predictions'); // Redirect back to the prediction page
+      router.push("/admin/users"); // Redirect back to the prediction page
     } catch (error) {
-      toast.error("Error updating prediction.");
+      toast.error("Error updating user details.");
     }
   };
 
@@ -242,4 +214,4 @@ function EditPrediction({ params: {id}}) {
   );
 }
 
-export default EditPrediction;
+export default EditUser;

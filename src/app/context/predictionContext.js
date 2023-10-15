@@ -9,29 +9,37 @@ import { axiosInstance } from "../../../config";
 
 
 // Create the context
-const PredictionsContext = createContext();
+const PredictionContext = createContext();
 
 export const usePredictions = () => {
-  return useContext(PredictionsContext);
+  return useContext(PredictionContext);
 };
 
 export const PredictionsProvider = ({ children }) => {
   
+   const [predictions, setPredictions] = useState([]);
+   const [prediction, setPrediction] = useState({
+     competition: "",
+     game: "",
+     tip: "",
+     odd: "",
+     result: "pending",
+     date: "",
+     status: "pending",
+     isVIP: false,
+   });
+   const [search, setSearch] = useState("");
+   const [sortField, setSortField] = useState("createdAt");
+   const [sortOrder, setSortOrder] = useState("desc");
+   const [isVIP, setIsVIP] = useState("");
+   const [page, setPage] = useState(1);
+   const [pageSize, setPageSize] = useState(10);
+   const [date, setDate] = useState("");
+   const [competition, setCompetition] = useState("");
+   const [isLoading, setIsLoading] = useState(false);
+   const [error, setError] = useState(null);
 
-  const [predictions, setPredictions] = useState([]);
-  const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState("createdAt");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [isVIP, setIsVIP] = useState('');
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [date, setDate] = useState("");
-  const [competition, setCompetition] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Function to fetch predictions based on filter parameters
-  const fetchData = useCallback(async () => {
+ const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -44,9 +52,11 @@ export const PredictionsProvider = ({ children }) => {
         date,
         competition,
       });
+
       const response = await axiosInstance.get(
         `/predictions?${queryParams.toString()}`
       );
+
       const data = response.data;
       setPredictions(data.predictions);
       setIsLoading(false);
@@ -56,26 +66,44 @@ export const PredictionsProvider = ({ children }) => {
     }
   }, [search, sortField, sortOrder, isVIP, page, pageSize, date, competition]);
 
-  // Function to apply filters and fetch predictions
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   const applyFilters = useCallback(() => {
     fetchData();
   }, [fetchData]);
 
-  // Function to reset filters to their initial state
   const resetFilters = () => {
     setSearch("");
     setSortField("createdAt");
     setSortOrder("desc");
-    setIsVIP(false);
+    setIsVIP(""); // Change back to the initial state as needed
     setDate("");
     setCompetition("");
-    applyFilters(); // Fetch predictions after resetting filters
+    setPage(1); // Reset the page to 1 when applying new filters
+    applyFilters();
   };
 
-  // Fetch predictions initially
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+   const getPredictionData = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.get(`/predictions/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 200) {
+        setPrediction(response.data);
+      } else {
+        console.error(`Error fetching prediction: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error during fetchPredictionData:", error);
+    }
+  };
+
 
  const postPrediction = async (newPrediction) => {
   try {
@@ -177,11 +205,12 @@ export const PredictionsProvider = ({ children }) => {
     postPrediction,
     deletePrediction,
     editPrediction,
+    getPredictionData,
   };
 
   return (
-    <PredictionsContext.Provider value={contextValue}>
+    <PredictionContext.Provider value={contextValue}>
       {children}
-    </PredictionsContext.Provider>
+    </PredictionContext.Provider>
   );
 };

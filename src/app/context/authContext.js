@@ -26,24 +26,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
   // Use React Query to fetch user data
-  const fetchUserData = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Token not found");
-    }
-
-    const response = await axiosInstance.get(`/users/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Error fetching user data");
-    }
-  };
 
   const login = async (credentials) => {
     try {
@@ -79,7 +61,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser({ name: "", role: "" });
-    
+
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     console.log(user);
@@ -99,7 +81,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const editUserField = async (field, value) => {
+  const getUserById = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.get(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 200) {
+        setUser(response.data);
+      } else {
+        console.error(`Error fetching user details: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error during getUserDetails:", error);
+    }
+  };
+
+  /* const editUserField = async (field, value) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -132,15 +133,36 @@ export const AuthProvider = ({ children }) => {
       return false;
     }
   };
+*/
+  const editUserDetails = async (userId, updatedUser) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      await axiosInstance.patch(`/users/${profile}`, updatedUser, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      // Prediction edited successfully, you may update the predictions list
+      fetchData();
+    } catch (error) {
+      console.error("Error editing prediction:", error);
+    }
+  };
 
   const authContextValue = {
     user,
-
+    setUser,
     login,
     logout,
     register,
-    fetchUserData,
-    editUserField,
+    getUserById,
+    editUserDetails,
     isLoading,
     setIsLoading,
   };
