@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+
 import { usePredictions } from "../../../context/predictionContext";
-import { axiosInstance } from "../../../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
