@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Predictions from "../components/predictions";
 import { usePredictions } from "../context/predictionContext";
-import Pagination from "../components/pagination";
+import Pagination from "../components/predictionPagination";
 import SearchBar from "../components/searchBar";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { useQuery } from "react-query";
 import { axiosInstance } from "../../../config";
 // Import your axios instance
 
-const VIPPage=() =>{
+const VIPPage = () => {
   const { predictions } = usePredictions();
   const { user, fetchUserData } = useAuth();
   const [subscriptions, setSubscriptions] = useState([]);
@@ -63,7 +63,6 @@ const VIPPage=() =>{
 
   let subscription = subscriptions[0];
 
-  
   // Check if the user is subscribed to VIP predictions
   const isSubscribedToVIP = subscriptions.some(
     (subscription) => subscription.productName === "VIP Predictions"
@@ -124,6 +123,6 @@ const VIPPage=() =>{
       )}
     </div>
   );
-}
+};
 
 export default VIPPage;

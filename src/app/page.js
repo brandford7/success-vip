@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import Predictions from "./components/predictions";
 import { usePredictions } from "./context/predictionContext";
-import Pagination from "./components/pagination";
+import Pagination from "./components/predictionPagination";
 import SearchBar from "./components/searchBar";
 import Filter from "./components/filter";
 
@@ -28,7 +28,10 @@ function HomePage() {
         ) : (
           // Render predictions once data has loaded
           <div>
-            <Predictions predictions={freePredictions} header='Free Predictions' />
+            <Predictions
+              predictions={freePredictions}
+              header="Free Predictions"
+            />
           </div>
         )}
       </div>

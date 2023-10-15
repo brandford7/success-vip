@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { usePredictions } from "../context/PredictionsContext";
+import { usePredictions } from "@/app/context/predictionContext";
 
 const PredictionsControls = () => {
   const {
@@ -37,34 +37,51 @@ const PredictionsControls = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2">
       <input
         type="text"
         placeholder="Search Predictions"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
       <input
         type="text"
         placeholder="Competition"
         value={competition}
         onChange={(e) => setCompetition(e.target.value)}
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
       <input
         type="text"
         placeholder="Date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
-      <select value={isVIP} onChange={(e) => setIsVIP(e.target.value)}>
+      <select
+        value={isVIP}
+        onChange={(e) => setIsVIP(e.target.value)}
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+      >
         <option value="">All</option>
         <option value="true">VIP</option>
         <option value="false">Non-VIP</option>
       </select>
-      <button onClick={handleSearch}>Search</button>
+      <button
+        onClick={handleSearch}
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Search
+      </button>
 
       {/* Reset filters button */}
-      <button onClick={resetFilters}>Reset Filters</button>
+      <button
+        onClick={resetFilters}
+        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Reset Filters
+      </button>
 
       {/* Rest of the code to display predictions, pagination, etc. */}
     </div>
