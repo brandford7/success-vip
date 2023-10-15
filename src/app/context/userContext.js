@@ -34,15 +34,24 @@ export const UsersProvider = ({ children }) => {
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("/users", {
-        params: {
-          search,
-          page,
-          pageSize,
-          date,
-          username,
+      const response = await axiosInstance.get(
+        "/users",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         },
-      });
+        {
+          params: {
+            search,
+            page,
+            pageSize,
+            date,
+            username,
+          },
+        }
+      );
       const data = response.data;
       setUsers(data.users);
       setIsLoading(false);

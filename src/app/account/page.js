@@ -4,12 +4,14 @@ import { useQuery } from "react-query";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
 import { useSubscriptions } from "../context/subscriptionContext";
+import { useUser } from "../context/userContext";
 import { axiosInstance } from "../../../config";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const AccountPage = () => {
-  const { user, fetchUserData } = useAuth();
+  const { user } = useAuth();
+  const { getUserProfile } = useUser();
   const { cancelSubscription } = useSubscriptions();
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ const AccountPage = () => {
     data: userData,
     isLoading,
     isError,
-  } = useQuery("userData", () => fetchUserData(), {
+  } = useQuery("userData", () => getUserProfile(), {
     retry: false,
     enabled: !!user,
   });
