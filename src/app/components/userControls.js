@@ -53,17 +53,7 @@ const UserControls = () => {
       {/* Reset filters button */}
       <button onClick={resetFilters}>Reset Filters</button>
 
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error: {error.message}</div>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </ul>
-      }
+    
 
       {/* Pagination controls */}
       <button onClick={() => setPage(page - 1)} disabled={page === 1}>
