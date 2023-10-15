@@ -2,7 +2,7 @@
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { AuthProvider } from "./context/authContext";
-import { UsersProvider } from "./context/authContext";
+import { UsersProvider } from "./context/userContext";
 import { ThemeProvider, useTheme } from "./context/themeContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./globals.css";
