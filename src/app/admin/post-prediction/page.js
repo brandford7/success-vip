@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "react-query";
-
-import { usePredictions } from "../../context/predictionContext";
+import { usePredictions } from "@/app/context/predictionContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
