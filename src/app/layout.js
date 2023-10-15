@@ -2,6 +2,7 @@
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { AuthProvider } from "./context/authContext";
+import { UsersProvider } from "./context/authContext";
 import { ThemeProvider, useTheme } from "./context/themeContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./globals.css";
@@ -33,15 +34,17 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={inter.className} >
+      <body className={inter.className}>
         <ThemeProvider>
           <QueryClientProvider client={queryClient}>
             <AuthProvider>
               <PredictionsProvider>
-                <Header />
-
-                {children}
-                <Footer />
+                <UsersProvider>
+                  
+                  <Header />
+                  {children}
+                  <Footer />
+                </UsersProvider>
               </PredictionsProvider>
             </AuthProvider>
           </QueryClientProvider>
