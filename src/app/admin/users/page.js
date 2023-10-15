@@ -1,11 +1,11 @@
 "use client";
 import React, { } from "react";
 import Users from "../../components/users"; // Import the Predictions component
-import { useAuth } from "@/app/context/authContext";
+import { useUser } from "@/app/context/userContext";
 import { ToastContainer, toast } from "react-toastify";
 
 const AllUsers = () => {
-  const { users } = useAuth();
+  const { users } = useUser();
 
   return (
     <div className="container mx-auto py-4">
