@@ -91,11 +91,11 @@ export const PredictionsProvider = ({ children }) => {
         return;
       }
 
-      console.log("Posting prediction...");
       const response = await axiosInstance.post("/predictions", newPrediction, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+          Accept:"application/json",
         },
       });
 
