@@ -1,14 +1,38 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 
 import { usePredictions } from "@/app/context/predictionContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { axiosInstance } from "../../../../../../config";
 
 function EditPrediction({ params: { id } }) {
   const router = useRouter();
-  const { prediction, getPredictionData, editPrediction } = usePredictions();
+  const { /*getPredictionData, */ editPrediction } = usePredictions();
+  const [prediction, setPrediction] = useState({
+    competition: "",
+    game: "",
+    tip: "",
+    odd: "",
+    result: "pending",
+    date: "",
+    status: "pending",
+    isVIP: false,
+  });
+
+  const getPredictionData = useCallback(async (id) => {
+    try {
+      const response = await axiosInstance.get(`/predictions/${id}`);
+      if (response.status === 200) {
+        setPrediction(response.data);
+      } else {
+        console.error(`Error fetching prediction: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error during fetchPredictionData:", error);
+    }
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -28,7 +52,7 @@ function EditPrediction({ params: { id } }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await editPrediction(id, predictionData); // Use router.query.id
+      await editPrediction(id, prediction); // Use router.query.id
       toast.success("Prediction updated successfully!");
       router.push("/admin/all-predictions"); // Redirect back to the prediction page
     } catch (error) {

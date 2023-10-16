@@ -15,6 +15,7 @@ const Predictions = ({ predictions, header }) => {
   const queryClient = useQueryClient();
   const userRole = user?.role;
   const isAdmin = userRole === "admin";
+  
 
   // Use a mutation hook to handle the delete prediction action
   const handleDelete = useMutation(deletePrediction, {
@@ -87,8 +88,8 @@ const Predictions = ({ predictions, header }) => {
                     {/* Provide a link for editing the prediction */}
 
                     <Link
-                      href="/admin//predictions/edit-prediction/[id]"
-                      as={`/admin/predictions/edit-prediction/${prediction._id}`}
+                      href="/admin/all-predictions/edit-prediction/[id]"
+                      as={`/admin/all-predictions/edit-prediction/${prediction._id}`}
                     >
                       <button className="bg-blue-500 text-white p-1 px-2  rounded-lg mr-2">
                         Edit

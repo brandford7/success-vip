@@ -9,11 +9,14 @@ import { ToastContainer,toast } from "react-toastify";
 const AllPredictions=() =>{
   const { predictions } = usePredictions();
 
+  console.log(predictions);
+
   return (
     <div className="container mx-auto py-4">
+      
       <PredictionControls />
       <h2 className="text-2xl font-semibold p-5">All Predictions</h2>
-      <div className="max-h-screen">
+      <div className="h-screen">
         <Predictions predictions={predictions} />
       </div>
       <ToastContainer

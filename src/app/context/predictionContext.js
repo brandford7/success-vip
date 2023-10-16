@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { axiosInstance } from "../../../config";
 
-
 // Create the context
 const PredictionContext = createContext();
 
@@ -16,30 +15,29 @@ export const usePredictions = () => {
 };
 
 export const PredictionsProvider = ({ children }) => {
-  
-   const [predictions, setPredictions] = useState([]);
-   const [prediction, setPrediction] = useState({
-     competition: "",
-     game: "",
-     tip: "",
-     odd: "",
-     result: "pending",
-     date: "",
-     status: "pending",
-     isVIP: false,
-   });
-   const [search, setSearch] = useState("");
-   const [sortField, setSortField] = useState("createdAt");
-   const [sortOrder, setSortOrder] = useState("desc");
-   const [isVIP, setIsVIP] = useState("");
-   const [page, setPage] = useState(1);
-   const [pageSize, setPageSize] = useState(10);
-   const [date, setDate] = useState("");
-   const [competition, setCompetition] = useState("");
-   const [isLoading, setIsLoading] = useState(false);
-   const [error, setError] = useState(null);
+  const [predictions, setPredictions] = useState([]);
+  const [prediction, setPrediction] = useState({
+    competition: "",
+    game: "",
+    tip: "",
+    odd: "",
+    result: "pending",
+    date: "",
+    status: "pending",
+    isVIP: false,
+  });
+  const [search, setSearch] = useState("");
+  const [sortField, setSortField] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [isVIP, setIsVIP] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [date, setDate] = useState("");
+  const [competition, setCompetition] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
- const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -85,53 +83,33 @@ export const PredictionsProvider = ({ children }) => {
     applyFilters();
   };
 
-   const getPredictionData = async (id) => {
+  const postPrediction = async (newPrediction) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axiosInstance.get(`/predictions/${id}`, {
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      console.log("Posting prediction...");
+      const response = await axiosInstance.post("/predictions", newPrediction, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-      if (response.status === 200) {
-        setPrediction(response.data);
-      } else {
-        console.error(`Error fetching prediction: ${response.statusText}`);
+
+      console.log("Prediction posted:", response);
+
+      if (response.status === 201) {
+        console.log("Prediction posted successfully");
+        // Prediction posted successfully, you may update the predictions list
+        fetchData();
       }
     } catch (error) {
-      console.error("Error during fetchPredictionData:", error);
+      console.error("Error posting prediction:", error);
     }
   };
-
-
- const postPrediction = async (newPrediction) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("User is not authenticated");
-      return;
-    }
-
-    console.log("Posting prediction...");
-    const response = await axiosInstance.post("/predictions", newPrediction, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log("Prediction posted:", response);
-
-    if (response.status === 201) {
-      console.log("Prediction posted successfully");
-      // Prediction posted successfully, you may update the predictions list
-      fetchData();
-    }
-  } catch (error) {
-    console.error("Error posting prediction:", error);
-  }
-};
 
   // Function to delete a prediction by ID
   const deletePrediction = async (predictionId) => {
@@ -182,6 +160,8 @@ export const PredictionsProvider = ({ children }) => {
 
   const contextValue = {
     predictions,
+
+    setPredictions,
     search,
     setSearch,
     sortField,
@@ -205,7 +185,6 @@ export const PredictionsProvider = ({ children }) => {
     postPrediction,
     deletePrediction,
     editPrediction,
-    getPredictionData,
   };
 
   return (

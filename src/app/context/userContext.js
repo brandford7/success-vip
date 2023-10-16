@@ -34,21 +34,20 @@ export const UsersProvider = ({ children }) => {
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
     try {
+      const queryParams = new URLSearchParams({
+        search,
+        page,
+        pageSize,
+        date,
+        username,
+      });
+
       const response = await axiosInstance.get(
-        "/users",
+        `/users/?${queryParams.toString()}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-          },
-        },
-        {
-          params: {
-            search,
-            page,
-            pageSize,
-            date,
-            username,
           },
         }
       );
@@ -113,7 +112,7 @@ export const UsersProvider = ({ children }) => {
         return false;
       }
 
-      const response = await axios.put(
+      const response = await axios.patch(
         "/users/profile",
         { field, value },
         {

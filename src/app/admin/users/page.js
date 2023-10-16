@@ -8,12 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 
 const AllUsers = () => {
   const { users } = useUser();
-
+console.log(users)
   return (
     <div className="container mx-auto py-4">
       <UserControls/>
       <h2 className="text-2xl font-semibold p-5">All Users</h2>
-      <div className="max-h-screen">
+      <div className="h-screen">
         <Users users={users} />
       </div>
       <ToastContainer

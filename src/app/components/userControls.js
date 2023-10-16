@@ -29,7 +29,7 @@ const UserControls = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2">
+    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2 mx-2">
       <input
         type="text"
         placeholder="Search Users"
