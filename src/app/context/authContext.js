@@ -134,7 +134,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 */
-  const editUserDetails = async (userId, updatedUser) => {
+  
+  const addUser = async (newUser) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -142,7 +143,35 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      await axiosInstance.patch(`/users/${profile}`, updatedUser, {
+      const response = await axiosInstance.post("/users", newUser, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("User added:", response);
+
+      if (response.status === 201) {
+        console.log("User added successfully");
+        // Prediction posted successfully, you may update the predictions list
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Error posting prediction:", error);
+    }
+  };
+
+  const editUserDetails = async (id, updatedUser) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      await axiosInstance.patch(`/users/${id}`, updatedUser, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -162,6 +191,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     register,
     getUserById,
+    addUser,
     editUserDetails,
     isLoading,
     setIsLoading,

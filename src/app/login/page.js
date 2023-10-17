@@ -114,14 +114,14 @@ function LoginPage() {
               </label>
             </div>
 
-            <div className="text-sm">
+            {/*     <div className="text-sm">
               <Link
                 href="/forgot-password"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot your password?
               </Link>
-            </div>
+                  </div>*/}
           </div>
 
           <div>

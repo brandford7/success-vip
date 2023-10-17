@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "react-query";
-import { useUser } from "@/app/context/userContext";
+import { useAuth } from "@/app/context/authContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PostPrediction = () => {
-  const { createUser } = useUser();
+  const { addUser } = useAuth();
 
   const [userData, setUserData] = useState({
     username: "",
@@ -20,8 +20,8 @@ const PostPrediction = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
-    setPredictionData({
-      ...predictionData,
+    setUserData({
+      ...userData,
       [name]: type === "checkbox" ? e.target.checked : value,
     });
   };
@@ -30,11 +30,12 @@ const PostPrediction = () => {
     e.preventDefault();
 
     try {
-      await createUser(userData);
+      await addUser(userData);
       toast.success("User added successfully!");
       router.push("/admin/users");
     } catch (error) {
-      toast.error("Error posting prediction.");
+        toast.error("Error adding user.");
+        console.log(error)
     }
   };
 

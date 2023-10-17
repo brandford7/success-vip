@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 const PostPrediction = () => {
   const { postPrediction } = usePredictions();
 
-  const [predictionData, setPredictionData] = useState({
+/*  const [predictionData, setPredictionData] = useState({
     competition: "",
     game: "",
     tip: "",
@@ -19,7 +19,7 @@ const PostPrediction = () => {
     date: "",
     status: "pending",
   });
-
+*/
   const router = useRouter();
 
   const handleInputChange = (e) => {
@@ -34,11 +34,12 @@ const PostPrediction = () => {
     e.preventDefault();
 
     try {
-      await postPrediction(predictionData);
+      await postPrediction();
       toast.success("Prediction posted successfully!");
       router.push("/admin/all-predictions");
     } catch (error) {
       toast.error("Error posting prediction.");
+      console.log(error)
     }
   };
 

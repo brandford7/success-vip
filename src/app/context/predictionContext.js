@@ -91,7 +91,7 @@ export const PredictionsProvider = ({ children }) => {
         return;
       }
 
-      const response = await axiosInstance.post("/predictions", newPrediction, {
+      const response = await axiosInstance.post("/predictions", prediction, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",

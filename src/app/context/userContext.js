@@ -151,6 +151,7 @@ export const UsersProvider = ({ children }) => {
     setPageSize,
     date,
     setDate,
+
     username,
     setUsername,
     resetFilters,
