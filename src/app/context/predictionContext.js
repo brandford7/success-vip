@@ -160,7 +160,8 @@ export const PredictionsProvider = ({ children }) => {
 
   const contextValue = {
     predictions,
-
+    prediction,
+    setPrediction,
     setPredictions,
     search,
     setSearch,

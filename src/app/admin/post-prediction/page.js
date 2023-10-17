@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PostPrediction = () => {
-  const { postPrediction } = usePredictions();
+  const { postPrediction,prediction,setPrediction } = usePredictions();
 
 /*  const [predictionData, setPredictionData] = useState({
     competition: "",
@@ -24,8 +24,8 @@ const PostPrediction = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
-    setPredictionData({
-      ...predictionData,
+    setPrediction({
+      ...prediction,
       [name]: type === "checkbox" ? e.target.checked : value,
     });
   };
@@ -61,7 +61,7 @@ const PostPrediction = () => {
               type="text"
               id="competition"
               name="competition"
-              value={predictionData.competition}
+              value={prediction.competition}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -78,7 +78,7 @@ const PostPrediction = () => {
               type="text"
               id="game"
               name="game"
-              value={predictionData.game}
+              value={prediction.game}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -95,7 +95,7 @@ const PostPrediction = () => {
               type="text"
               id="tip"
               name="tip"
-              value={predictionData.tip}
+              value={prediction.tip}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -112,7 +112,7 @@ const PostPrediction = () => {
               type="text"
               id="odd"
               name="odd"
-              value={predictionData.odd}
+              value={prediction.odd}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -129,7 +129,7 @@ const PostPrediction = () => {
               type="text"
               id="result"
               name="result"
-              value={predictionData.result}
+              value={prediction.result}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -146,7 +146,7 @@ const PostPrediction = () => {
             <select
               id="status"
               name="status"
-              value={predictionData.status}
+              value={prediction.status}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -166,7 +166,7 @@ const PostPrediction = () => {
             <select
               id="isVIP"
               name="isVIP"
-              value={predictionData.isVIP}
+              value={prediction.isVIP}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -186,7 +186,7 @@ const PostPrediction = () => {
               type="date"
               id="date"
               name="date"
-              value={predictionData.date}
+              value={prediction.date}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required
@@ -197,7 +197,7 @@ const PostPrediction = () => {
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full"
             >
-              Submit Prediction
+              Post Prediction
             </button>
           </div>
         </form>
