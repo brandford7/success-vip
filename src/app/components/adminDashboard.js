@@ -16,6 +16,10 @@ const AdminDashboard = () => {
             All Users
           </Link>
           <Link
+            href="/admin/users/add-user"
+            className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
+          >Add User</Link>
+          <Link
             href="/admin/post-prediction"
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
           >

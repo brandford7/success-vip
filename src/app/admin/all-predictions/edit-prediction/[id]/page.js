@@ -52,7 +52,7 @@ function EditPrediction({ params: { id } }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await editPrediction(id, prediction); // Use router.query.id
+      await editPrediction(id, prediction); 
       toast.success("Prediction updated successfully!");
       router.push("/admin/all-predictions"); // Redirect back to the prediction page
     } catch (error) {

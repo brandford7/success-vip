@@ -137,7 +137,7 @@ const PostPrediction = () => {
 
           <div className="mb-4">
             <label
-              htmlFor="result"
+              htmlFor="status"
               className="block text-sm font-medium text-gray-700"
             >
               Status
