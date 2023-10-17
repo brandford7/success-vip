@@ -112,7 +112,7 @@ export const UsersProvider = ({ children }) => {
         return false;
       }
 
-      const response = await axios.patch(
+       await axiosInstance.patch(
         "/users/profile",
         { field, value },
         {

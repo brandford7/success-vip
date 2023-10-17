@@ -7,7 +7,10 @@ import React, {
 } from "react";
 import { axiosInstance } from "../../../config";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 // Create the context
+
 const PredictionContext = createContext();
 
 export const usePredictions = () => {
@@ -83,7 +86,7 @@ export const PredictionsProvider = ({ children }) => {
     applyFilters();
   };
 
-  const postPrediction = async (newPrediction) => {
+  const postPrediction = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -91,21 +94,20 @@ export const PredictionsProvider = ({ children }) => {
         return;
       }
 
-      const response = await axiosInstance.post("/predictions", prediction, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      await axiosInstance.post(
+        "/predictions",
+        prediction,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log("Prediction posted:", response);
 
-      if (response.status === 201) {
-        console.log("Prediction posted successfully");
-        // Prediction posted successfully, you may update the predictions list
-        fetchData();
-      }
+      fetchData();
     } catch (error) {
       console.error("Error posting prediction:", error);
     }
