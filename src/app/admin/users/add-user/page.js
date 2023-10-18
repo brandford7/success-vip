@@ -11,7 +11,7 @@ const PostPrediction = () => {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  const initialPredictionState = {
+  const initialUserState = {
     username: "",
     email: "",
     password: "",
