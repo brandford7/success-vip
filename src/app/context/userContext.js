@@ -15,52 +15,69 @@ export const useUser = () => {
 };
 
 export const UsersProvider = ({ children }) => {
+  
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("");
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10); // Adjust the page size as needed
 
-  // Function to fetch users based on search and filter criteria
-  const fetchUsers = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const queryParams = new URLSearchParams({
-        search,
-        date,
-        username,
-      });
+  // Function to fetch users based on search, date, and username
+ const fetchUsers = useCallback(async () => {
+   setIsLoading(true);
 
-      const response = await axiosInstance.get(
-        `/users?${queryParams.toString()}`
-      );
-      const data = response.data;
-      setUsers(data.users);
-      setIsLoading(false);
-    } catch (error) {
-      setError(error);
-      setIsLoading(false);
-    }
-  }, [search, date, username]);
+   try {
+     const queryParams = new URLSearchParams({
+       search,
+       date,
+       username,
+       page, // Include page and page size for pagination
+       pageSize,
+     });
 
-  // Function to apply search and filter criteria
+     const response = await axiosInstance.get(
+       `/users?${queryParams.toString()}`,
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       }
+     );
+
+     const data = response.data;
+
+     // Update users with the received data
+     setUsers(data.users);
+
+     setIsLoading(false);
+   } catch (error) {
+     setError(error);
+     setIsLoading(false);
+   }
+ }, [search, date, username, page, pageSize, ]);
+
+  // Function to apply search and filter criteria and reset pagination
   const applyFilters = useCallback(() => {
+    setPage(1); // Reset to the first page when applying new filters
     fetchUsers();
   }, [fetchUsers]);
 
-  // Function to reset filters to their initial state
+  // Function to reset filters and pagination to their initial state
   const resetFilters = () => {
     setSearch("");
     setDate("");
     setUsername("");
-    applyFilters(); // Fetch users after resetting filters
+    setPage(1); // Reset to the first page
+    fetchUsers(); // Fetch users after resetting filters
   };
 
-  // Fetch users initially
+  // Fetch users initially and when filters, page, or page size change
   useEffect(() => {
     fetchUsers();
-  }, [search, date, username]);
+  }, [search, date, username, page, pageSize, fetchUsers]);
 
   const getUserProfile = async () => {
     const token = localStorage.getItem("token");
@@ -158,7 +175,7 @@ export const UsersProvider = ({ children }) => {
     setPageSize,
     date,
     setDate,
-
+applyFilters,
     username,
     setUsername,
     resetFilters,
