@@ -81,10 +81,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getUserById = async (id) => {
+/*  const getUserById = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axiosInstance.get(`/admin/${id}`, {
+      const response = await axiosInstance.get(`auth/admin/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Error during getUserDetails:", error);
     }
   };
-
+*/
   
   const editUserDetails = async (id, updatedUser) => {
     try {
@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      await axiosInstance.patch(`/users/${id}`, updatedUser, {
+      await axiosInstance.patch(`/auth/admin/${id}`, updatedUser, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     register,
-    getUserById,
+    
     
     editUserDetails,
     isLoading,
