@@ -1,32 +1,34 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useMutation } from "react-query";
 import { usePredictions } from "@/app/context/predictionContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PostPrediction = () => {
-  const { postPrediction,prediction,setPrediction } = usePredictions();
+  const { postPrediction } = usePredictions();
+  const router = useRouter();
 
-/*  const [predictionData, setPredictionData] = useState({
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  const initialPredictionState = {
     competition: "",
     game: "",
     tip: "",
     odd: "",
     isVIP: false,
     result: "pending",
-    date: "",
+    startPeriod: currentDate,
     status: "pending",
-  });
-*/
-  const router = useRouter();
+  };
+
+  const [prediction, setPrediction] = useState(initialPredictionState);
 
   const handleInputChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value, type, checked } = e.target;
     setPrediction({
       ...prediction,
-      [name]: type === "checkbox" ? e.target.checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -34,12 +36,20 @@ const PostPrediction = () => {
     e.preventDefault();
 
     try {
-      await postPrediction();
+      await postPrediction(prediction);
+
+      // Show a success message only when the request is successful
       toast.success("Prediction posted successfully!");
+
+      // Reset the form to initial state
+      setPrediction(initialPredictionState);
+
+      // Optionally, navigate to another page or perform additional actions
       router.push("/admin/all-predictions");
     } catch (error) {
+      // Handle errors, show an error message, and log the error
       toast.error("Error posting prediction.");
-      console.log(error)
+      console.error("Error Details:", error);
     }
   };
 
@@ -50,148 +60,14 @@ const PostPrediction = () => {
           Post Prediction
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="competition"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Competition
-            </label>
-            <input
-              type="text"
-              id="competition"
-              name="competition"
-              value={prediction.competition}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="game"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Game
-            </label>
-            <input
-              type="text"
-              id="game"
-              name="game"
-              value={prediction.game}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="tip"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Tip
-            </label>
-            <input
-              type="text"
-              id="tip"
-              name="tip"
-              value={prediction.tip}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="odd"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Odd
-            </label>
-            <input
-              type="text"
-              id="odd"
-              name="odd"
-              value={prediction.odd}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="result"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Result
-            </label>
-            <input
-              type="text"
-              id="result"
-              name="result"
-              value={prediction.result}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="status"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Status
-            </label>
-            <select
-              id="status"
-              name="status"
-              value={prediction.status}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              <option value="pending">Pending</option>
-              <option value="won">Won</option>
-              <option value="lost">Lost</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="isVIP"
-              className="block text-sm font-medium text-gray-700"
-            >
-              IsVIP
-            </label>
-            <select
-              id="isVIP"
-              name="isVIP"
-              value={prediction.isVIP}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="date"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Date
-            </label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={prediction.date}
-              onChange={handleInputChange}
-              className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
+          {renderFormField("Competition", "competition")}
+          {renderFormField("Game", "game")}
+          {renderFormField("Tip", "tip")}
+          {renderFormField("Odd", "odd")}
+          {renderFormField("Result", "result")}
+          {renderSelectField("Status", "status", ["pending", "won", "lost"])}
+          {renderSelectField("IsVIP", "isVIP", ["true", "false"])}
+          {renderFormField("Date", "startPeriod", "date")}
           <div>
             <button
               type="submit"
@@ -215,6 +91,55 @@ const PostPrediction = () => {
       />
     </div>
   );
+
+  function renderFormField(label, name, type = "text") {
+    return (
+      <div className="mb-4">
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium text-gray-700"
+        >
+          {label}
+        </label>
+        <input
+          type={type}
+          id={name}
+          name={name}
+          value={prediction[name]}
+          onChange={handleInputChange}
+          className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
+      </div>
+    );
+  }
+
+  function renderSelectField(label, name, options) {
+    return (
+      <div className="mb-4">
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium text-gray-700"
+        >
+          {label}
+        </label>
+        <select
+          id={name}
+          name={name}
+          value={prediction[name]}
+          onChange={handleInputChange}
+          className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
+          required
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
 };
 
 export default PostPrediction;
