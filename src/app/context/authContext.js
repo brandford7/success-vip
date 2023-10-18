@@ -100,69 +100,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  /* const editUserField = async (field, value) => {
+  const addUser = async (userData) => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        return false;
-      }
+      console.log("Token:", token);
 
-      const response = await axios.put(
-        "/users/profile",
-        { field, value },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        // Update the local user object with the edited value
-        setUser((prevUser) => ({
-          ...prevUser,
-          [field]: value,
-        }));
-        return true;
-      } else {
-        // Handle edit error here
-        return false;
-      }
-    } catch (error) {
-      console.error("Error during edit:", error);
-      return false;
-    }
-  };
-*/
-  
-  const addUser = async (newUser) => {
-    try {
-      const token = localStorage.getItem("token");
       if (!token) {
         console.error("User is not authenticated");
         return;
       }
 
-      const response = await axiosInstance.post("/users", newUser, {
+      console.log("Prediction data:", userData);
+
+      const response = await axiosInstance.post("/users", userData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          Accept: "application/json",
           "Content-Type": "application/json",
         },
       });
 
-      console.log("User added:", response);
+      console.log("User added:", response.data);
 
-      if (response.status === 201) {
-        console.log("User added successfully");
-        // Prediction posted successfully, you may update the predictions list
-        fetchData();
-      }
+      fetchData();
     } catch (error) {
-      console.error("Error posting prediction:", error);
+      console.error("Error adding user:", error);
     }
   };
-
   const editUserDetails = async (id, updatedUser) => {
     try {
       const token = localStorage.getItem("token");
