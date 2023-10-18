@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/authContext";
+import { useUser } from "@/app/context/userContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PostPrediction = () => {
-  const { addUser } = useAuth();
+  const { addUser } = useUser();
   const router = useRouter();
 
   const currentDate = new Date().toISOString().split("T")[0];

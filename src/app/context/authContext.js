@@ -100,32 +100,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const addUser = async (userData) => {
-    try {
-      const token = localStorage.getItem("token");
-      console.log("Token:", token);
-
-      if (!token) {
-        console.error("User is not authenticated");
-        return;
-      }
-
-      console.log("Prediction data:", userData);
-
-      const response = await axiosInstance.post("/users", userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("User added:", response.data);
-
-      fetchData();
-    } catch (error) {
-      console.error("Error adding user:", error);
-    }
-  };
+  
   const editUserDetails = async (id, updatedUser) => {
     try {
       const token = localStorage.getItem("token");
@@ -154,7 +129,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     register,
     getUserById,
-    addUser,
+    
     editUserDetails,
     isLoading,
     setIsLoading,

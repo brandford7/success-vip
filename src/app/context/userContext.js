@@ -16,40 +16,24 @@ export const useUser = () => {
 
 export const UsersProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
   const [date, setDate] = useState("");
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Function to fetch predictions based on filter parameters
+  // Function to fetch users based on search and filter criteria
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
         search,
-        page,
-        pageSize,
         date,
         username,
       });
 
       const response = await axiosInstance.get(
-        `/users/?${queryParams.toString()}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        `/users?${queryParams.toString()}`
       );
       const data = response.data;
       setUsers(data.users);
@@ -58,11 +42,9 @@ export const UsersProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  }, [date, page, pageSize, search, username]);
+  }, [search, date, username]);
 
-  // Function to fetch predictions based on filter parameters
-
-  // Function to apply filters and fetch predictions
+  // Function to apply search and filter criteria
   const applyFilters = useCallback(() => {
     fetchUsers();
   }, [fetchUsers]);
@@ -70,18 +52,15 @@ export const UsersProvider = ({ children }) => {
   // Function to reset filters to their initial state
   const resetFilters = () => {
     setSearch("");
-    setSortField("createdAt");
-    setSortOrder("desc");
-    setIsVIP(false);
     setDate("");
-    setCompetition("");
-    applyFilters(); // Fetch predictions after resetting filters
+    setUsername("");
+    applyFilters(); // Fetch users after resetting filters
   };
 
-  // Fetch predictions initially
+  // Fetch users initially
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  }, [search, date, username]);
 
   const getUserProfile = async () => {
     const token = localStorage.getItem("token");
@@ -102,9 +81,37 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
-  // Function to delete a prediction by ID
+  // Function to add a user by admin
 
-  // Function to edit a prediction by ID
+const addUser = async (userData) => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("Token:", token);
+
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      console.log("Prediction data:", userData);
+
+      const response = await axiosInstance.post("/users", userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("User added:", response.data);
+
+      fetchUsers();
+    } catch (error) {
+      console.error("Error adding user:", error);
+    }
+  };
+
+  // Function to edit a user's profile by logged in user
+
   const editProfile = async (field, value) => {
     try {
       const token = localStorage.getItem("token");
@@ -155,7 +162,7 @@ export const UsersProvider = ({ children }) => {
     username,
     setUsername,
     resetFilters,
-
+addUser,
     editProfile,
     getUserProfile,
   };
