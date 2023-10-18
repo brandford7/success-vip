@@ -15,7 +15,7 @@ const PostPrediction = () => {
     username: "",
     email: "",
     password: "",
-    role: user,
+    role: "user",
   };
 
   const [userData, setUserData] = useState(initialUserState);
