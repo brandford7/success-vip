@@ -83,7 +83,7 @@ export const UsersProvider = ({ children }) => {
 
   // Function to add a user by admin
 
-const addUser = async (userData) => {
+  const addUser = async (userData) => {
     try {
       const token = localStorage.getItem("token");
       console.log("Token:", token);
@@ -119,7 +119,7 @@ const addUser = async (userData) => {
         return false;
       }
 
-       await axiosInstance.patch(
+      await axiosInstance.patch(
         "/users/profile",
         { field, value },
         {
@@ -162,7 +162,7 @@ const addUser = async (userData) => {
     username,
     setUsername,
     resetFilters,
-addUser,
+    addUser,
     editProfile,
     getUserProfile,
   };

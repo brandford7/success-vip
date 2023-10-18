@@ -5,12 +5,11 @@ import { useUser } from "@/app/context/userContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PostPrediction = () => {
+const AddUser = () => {
   const { addUser } = useUser();
   const router = useRouter();
 
-  const currentDate = new Date().toISOString().split("T")[0];
-
+  
   const initialUserState = {
     username: "",
     email: "",
@@ -135,4 +134,4 @@ const PostPrediction = () => {
   }
 };
 
-export default PostPrediction;
+export default AddUser;
