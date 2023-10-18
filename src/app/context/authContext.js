@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   const getUserById = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axiosInstance.get(`/users/${id}`, {
+      const response = await axiosInstance.get(`/admin/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
