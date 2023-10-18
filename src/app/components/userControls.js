@@ -9,6 +9,7 @@ const UserControls = () => {
     isLoading,
     error,
     page,
+    fetchUsers,
     setPage,
     pageSize,
     setPageSize,
@@ -25,7 +26,7 @@ const UserControls = () => {
 
   const handleSearch = () => {
     setPage(1); // Reset the page to 1 when applying a new search
-    fetchData(); // Fetch data with the updated search parameter
+    fetchUsers(); // Fetch data with the updated search parameter
   };
 
   return (

@@ -27,7 +27,7 @@ console.log(users)
           <div>
             <Users
               users={users}
-              header="Free Predictions"
+              
             />
           </div>
         )}

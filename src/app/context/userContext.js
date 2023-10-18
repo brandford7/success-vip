@@ -17,6 +17,7 @@ export const useUser = () => {
 export const UsersProvider = ({ children }) => {
   
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("");
   const [username, setUsername] = useState("");
@@ -26,38 +27,46 @@ export const UsersProvider = ({ children }) => {
   const [pageSize, setPageSize] = useState(10); // Adjust the page size as needed
 
   // Function to fetch users based on search, date, and username
- const fetchUsers = useCallback(async () => {
-   setIsLoading(true);
 
-   try {
-     const queryParams = new URLSearchParams({
-       search,
-       date,
-       username,
-       page, // Include page and page size for pagination
-       pageSize,
-     });
+const fetchUsers = useCallback(async () => {
 
-     const response = await axiosInstance.get(
-       `/users?${queryParams.toString()}`,
-       {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       }
-     );
 
-     const data = response.data;
+  setIsLoading(true);
 
-     // Update users with the received data
-     setUsers(data.users);
+  try {
 
-     setIsLoading(false);
-   } catch (error) {
-     setError(error);
-     setIsLoading(false);
-   }
- }, [search, date, username, page, pageSize, ]);
+const token = localStorage.getItem("token");
+
+
+    const queryParams = new URLSearchParams({
+      search,
+      date,
+      username,
+      page, // Include page and page size for pagination
+      pageSize,
+    });
+
+    const apiUrl = `/users?${queryParams.toString()}`;
+    console.log("API URL:", apiUrl);
+
+    const response = await axiosInstance.get(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Response Data:", response.data);
+
+    const data = response.data;
+
+    // Update users with the received data
+    setUsers(data.users);
+
+    setIsLoading(false);
+  } catch (error) {
+    setError(error);
+    setIsLoading(false);
+  }
+}, [search, date, username, page, pageSize, ]);
 
   // Function to apply search and filter criteria and reset pagination
   const applyFilters = useCallback(() => {
@@ -170,6 +179,7 @@ export const UsersProvider = ({ children }) => {
     isLoading,
     error,
     page,
+    fetchUsers,
     setPage,
     pageSize,
     setPageSize,
