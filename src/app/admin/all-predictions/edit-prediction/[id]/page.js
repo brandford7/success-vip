@@ -9,7 +9,7 @@ import { axiosInstance } from "../../../../../../config";
 
 function EditPrediction({ params: { id } }) {
   const router = useRouter();
-  const { /*getPredictionData, */ editPrediction } = usePredictions();
+  const { editPrediction } = usePredictions();
   const [prediction, setPrediction] = useState({
     competition: "",
     game: "",

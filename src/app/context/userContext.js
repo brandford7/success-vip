@@ -15,9 +15,14 @@ export const useUser = () => {
 };
 
 export const UsersProvider = ({ children }) => {
-  
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState([]);
+  const [userData, setUserData] = useState({
+    username: null,
+    email: null,
+
+    role: "user",
+  });
+
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("");
   const [username, setUsername] = useState("");
@@ -28,45 +33,40 @@ export const UsersProvider = ({ children }) => {
 
   // Function to fetch users based on search, date, and username
 
-const fetchUsers = useCallback(async () => {
+  const fetchUsers = useCallback(async () => {
+    setIsLoading(true);
 
+    try {
+      const token = localStorage.getItem("token");
 
-  setIsLoading(true);
+      const queryParams = new URLSearchParams({
+        search,
+        date,
+        username,
+        page, // Include page and page size for pagination
+        pageSize,
+      });
 
-  try {
+      const response = await axiosInstance.get(
+        `/users?${queryParams.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-const token = localStorage.getItem("token");
+      const data = response.data;
 
+      // Update users with the received data
+      setUsers(data.users);
 
-    const queryParams = new URLSearchParams({
-      search,
-      date,
-      username,
-      page, // Include page and page size for pagination
-      pageSize,
-    });
-
-    const apiUrl = `/users?${queryParams.toString()}`;
-    console.log("API URL:", apiUrl);
-
-    const response = await axiosInstance.get(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log("Response Data:", response.data);
-
-    const data = response.data;
-
-    // Update users with the received data
-    setUsers(data.users);
-
-    setIsLoading(false);
-  } catch (error) {
-    setError(error);
-    setIsLoading(false);
-  }
-}, [search, date, username, page, pageSize, ]);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  }, [search, date, username, page, pageSize]);
 
   // Function to apply search and filter criteria and reset pagination
   const applyFilters = useCallback(() => {
@@ -87,25 +87,6 @@ const token = localStorage.getItem("token");
   useEffect(() => {
     fetchUsers();
   }, [search, date, username, page, pageSize, fetchUsers]);
-
-  const getUserProfile = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Token not found");
-    }
-
-    const response = await axiosInstance.get(`/users/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Error fetching user data");
-    }
-  };
 
   // Function to add a user by admin
 
@@ -136,44 +117,81 @@ const token = localStorage.getItem("token");
     }
   };
 
-  // Function to edit a user's profile by logged in user
+  const getUserById = useCallback(async (id) => {
+    try {
+      const token = localStorage.getItem("token");
 
-  const editProfile = async (field, value) => {
+      const response = await axiosInstance.get(`/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        const { username, email, role } = response.data.user;
+        setUserData({
+          ...userData,
+          username: username || "",
+          email: email || "",
+          role: role || "user",
+        });
+      } else {
+        console.error(`Error fetching user data: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error during fetchUserData:", error);
+    }
+  }, []);
+
+  // Function to edit a user's profile by logged in user
+  const editUserDetails = async (id, updatedUser) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        return false;
+        console.error("User is not authenticated");
+        return;
       }
 
-      await axiosInstance.patch(
-        "/users/profile",
-        { field, value },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        // Update the local user object with the edited value
-        setUser((prevUser) => ({
-          ...prevUser,
-          [field]: value,
-        }));
-        return true;
-      } else {
-        // Handle edit error here
-        return false;
-      }
+      await axiosInstance.patch(`/users/${id}`, updatedUser, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      // Prediction edited successfully, you may update the predictions list
+      fetchUsers();
     } catch (error) {
-      console.error("Error during edit:", error);
-      return false;
+      console.error("Error editing prediction:", error);
+    }
+  };
+
+  // Function to delete a user by ID
+  const deleteUser = async (userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User is not authenticated");
+        return;
+      }
+
+      await axiosInstance.delete(`/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // Prediction deleted successfully, you may update the predictions list
+      fetchUsers();
+    } catch (error) {
+      console.error("Error deleting prediction:", error);
     }
   };
 
   const contextValue = {
     users,
+    setUsers,
+    userData,
+    setUserData,
     search,
     setSearch,
     isLoading,
@@ -185,13 +203,14 @@ const token = localStorage.getItem("token");
     setPageSize,
     date,
     setDate,
-applyFilters,
+    applyFilters,
     username,
     setUsername,
     resetFilters,
     addUser,
-    editProfile,
-    getUserProfile,
+    deleteUser,
+    getUserById,
+    editUserDetails,
   };
 
   return (

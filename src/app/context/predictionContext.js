@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { axiosInstance } from "../../../config";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+//const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Create the context
 
@@ -30,17 +30,20 @@ export const PredictionsProvider = ({ children }) => {
     isVIP: false,
   });
   const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState("createdAt");
+  const [sortField, setSortField] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
   const [isVIP, setIsVIP] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [date, setDate] = useState("");
   const [competition, setCompetition] = useState("");
+  const [game, setGame] = useState("");
+  const [tip, setTip] = useState("");
+  const [odd, setOdd] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async () => {
+  const fetchPredictions = useCallback(async () => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
@@ -48,6 +51,9 @@ export const PredictionsProvider = ({ children }) => {
         sortField,
         sortOrder,
         isVIP,
+        game,
+        odd,
+        tip,
         page,
         pageSize,
         date,
@@ -65,15 +71,27 @@ export const PredictionsProvider = ({ children }) => {
       setError(error);
       setIsLoading(false);
     }
-  }, [search, sortField, sortOrder, isVIP, page, pageSize, date, competition]);
+  }, [
+    search,
+    sortField,
+    sortOrder,
+    isVIP,
+    page,
+    pageSize,
+    date,
+    competition,
+    game,
+    odd,
+    tip,
+  ]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchPredictions();
+  }, [fetchPredictions]);
 
   const applyFilters = useCallback(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchPredictions();
+  }, [fetchPredictions]);
 
   const resetFilters = () => {
     setSearch("");
@@ -82,6 +100,9 @@ export const PredictionsProvider = ({ children }) => {
     setIsVIP(""); // Change back to the initial state as needed
     setDate("");
     setCompetition("");
+    setGame("");
+    setOdd("");
+    setTip("");
     setPage(1); // Reset the page to 1 when applying new filters
     applyFilters();
   };
@@ -89,14 +110,11 @@ export const PredictionsProvider = ({ children }) => {
   const postPrediction = async (prediction) => {
     try {
       const token = localStorage.getItem("token");
-      console.log("Token:", token);
 
       if (!token) {
         console.error("User is not authenticated");
         return;
       }
-
-      console.log("Prediction data:", prediction);
 
       const response = await axiosInstance.post("/predictions", prediction, {
         headers: {
@@ -105,16 +123,11 @@ export const PredictionsProvider = ({ children }) => {
         },
       });
 
-      console.log("Prediction posted:", response.data);
-
       fetchData();
     } catch (error) {
       console.error("Error posting prediction:", error);
     }
   };
-
-
-
 
   // Function to delete a prediction by ID
   const deletePrediction = async (predictionId) => {
@@ -131,7 +144,7 @@ export const PredictionsProvider = ({ children }) => {
         },
       });
       // Prediction deleted successfully, you may update the predictions list
-      fetchData();
+      fetchPredictions();
     } catch (error) {
       console.error("Error deleting prediction:", error);
     }
@@ -157,7 +170,7 @@ export const PredictionsProvider = ({ children }) => {
         }
       );
       // Prediction edited successfully, you may update the predictions list
-      fetchData();
+      fetchPredictions();
     } catch (error) {
       console.error("Error editing prediction:", error);
     }
@@ -165,6 +178,7 @@ export const PredictionsProvider = ({ children }) => {
 
   const contextValue = {
     predictions,
+    fetchPredictions,
     prediction,
     setPrediction,
     setPredictions,

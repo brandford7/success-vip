@@ -101,26 +101,59 @@ export const AuthProvider = ({ children }) => {
   };
 */
   
-  const editUserDetails = async (id, updatedUser) => {
+   const getUserProfile = async () => {
+     const token = localStorage.getItem("token");
+     if (!token) {
+       throw new Error("Token not found");
+     }
+
+     const response = await axiosInstance.get(`/users/profile`, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     });
+
+     if (response.status === 200) {
+       return response.data;
+     } else {
+       throw new Error("Error fetching user data");
+     }
+   };
+
+const editUserProfile = async (field, value) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("User is not authenticated");
-        return;
+        return false;
       }
 
-      await axiosInstance.patch(`/auth/admin/${id}`, updatedUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      // Prediction edited successfully, you may update the predictions list
-      fetchData();
+      await axiosInstance.patch(
+        "/auth/profile",
+        { field, value },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // Update the local user object with the edited value
+        setUser((prevUser) => ({
+          ...prevUser,
+          [field]: value,
+        }));
+        return true;
+      } else {
+        // Handle edit error here
+        return false;
+      }
     } catch (error) {
-      console.error("Error editing prediction:", error);
+      console.error("Error during edit:", error);
+      return false;
     }
   };
+
 
   const authContextValue = {
     user,
@@ -128,9 +161,8 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     register,
-    
-    
-    editUserDetails,
+    getUserProfile,
+    editUserProfile,
     isLoading,
     setIsLoading,
   };

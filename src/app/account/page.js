@@ -4,14 +4,13 @@ import { useQuery } from "react-query";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
 import { useSubscriptions } from "../context/subscriptionContext";
-import { useUser } from "../context/userContext";
+
 import { axiosInstance } from "../../../config";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const AccountPage = () => {
-  const { user } = useAuth();
-  const { getUserProfile } = useUser();
+  const { user, getUserProfile } = useAuth();
   const { cancelSubscription } = useSubscriptions();
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);

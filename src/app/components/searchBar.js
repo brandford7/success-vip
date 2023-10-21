@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { usePredictions } from "../context/predictionContext";
 
 const SearchBar = () => {
-  const { search, setSearch} = usePredictions();
+  const { search, setSearch, setPage, predictions, fetchPredictions } =
+    usePredictions();
+
+  useEffect(() => {
+    // Use the `users` data or any other logic to display the user list
+  }, [predictions]);
+
+  const handleSearch = () => {
+    setPage(1); // Reset the page to 1 when applying a new search
+    fetchPredictions(); // Fetch data with the updated search parameter
+  };
 
   return (
     <>

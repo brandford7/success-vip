@@ -1,39 +1,22 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect,useCallback } from "react";
-import { useAuth } from "@/app/context/authContext";
-
+import React, { useState, useEffect, useCallback } from "react";
+import { useUser } from "@/app/context/userContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { axiosInstance } from "../../../../../../config";
 
 function EditUser({ params: { id } }) {
   const router = useRouter();
-  const {  editUserDetails } = useAuth();
-  const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    role:""
-  });
-
-
-   const getUserById = useCallback(async (id) => {
-     try {
-       const response = await axiosInstance.get(`/auth/admin/${id}`);
-       if (response.status === 200) {
-         setUser(response.data);
-       } else {
-         console.error(`Error fetching user data: ${response.statusText}`);
-       }
-     } catch (error) {
-       console.error("Error during fetchUserData:", error);
-     }
-   }, []);
-
+  const { userData,setUserData,editUserDetails ,getUserById} = useUser();
+  
+  
   useEffect(() => {
     if (id) {
+      //console.log(userData);
       // Fetch user data when the component loads and 'id' is available
       getUserById(id);
+      console.log(getUserById(id));
     }
   }, [getUserById, id]);
 
@@ -41,7 +24,7 @@ function EditUser({ params: { id } }) {
     const { name, value } = e.target;
     setUserData({
       ...userData,
-      [name]: value,
+      [name]: value || "", // Provide a default value (empty string) if value is undefined
     });
   };
 
@@ -50,7 +33,7 @@ function EditUser({ params: { id } }) {
     try {
       await editUserDetails(id, userData); // Use router.query.id
       toast.success("User details updated successfully!");
-      router.push("/admin/users"); // Redirect back to the prediction page
+      router.push("/admin/users"); // Redirect back to the user list
     } catch (error) {
       toast.error("Error updating user details.");
     }
@@ -59,9 +42,7 @@ function EditUser({ params: { id } }) {
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-md mx-auto bg-white rounded p-4 shadow-md">
-        <h1 className="text-2xl font-semibold text-center mb-6">
-          Edit Prediction
-        </h1>
+        <h1 className="text-2xl font-semibold text-center mb-6">Edit User</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -97,7 +78,7 @@ function EditUser({ params: { id } }) {
               required
             />
           </div>
-          <div className="mb-4">
+          {/*  <div className="mb-4">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
@@ -114,9 +95,7 @@ function EditUser({ params: { id } }) {
               required
             />
           </div>
-         
-         
-         
+  */}
           <div className="mb-4">
             <label
               htmlFor="role"
@@ -134,16 +113,15 @@ function EditUser({ params: { id } }) {
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
-             
             </select>
           </div>
-         
+
           <div>
             <button
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded-md hover-bg-blue-600 w-full"
             >
-              Update Prediction
+              Update User
             </button>
           </div>
         </form>

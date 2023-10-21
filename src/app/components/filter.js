@@ -33,7 +33,7 @@ const Filter = () => {
           className="w-full border rounded-lg py-2 px-3"
         />
       </div>
-      <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+      {/*  <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <input
           type="text"
           placeholder="Competition"
@@ -41,7 +41,7 @@ const Filter = () => {
           onChange={(e) => setCompetition(e.target.value)}
           className="w-full border rounded-lg py-2 px-3"
         />
-      </div>
+  </div>*/}
       <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <button
           onClick={applyFilters}

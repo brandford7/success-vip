@@ -5,11 +5,13 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useMutation, useQueryClient } from "react-query";
+import { useUser } from "../context/userContext";
 
 // Define a mutation function for deleting a prediction
 
 const Users = ({ users, header }) => {
-  const { user,deleteUser } = useAuth();
+  const { user, } = useAuth();
+  const { deleteUser } = useUser();
   
   const queryClient = useQueryClient();
   const userRole = user?.role;

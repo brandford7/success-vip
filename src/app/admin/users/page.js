@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const AllUsers = () => {
   const { users,isLoading } = useUser();
-console.log(users)
+
   return (
     <div className="container mx-auto py-4">
       <UserControls/>
