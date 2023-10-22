@@ -33,7 +33,7 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <Link href="/login">
+          <Link href="/auth/login">
             <p className="flex items-center top-1 md:mx-auto absolute right-10 text-white">
               Login
             </p>

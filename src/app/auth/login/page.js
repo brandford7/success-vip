@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from "react";
-import { useAuth } from "../context/authContext"; // Import your auth context
+import { useAuth } from "../../context/authContext"; // Import your auth context
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the styles
@@ -155,7 +155,7 @@ function LoginPage() {
           <p className="text-sm text-gray-600">
             Do not have an account?{" "}
             <Link
-              href="/register"
+              href="/auth/register"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Register here
@@ -165,7 +165,7 @@ function LoginPage() {
       </div>
       <ToastContainer // Add the ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

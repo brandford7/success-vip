@@ -18,78 +18,74 @@ export const usePredictions = () => {
 };
 
 export const PredictionsProvider = ({ children }) => {
-  const [predictions, setPredictions] = useState([]);
-  const [prediction, setPrediction] = useState({
-    competition: "",
-    game: "",
-    tip: "",
-    odd: "",
-    result: "pending",
-    date: "",
-    status: "pending",
-    isVIP: false,
-  });
-  const [search, setSearch] = useState("");
-  const [sortField, setSortField] = useState("");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [isVIP, setIsVIP] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [date, setDate] = useState("");
-  const [competition, setCompetition] = useState("");
-  const [game, setGame] = useState("");
-  const [tip, setTip] = useState("");
-  const [odd, setOdd] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+ const [predictions, setPredictions] = useState([]);
+ const [prediction, setPrediction] = useState({
+   competition: "",
+   game: "",
+   tip: "",
+   odd: "",
+   result: "pending",
+   startPeriod: "",
+   status: "pending",
+   isVIP: false,
+ });
+ const [search, setSearch] = useState("");
+ const [sortField, setSortField] = useState("startPeriod");
+ const [sortOrder, setSortOrder] = useState("asc");
+ const [isVIP, setIsVIP] = useState("");
+ const [page, setPage] = useState(1);
+ const [pageSize, setPageSize] = useState(10);
+ const [startPeriod, setStartPeriod] = useState("");
+ const [competition, setCompetition] = useState("");
+ const [game, setGame] = useState("");
+ const [tip, setTip] = useState("");
+ const [odd, setOdd] = useState("");
+ const [isLoading, setIsLoading] = useState(false);
+ const [error, setError] = useState(null);
 
-  const fetchPredictions = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const queryParams = new URLSearchParams({
-        search,
-        sortField,
-        sortOrder,
-        isVIP,
-        game,
-        odd,
-        tip,
-        page,
-        pageSize,
-        date,
-        competition,
-      });
+ const fetchPredictions = useCallback(async () => {
+   setIsLoading(true);
+   try {
+     const queryParams = new URLSearchParams({
+       search,
+       sortField,
+       sortOrder,
+       isVIP,
+       game,
+       odd,
+       tip,
+       page,
+       pageSize,
+       date,
+       competition,
+     });
 
-      const response = await axiosInstance.get(
-        `/predictions?${queryParams.toString()}`
-      );
+     const response = await axiosInstance.get(
+       `/predictions?${queryParams.toString()}`
+     );
 
-      const data = response.data;
-      setPredictions(data.predictions);
-      setIsLoading(false);
-    } catch (error) {
-      setError(error);
-      setIsLoading(false);
-    }
-  }, [
-    search,
-    sortField,
-    sortOrder,
-    isVIP,
-    page,
-    pageSize,
-    date,
-    competition,
-    game,
-    odd,
-    tip,
-  ]);
+     const data = response.data;
+     setPredictions(data.predictions);
+     setIsLoading(false);
+   } catch (error) {
+     setError(error);
+     setIsLoading(false);
+   }
+ }, [
+   search,
+   sortField,
+   sortOrder,
+   isVIP,
+   page,
+   pageSize,
+   startPeriod,
+   competition,
+   game,
+   odd,
+   tip,
+ ]);
 
   useEffect(() => {
-    fetchPredictions();
-  }, [fetchPredictions]);
-
-  const applyFilters = useCallback(() => {
     fetchPredictions();
   }, [fetchPredictions]);
 
@@ -98,13 +94,13 @@ export const PredictionsProvider = ({ children }) => {
     setSortField("createdAt");
     setSortOrder("desc");
     setIsVIP(""); // Change back to the initial state as needed
-    setDate("");
+    setStartPeriod("");
     setCompetition("");
     setGame("");
     setOdd("");
     setTip("");
     setPage(1); // Reset the page to 1 when applying new filters
-    applyFilters();
+    //applyFilters();
   };
 
   const postPrediction = async (prediction) => {
@@ -194,13 +190,13 @@ export const PredictionsProvider = ({ children }) => {
     setPage,
     pageSize,
     setPageSize,
-    date,
-    setDate,
+    startPeriod,
+    setStartPeriod,
     competition,
     setCompetition,
     isLoading,
     error,
-    applyFilters,
+  
     resetFilters,
     postPrediction,
     deletePrediction,

@@ -3,33 +3,32 @@ import { usePredictions } from "../context/predictionContext";
 
 const Filter = () => {
   const {
-    date,
-    setDate,
+    startPeriod,
+    setStartPeriod,
     competition,
     setCompetition,
     applyFilters,
     resetFilters,
   } = usePredictions();
 
- useEffect(() => {
-   // Get today's date in "YYYY-MM-DD" format
-   const today = new Date();
-   const yyyy = today.getFullYear();
-   const mm = String(today.getMonth() + 1).padStart(2, "0"); // Month is zero-based
-   const dd = String(today.getDate()).padStart(2, "0");
+  useEffect(() => {
+    // Get today's date in "YYYY-MM-DD" format
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+    const dd = String(today.getDate()).padStart(2, "0");
 
-   const formattedDate = `${yyyy}-${mm}-${dd}`;
-   setDate(formattedDate);
- }, [setDate]);
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    setStartPeriod(formattedDate);
+  }, [setStartPeriod]);
 
   return (
     <div className="flex flex-wrap justify-center px-5">
       <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <input
           type="date"
-          value={date}
-          
-          onChange={(e) => setDate(e.target.value)}
+          value={startPeriod}
+          onChange={(e) => setStartPeriod(e.target.value)}
           className="w-full border rounded-lg py-2 px-3"
         />
       </div>

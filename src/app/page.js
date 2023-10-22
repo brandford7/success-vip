@@ -1,4 +1,5 @@
 "use client";
+import {useEffect} from 'react'
 import Predictions from "./components/predictions";
 import { usePredictions } from "./context/predictionContext";
 import Pagination from "./components/predictionPagination";
@@ -6,8 +7,19 @@ import SearchBar from "./components/searchBar";
 import Filter from "./components/filter";
 
 function HomePage() {
-  const { predictions, isLoading } = usePredictions();
+  const { predictions, isLoading,setStartPeriod } = usePredictions();
 
+  /* useEffect(() => {
+     // Get today's date in "YYYY-MM-DD" format
+     const today = new Date();
+     const yyyy = today.getFullYear();
+     const mm = String(today.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+     const dd = String(today.getDate()).padStart(2, "0");
+
+     const formattedDate = `${yyyy}-${mm}-${dd}`;
+     setStartPeriod(formattedDate);
+   }, [setStartPeriod]);
+*/
   // Filter the predictions based on the isVIP flag
   const freePredictions = predictions.filter((prediction) => !prediction.isVIP);
 

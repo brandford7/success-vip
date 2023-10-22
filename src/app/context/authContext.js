@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     console.log(user);
-    router.push("/login");
+    router.push("auth/login");
   };
 
   const register = async (formData) => {
@@ -81,25 +81,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-/*  const getUserById = async (id) => {
+// function to reset user password
+const forgotPassword = async (email) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axiosInstance.get(`auth/admin/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post("/auth/forgot-password", { email });
+
       if (response.status === 200) {
-        setUser(response.data);
+        // Handle the success case
+        console.log("Password reset email sent successfully");
+        return true;
       } else {
-        console.error(`Error fetching user details: ${response.statusText}`);
+        console.error("Password reset request failed. Response status:", response.status);
+        return false;
       }
     } catch (error) {
-      console.error("Error during getUserDetails:", error);
+      console.error("Error during forgotPassword:", error);
+      return false;
     }
   };
-*/
   
    const getUserProfile = async () => {
      const token = localStorage.getItem("token");
@@ -107,7 +106,7 @@ export const AuthProvider = ({ children }) => {
        throw new Error("Token not found");
      }
 
-     const response = await axiosInstance.get(`/users/profile`, {
+     const response = await axiosInstance.get(`/auth/profile`, {
        headers: {
          Authorization: `Bearer ${token}`,
        },
@@ -164,6 +163,7 @@ const editUserProfile = async (field, value) => {
     getUserProfile,
     editUserProfile,
     isLoading,
+    forgotPassword,
     setIsLoading,
   };
 
