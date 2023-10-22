@@ -56,7 +56,7 @@ export const PredictionsProvider = ({ children }) => {
        tip,
        page,
        pageSize,
-       date,
+       date:startPeriod,
        competition,
      });
 
