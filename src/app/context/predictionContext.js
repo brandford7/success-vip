@@ -35,7 +35,7 @@ export const PredictionsProvider = ({ children }) => {
  const [isVIP, setIsVIP] = useState("");
  const [page, setPage] = useState(1);
  const [pageSize, setPageSize] = useState(10);
- const [startPeriod, setStartPeriod] = useState("");
+ const [date, setDate] = useState("");
  const [competition, setCompetition] = useState("");
  const [game, setGame] = useState("");
  const [tip, setTip] = useState("");
@@ -56,7 +56,7 @@ export const PredictionsProvider = ({ children }) => {
        tip,
        page,
        pageSize,
-       date:startPeriod,
+       date,
        competition,
      });
 
@@ -78,7 +78,7 @@ export const PredictionsProvider = ({ children }) => {
    isVIP,
    page,
    pageSize,
-   startPeriod,
+   date,
    competition,
    game,
    odd,
@@ -94,7 +94,7 @@ export const PredictionsProvider = ({ children }) => {
     setSortField("createdAt");
     setSortOrder("desc");
     setIsVIP(""); // Change back to the initial state as needed
-    setStartPeriod("");
+    setDate("");
     setCompetition("");
     setGame("");
     setOdd("");
@@ -190,8 +190,8 @@ export const PredictionsProvider = ({ children }) => {
     setPage,
     pageSize,
     setPageSize,
-    startPeriod,
-    setStartPeriod,
+    date,
+    setDate,
     competition,
     setCompetition,
     isLoading,
