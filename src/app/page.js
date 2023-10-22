@@ -1,5 +1,5 @@
 "use client";
-import {useEffect} from 'react'
+
 import Predictions from "./components/predictions";
 import { usePredictions } from "./context/predictionContext";
 import Pagination from "./components/predictionPagination";
@@ -7,7 +7,7 @@ import SearchBar from "./components/searchBar";
 import Filter from "./components/filter";
 
 function HomePage() {
-  const { predictions, isLoading,setDate } = usePredictions();
+  const { predictions, isLoading, } = usePredictions();
 
 
   const freePredictions = predictions.filter((prediction) => !prediction.isVIP);
