@@ -18,10 +18,22 @@ export const usePredictions = () => {
 };
 
 export const PredictionsProvider = ({ children }) => {
+  const currentDate = new Date().toISOString().split("T")[0];
+  
   const [predictions, setPredictions] = useState([]);
-  const [prediction, setPrediction] = useState([]);
+  const [prediction, setPrediction] = useState({
+    competition: "",
+    game: "",
+    tip: "",
+    odd: "",
+    isVIP: false,
+    result: "pending",
+    startPeriod: currentDate,
+    status: "pending",
+  });
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("");
+   const [competition, setCompetition] = useState("")
   const [isVIP, setIsVIP] = useState("");
   const [sortField, setSortField] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");

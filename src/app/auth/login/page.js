@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import Link from "next/link"; // Import Link from Next.js for navigation
-import { useRouter,redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function LoginPage() {
   const { login } = useAuth(); // Use your authentication context here
@@ -116,7 +116,7 @@ function LoginPage() {
 
                 <div className="text-sm">
               <Link
-                href="/auth/forgot-password"
+                href="/auth/reset-password"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot your password?
