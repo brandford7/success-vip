@@ -19,6 +19,7 @@ export const usePredictions = () => {
 
 export const PredictionsProvider = ({ children }) => {
   const [predictions, setPredictions] = useState([]);
+  const [prediction, setPrediction] = useState([]);
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("");
   const [isVIP, setIsVIP] = useState("");
