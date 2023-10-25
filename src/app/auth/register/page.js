@@ -45,7 +45,7 @@ const RegisterPage = () => {
       setErrorMessage("An error occurred during registration.");
     } finally {
       setLoading(false);
-      router.push("/login");
+      router.push("/auth/login");
     }
   };
   return (

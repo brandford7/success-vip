@@ -40,7 +40,7 @@ const ResetPassword = () => {
       <button onClick={handleForgotPassword} disabled={isLoading}>
         {isLoading ? "Sending..." : "Forgot Password"}
       </button>
-      <ToastContainer // Add the ToastContainer
+      <ToastContainer 
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}

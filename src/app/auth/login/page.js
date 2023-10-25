@@ -114,14 +114,14 @@ function LoginPage() {
               </label>
             </div>
 
-            {/*     <div className="text-sm">
+                <div className="text-sm">
               <Link
-                href="/forgot-password"
+                href="/auth/forgot-password"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot your password?
               </Link>
-                  </div>*/}
+                  </div>
           </div>
 
           <div>
@@ -163,7 +163,7 @@ function LoginPage() {
           </p>
         </div>
       </div>
-      <ToastContainer // Add the ToastContainer
+      <ToastContainer 
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
