@@ -32,7 +32,7 @@ export const PredictionsProvider = ({ children }) => {
     status: "pending",
   });
   const [search, setSearch] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(currentDate);
    const [competition, setCompetition] = useState("")
   const [isVIP, setIsVIP] = useState("");
   const [sortField, setSortField] = useState("");

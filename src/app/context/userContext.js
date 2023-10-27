@@ -15,6 +15,9 @@ export const useUser = () => {
 };
 
 export const UsersProvider = ({ children }) => {
+  //define cuurent date
+const currentDate = new Date().toISOString().split("T")[0];
+
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState({
     username: null,
@@ -24,7 +27,7 @@ export const UsersProvider = ({ children }) => {
   });
 
   const [search, setSearch] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(currentDate);
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
