@@ -14,7 +14,7 @@ function HomePage() {
 
   return (
     <div className="container mx-auto py-4 ">
-      <SearchBar />
+     {/* <SearchBar />*/}
       <Filter />
 
       <div

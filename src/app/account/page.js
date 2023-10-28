@@ -34,7 +34,6 @@ const AccountPage = () => {
 
   const customer_id = userData?.customer.customerId;
 
-
   useEffect(() => {
     // Function to fetch subscriptions
     const fetchSubscriptions = async () => {
@@ -46,9 +45,8 @@ const AccountPage = () => {
           return;
         }
 
-   
         const response = await axiosInstance.get(
-          `/subscriptions/subscription?customer=${customer_id}`, 
+          `/subscriptions/subscription?customer=${customer_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -76,15 +74,17 @@ const AccountPage = () => {
   }, [customer_id]);
   let subscription = subscriptions[0];
 
-  console.log(userData)
+  console.log(userData);
 
   return (
     <div className="h-screen container mx-auto mt-10 px-4 space-y-5">
       <h2 className="text-3xl font-semibold mb-4">Account Dashboard</h2>
       <div className="bg-white rounded-lg shadow-lg p-4">
         {isLoading && <p className="text-gray-600">Loading user data...</p>}
-        {isError && <p className="text-red-600">Error loading user data</p>}
-        {userData  && (
+        {isError && (
+          <p className="text-red-600">Error loading user data, Please Log in</p>
+        )}
+        {userData && (
           <>
             <p className="text-lg">
               Hi {userData.username}, welcome to your account dashboard!
@@ -153,7 +153,7 @@ const AccountPage = () => {
               </section>
             )}
           </>
-        ) }
+        )}
       </div>
     </div>
   );

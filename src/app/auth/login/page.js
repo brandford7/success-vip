@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import Link from "next/link"; // Import Link from Next.js for navigation
-import { useRouter } from "next/navigation";
+import { useRouter,redirect } from "next/navigation";
 
 function LoginPage() {
   const { login } = useAuth(); // Use your authentication context here
@@ -13,7 +13,19 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+
   const router = useRouter();
+
+
+const { user } = useAuth();
+
+
+if (user && user.name !== '') {
+  redirect("/");
+}
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -87,6 +99,7 @@ function LoginPage() {
                   type="button"
                   onClick={togglePasswordVisibility}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  disabled= {loading}
                 >
                   {showPassword ? (
                     <FaEyeSlash className="h-5 w-5 text-gray-400" />
@@ -114,14 +127,14 @@ function LoginPage() {
               </label>
             </div>
 
-                <div className="text-sm">
+            {/*        <div className="text-sm">
               <Link
                 href="/auth/reset-password"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot your password?
               </Link>
-                  </div>
+                  </div>*/}
           </div>
 
           <div>

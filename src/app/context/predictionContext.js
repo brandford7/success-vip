@@ -68,7 +68,7 @@ export const PredictionsProvider = ({ children }) => {
 
   useEffect(() => {
     fetchPredictions();
-  }, [fetchPredictions]);
+  }, [search, date, fetchPredictions]);
 
   const applyFilters = useCallback(() => {
     fetchPredictions();

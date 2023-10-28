@@ -27,7 +27,7 @@ const currentDate = new Date().toISOString().split("T")[0];
   });
 
   const [search, setSearch] = useState("");
-  const [date, setDate] = useState(currentDate);
+  const [date, setDate] = useState("");
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

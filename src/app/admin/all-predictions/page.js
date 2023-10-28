@@ -7,9 +7,13 @@ import { usePredictions } from "@/app/context/predictionContext";
 import { ToastContainer, toast } from "react-toastify";
 
 const AllPredictions = () => {
-  const { predictions, isLoading } = usePredictions();
+  const { predictions, setDate, isLoading } = usePredictions();
 
-  console.log(predictions);
+  useEffect(() => {
+    setDate('')
+  }, [setDate]);
+
+  
 
   return (
     <div className="container mx-auto py-4">
@@ -27,10 +31,7 @@ const AllPredictions = () => {
         ) : (
           // Render predictions once data has loaded
           <div>
-            <Predictions
-              predictions={predictions}
-              header="Free Predictions"
-            />
+            <Predictions predictions={predictions} header="Free Predictions" />
           </div>
         )}
       </div>

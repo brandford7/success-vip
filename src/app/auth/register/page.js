@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../../context/authContext";
-import { useRouter } from "next/navigation";
+import { useRouter,redirect } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,6 +18,13 @@ const RegisterPage = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  
+
+
+  if ((user && user.name !== "")) {
+    redirect("/");
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

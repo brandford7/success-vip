@@ -1,5 +1,5 @@
 "use client";
-import React, { } from "react";
+import { useEffect} from "react";
 import Users from "../../components/users"; // Import the Predictions component
 import UserControls from "../../components/userControls";
 import Pagination from "../../components/userPagination";
@@ -7,7 +7,13 @@ import { useUser } from "@/app/context/userContext";
 import { ToastContainer, toast } from "react-toastify";
 
 const AllUsers = () => {
-  const { users,isLoading } = useUser();
+  const { users,setDate, isLoading } = useUser();
+  
+  
+  useEffect(() => {
+    setDate("");
+  }, [setDate]);
+
 
   return (
     <div className="container mx-auto py-4">
