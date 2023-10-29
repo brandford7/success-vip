@@ -13,6 +13,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({ name: "", role: "" });
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -29,31 +30,25 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await axiosInstance.post("/auth/login", credentials, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post("/auth/login", credentials);
 
       if (response.status === 200) {
         const {
           user: { name, role },
           token,
         } = response.data;
-
-        // Store the token and user data in localStorage
         localStorage.setItem("token", token);
-
-        // Store the user data as an object in localStorage
         localStorage.setItem("user", JSON.stringify({ name, role }));
-
-        setUser({ name, role }); // Update the user state with name and role
+        setUser({ name, role });
+        setErrorMessage(""); // Clear any previous error message
         return true;
       } else {
+        setErrorMessage("Login failed");
         console.error("Login failed. Response status:", response.status);
         return false;
       }
     } catch (error) {
+      setErrorMessage("Something went wrong. Please try again.");
       console.error("Error during login:", error);
       return false;
     }
@@ -71,15 +66,16 @@ export const AuthProvider = ({ children }) => {
   const register = async (formData) => {
     try {
       const response = await axiosInstance.post("/auth/register", formData);
-      return response.data; // Return the response data
+      return response.data; // Ensure the register function returns the response data
     } catch (error) {
       console.error("Error during registration:", error);
       return {
         success: false,
         message: "An error occurred during registration.",
-      }; // Return an error response
+      };
     }
   };
+
 
 // function to reset user password
 const forgotPassword = async (email) => {
@@ -163,6 +159,7 @@ const editUserProfile = async (field, value) => {
     getUserProfile,
     editUserProfile,
     isLoading,
+    errorMessage,
     forgotPassword,
     setIsLoading,
   };

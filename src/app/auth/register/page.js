@@ -37,24 +37,28 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+   try {
+     setLoading(true);
+     const response = await register(formData);
 
-      const response = await register(formData);
-
-      if (response.success) {
+     if (response && response.user && response.token) {
       
-      } else {
-        setErrorMessage(response.message);
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
-      setErrorMessage("An error occurred during registration.");
-    } finally {
-      setLoading(false);
-      router.push("/auth/login");
-    }
+       toast.success('Registration successful')
+       router.push('/auth/login')
+     } else {
+       
+       setErrorMessage(
+         response.message || "An error occurred during registration."
+       );
+     }
+   } catch (error) {
+    
+     setErrorMessage("An error occurred during registration.");
+   } finally {
+     setLoading(false);
+   }
   };
+
   return (
     <div className="h-screen container mx-auto mt-10 p-4 lg:w-1/3">
       <h2 className="text-3xl font-semibold mb-4">Register</h2>
@@ -124,7 +128,7 @@ const RegisterPage = () => {
               className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full"
               disabled={loading}
             >
-              {loading ? "Registering..." : "Register"}
+              {loading ? "Registering..." : "Register" }
             </button>
           </div>
         </form>

@@ -16,7 +16,7 @@ function EditPrediction({ params: { id } }) {
     tip: "",
     odd: "",
     result: "pending",
-    startPeriod: "",
+    startPeriod: null,
     status: "pending",
     isVIP: false,
   });
@@ -41,13 +41,20 @@ function EditPrediction({ params: { id } }) {
     }
   }, [getPredictionData, id]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPrediction({
-      ...prediction,
-      [name]: value,
-    });
-  };
+ const handleInputChange = (e) => {
+   const { name, value } = e.target;
+   if (name === "startPeriod") {
+     setPrediction({
+       ...prediction,
+       startPeriod: new Date(value).toISOString(), // Convert to ISO string
+     });
+   } else {
+     setPrediction({
+       ...prediction,
+       [name]: value,
+     });
+   }
+ };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -161,9 +168,13 @@ function EditPrediction({ params: { id } }) {
             </label>
             <input
               type="date"
-              id="date"
-              name="date"
-              value={prediction.startPeriod}
+              id="startPeriod"
+              name="startPeriod"
+              value={
+                prediction.startPeriod
+                  ? new Date(prediction.startPeriod).toISOString().split("T")[0]
+                  : ""
+              }
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required

@@ -7,8 +7,6 @@ import React, {
 } from "react";
 import { axiosInstance } from "../../../config";
 
-
-
 // Create the context
 
 const PredictionContext = createContext();
@@ -19,7 +17,7 @@ export const usePredictions = () => {
 
 export const PredictionsProvider = ({ children }) => {
   const currentDate = new Date().toISOString().split("T")[0];
-  
+
   const [predictions, setPredictions] = useState([]);
   const [prediction, setPrediction] = useState({
     competition: "",
@@ -28,12 +26,12 @@ export const PredictionsProvider = ({ children }) => {
     odd: "",
     isVIP: false,
     result: "pending",
-    startPeriod: currentDate,
+    startPeriod: "",
     status: "pending",
   });
   const [search, setSearch] = useState("");
   const [date, setDate] = useState(currentDate);
-   const [competition, setCompetition] = useState("")
+  const [competition, setCompetition] = useState("");
   const [isVIP, setIsVIP] = useState("");
   const [sortField, setSortField] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -46,16 +44,18 @@ export const PredictionsProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams({
+        search,
         page,
         pageSize,
-        search,
         date,
         isVIP,
         sort: sortField,
         order: sortOrder,
       });
 
-      const response = await axiosInstance.get(`/predictions?${queryParams.toString()}`);
+      const response = await axiosInstance.get(
+        `/predictions?${queryParams.toString()}`
+      );
 
       const data = response.data;
       setPredictions(data.predictions);

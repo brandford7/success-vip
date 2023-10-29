@@ -7,13 +7,15 @@ import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import Link from "next/link"; // Import Link from Next.js for navigation
 import { useRouter,redirect } from "next/navigation";
 
+
+
 function LoginPage() {
-  const { login } = useAuth(); // Use your authentication context here
+  const { errorMessage, login } = useAuth(); // Use your authentication context here
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState("");
+  
   const [loading, setLoading] = useState(false);
 
 
@@ -23,35 +25,42 @@ function LoginPage() {
 const { user } = useAuth();
 
 
-if (user && user.name !== '') {
+/*if (user && user.name !== '') {
   redirect("/");
-}
+}*/
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const credentials = {
+      email,
+      password,
+    };
+
+    try {
+      setLoading(true);
+      const success = await login(credentials);
+
+      if (success) {
+        toast.success("Login successful");
+        router.push("/");
+      }
+    } catch (error) {
+      // Show error message from the context
+      if (errorMessage) {
+        toast.error(errorMessage);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
-
-    const credentials = {
-      email, // Use the email state
-      password, // Use the password state
-    };
-
-    const success = await login(credentials);
-
-    if (success) {
-      // Redirect or perform actions upon successful login
-   
-      toast.success("Login successful");
-         router.push("/");
-    } else {
-      // Handle login failure
-      toast.error("Invalid credentials. Please try again.");
-    }
-  };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -60,6 +69,11 @@ if (user && user.name !== '') {
             Log in to your account
           </h2>
         </div>
+        {errorMessage && (
+          <p className="text-red-500 text-xs mt-2">
+            <span role="alert">{errorMessage}</span>
+          </p>
+        )}
         <form className="mt-8 space-y-5" onSubmit={handleLogin}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
@@ -99,7 +113,7 @@ if (user && user.name !== '') {
                   type="button"
                   onClick={togglePasswordVisibility}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  disabled= {loading}
+                
                 >
                   {showPassword ? (
                     <FaEyeSlash className="h-5 w-5 text-gray-400" />
@@ -140,6 +154,7 @@ if (user && user.name !== '') {
           <div>
             <button
               type="submit"
+              disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -159,7 +174,7 @@ if (user && user.name !== '') {
                   />
                 </svg>
               </span>
-              Log in
+              {loading ? "Logging in..." : "Log in"}
             </button>
           </div>
         </form>
@@ -176,7 +191,7 @@ if (user && user.name !== '') {
           </p>
         </div>
       </div>
-      <ToastContainer 
+      <ToastContainer
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
