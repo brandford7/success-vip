@@ -16,7 +16,7 @@ function EditPrediction({ params: { id } }) {
     tip: "",
     odd: "",
     result: "pending",
-    date: "",
+    startPeriod: "",
     status: "pending",
     isVIP: false,
   });
@@ -163,7 +163,7 @@ function EditPrediction({ params: { id } }) {
               type="date"
               id="date"
               name="date"
-              value={prediction.date}
+              value={prediction.startPeriod}
               onChange={handleInputChange}
               className="mt-1 px-4 py-2 w-full border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500"
               required

@@ -8,7 +8,7 @@ const PlansPage = () => {
   const { fetchPlans } = useSubscriptions();
   const {  getUserProfile } = useAuth();
   
-  const { data: userData } = useQuery("userData", fetchUserP, {
+  const { data: userData } = useQuery("userData", getUserProfile, {
     retry: false,
   });
 
