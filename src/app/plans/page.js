@@ -6,9 +6,9 @@ import { axiosInstance } from "../../../config";
 
 const PlansPage = () => {
   const { fetchPlans } = useSubscriptions();
-  const {  fetchUserData } = useAuth();
+  const {  getUserProfile } = useAuth();
   
-  const { data: userData } = useQuery("userData", fetchUserData, {
+  const { data: userData } = useQuery("userData", fetchUserP, {
     retry: false,
   });
 
