@@ -20,7 +20,7 @@ const AdminDashboard = () => {
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
           >Add User</Link>
           <Link
-            href="/admin/all-predictions/post-prediction"
+            href="/admin/post-prediction"
             className="block bg-blue-500 text-white p-3 rounded hover:bg-blue-600 text-center"
           >
             Post Prediction
