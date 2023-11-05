@@ -26,8 +26,7 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-  // Use React Query to fetch user data
-
+ 
   const login = async (credentials) => {
     try {
       const response = await axiosInstance.post("/auth/login", credentials);

@@ -7,13 +7,8 @@ import { useUser } from "@/app/context/userContext";
 import { ToastContainer, toast } from "react-toastify";
 
 const AllUsers = () => {
-  const { users,setDate, isLoading } = useUser();
+  const { users, isLoading } = useUser();
   
-  
-  useEffect(() => {
-    setDate("");
-  }, [setDate]);
-
 
   return (
     <div className="container mx-auto py-4">

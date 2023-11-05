@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Predictions from "../components/predictions";
 import { usePredictions } from "../context/predictionContext";
 import Pagination from "../components/predictionPagination";
 import SearchBar from "../components/searchBar";
 import { useAuth } from "../context/authContext";
+
 import Link from "next/link";
 import { useQuery } from "react-query";
 import { axiosInstance } from "../../../config";
@@ -12,16 +13,17 @@ import { axiosInstance } from "../../../config";
 
 const VIPPage = () => {
   const { predictions } = usePredictions();
-  const { user, fetchUserData } = useAuth();
+  const { user, getUserProfile } = useAuth();
+
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const {
     data: userData,
-    isLoading: userIsLoading,
+    // isLoading: userIsLoading,
     isError: userIsError,
-  } = useQuery("userData", () => fetchUserData(), {
+  } = useQuery("userData", () => getUserProfile(), {
     retry: false,
     enabled: !!user,
   });
@@ -64,10 +66,10 @@ const VIPPage = () => {
   let subscription = subscriptions[0];
 
   // Check if the user is subscribed to VIP predictions
-  const isSubscribedToVIP = subscriptions.some(
+  /*const isSubscribedToVIP = subscriptions.some(
     (subscription) => subscription.productName === "VIP Predictions"
   );
-
+*/
   const vipPredictions = predictions.filter(
     (prediction) => prediction.isVIP === true
   );
@@ -79,7 +81,7 @@ const VIPPage = () => {
           className="max-h-screen overflow-y-auto"
           style={{ maxHeight: "calc(100vh - 200px)" }}
         >
-          {userIsLoading ? (
+          {isLoading ? (
             <p className="flex justify-center w-full mx-auto p-6">
               Loading predictions...
             </p>

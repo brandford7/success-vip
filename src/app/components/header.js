@@ -76,63 +76,23 @@ const Header = () => {
             </svg>
           </button>
         </div>
-       <div className="hidden md:flex space-x-4 items-center mx-auto "><Link href="/vip">
+        {/* <div className="hidden md:flex space-x-4 items-center mx-auto "><Link href="/vip">
           <span className="text-white cursor-pointer">VIP</span>
-        </Link></div>
-        {/*social icons */}{" "}
-        {/*  <div className="hidden md:flex space-x-4 items-center mx-auto ">
-          <ul className="flex space-x-5">
-            <li onClick={handleMenuItemClick}>
-              <Link href="/vip">
-                <span className="text-white cursor-pointer">VIP</span>
-              </Link>
-            </li>
-
-            <li>
-              <a
-                href="https://x.com/successecretbet"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center space-x-2 text-black"
-              >
-                <FaSquareXTwitter size={24} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://t.me/Successsecretbet"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center space-x-2 text-blue-800"
-              >
-                <FaTelegram size={24} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.youtube.com/@successsecretbet"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center space-x-2 text-red-500"
-              >
-                <FaYoutube size={24} />
-              </a>
-            </li>
-          </ul>
-        </div> */}
+        </Link></div> */}
+      
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
         <nav className="md:hidden fixed inset-0 bg-blue-500 w-70vw h-screen flex flex-col justify-center text-white z-10 transform transition-transform duration-300 ease-in-out">
           <ul className="p-4 space-y-4 text-white text-center">
-            <li onClick={handleMenuItemClick}>
+            { /*  <li onClick={handleMenuItemClick}>
               <Link href="/vip">
                 <span className="text-white cursor-pointer text-2xl">
-                  VIP Predictions
+                  VIP 
                 </span>
               </Link>
-            </li>
+      </li>*/}
 
             <li>
               <a

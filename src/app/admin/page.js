@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 const AdminPage = () => {
   const { user } = useAuth();
-  //const isAdmin = user.role === "admin";
+  
 
   if (user && user.name !== "") {
     if (user.role !== "admin") {
