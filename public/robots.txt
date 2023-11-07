@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.successsecretsbet.com
+
+# Sitemaps
+Sitemap: https://www.successsecretsbet.com/sitemap.xml
