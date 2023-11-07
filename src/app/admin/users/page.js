@@ -4,7 +4,7 @@ import Users from "../../components/users"; // Import the Predictions component
 import UserControls from "../../components/userControls";
 import Pagination from "../../components/userPagination";
 import { useUser } from "@/app/context/userContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const AllUsers = () => {
   const { users, isLoading } = useUser();

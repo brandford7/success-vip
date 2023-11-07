@@ -1,5 +1,7 @@
 "use client";
 import Header from "./components/header";
+import GoogleAnalytics from "./components/googleAnalytics";
+import GoogleAdsense from "./components/googleAdsense";
 import Footer from "./components/footer";
 import { AuthProvider } from "./context/authContext";
 import { UsersProvider } from "./context/userContext";
@@ -18,7 +20,6 @@ export const metadata = {
 */
 
 export default function RootLayout({ children }) {
-
   const queryClient = new QueryClient();
 
   return (
@@ -29,7 +30,8 @@ export default function RootLayout({ children }) {
             <AuthProvider>
               <PredictionsProvider>
                 <UsersProvider>
-                  
+                  <GoogleAnalytics />
+                  <GoogleAdsense/>
                   <Header />
                   {children}
                   <Footer />
