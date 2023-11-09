@@ -77,7 +77,7 @@ const AccountPage = () => {
   console.log(userData);
 
   return (
-    <div className="h-screen container mx-auto mt-10 px-4 space-y-5">
+    <div className="h-screen container mx-auto mt-10 px-4 space-y-5 text-black">
       <h2 className="text-3xl font-semibold mb-4">Account Dashboard</h2>
       <div className="bg-white rounded-lg shadow-lg p-4">
         {isLoading && <p className="text-gray-600">Loading user data...</p>}
@@ -142,14 +142,15 @@ const AccountPage = () => {
                 <p className="mt-2">
                   To get started, explore our subscription plans:
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+             {/*   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                   <Link
                     href="/plans"
                     className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 text-center"
                   >
                     Explore Plans
                   </Link>
-                </div>
+            </div>*/}
+            <p>VIP Coming Soon </p>
               </section>
             )}
           </>

@@ -59,7 +59,7 @@ const PostPrediction = () => {
         <h1 className="text-2xl font-semibold text-center mb-6">
           Post Prediction
         </h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='text-black'>
           {renderFormField("Competition", "competition")}
           {renderFormField("Game", "game")}
           {renderFormField("Tip", "tip")}

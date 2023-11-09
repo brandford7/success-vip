@@ -6,7 +6,7 @@ const Sorting = () => {
     usePredictions();
 
   return (
-    <div className="flex flex-wrap items-center justify-between mb-4 px-5">
+    <div className="flex flex-wrap items-center justify-between mb-4 px-5 text-black">
       {/* Sorting options */}
       <div className="w-full md:w-1/4 lg:w-1/6 mb-2 flex items-center">
         <label htmlFor="sortField" className="mr-2 text-gray-600">

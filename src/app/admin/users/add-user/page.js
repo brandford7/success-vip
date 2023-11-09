@@ -36,7 +36,7 @@ const AddUser = () => {
       // Show a success message only when the request is successful
       toast.success("User added successfully!");
       // Reset the form to initial state
-      setUser(initialUserState);
+      setUserData(initialUserState);
 
       // Optionally, navigate to another page or perform additional actions
       router.push("/admin/users");
@@ -53,7 +53,7 @@ const AddUser = () => {
         <h1 className="text-2xl font-semibold text-center mb-6">
           Add User
         </h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='text-black'>
           {renderFormField("Username", "username")}
           {renderFormField("Email", "email")}
           {renderFormField("Password", "password")}

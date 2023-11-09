@@ -61,7 +61,7 @@ function EditPrediction({ params: { id } }) {
     try {
       await editPrediction(id, prediction); 
       toast.success("Prediction updated successfully!");
-      router.push("/admin/all-predictions"); // Redirect back to the prediction page
+      router.back(); // Redirect back to the prediction page
     } catch (error) {
       toast.error("Error updating prediction.");
     }
@@ -73,7 +73,7 @@ function EditPrediction({ params: { id } }) {
         <h1 className="text-2xl font-semibold text-center mb-6">
           Edit Prediction
         </h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='text-black'>
           <div className="mb-4">
             <label
               htmlFor="competition"

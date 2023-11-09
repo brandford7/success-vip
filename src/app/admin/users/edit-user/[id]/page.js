@@ -43,7 +43,7 @@ function EditUser({ params: { id } }) {
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-md mx-auto bg-white rounded p-4 shadow-md">
         <h1 className="text-2xl font-semibold text-center mb-6">Edit User</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="text-black">
           <div className="mb-4">
             <label
               htmlFor="username"
