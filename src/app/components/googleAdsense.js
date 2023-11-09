@@ -15,7 +15,7 @@ const GoogleAds = (...props) => {
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
-        data-ad-client={google_adsense_pub_code}
+        data-ad-client="ca-pub-3825617756167561"
         data-ad-slot="1626852337"
         data-ad-format="auto"
         data-full-width-responsive="true"
