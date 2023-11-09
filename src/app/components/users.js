@@ -39,7 +39,7 @@ const Users = ({ users, header }) => {
   return (
     <div className="max-w-screen-lg mx-auto mb-4">
       <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse">
+        <table className="w-full table-auto border-collapse text-black">
           {/* <h2 className="text-2xl font-semibold p-5">{header}</h2>*/}
           <thead>
             <tr className="bg-gray-200">
