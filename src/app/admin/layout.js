@@ -1,14 +1,15 @@
-
+'use client'
 
 import React from "react";
 import { AuthProvider } from "../context/authContext";
 import {BsChevronLeft} from 'react-icons/bs'
 import {useRouter} from 'next/navigation'
 
+/*
 export const metadata = {
-  title: "Success Secrets Bet",
-  description: "The Home Of Betting Tips",
-};
+  title: "Admin",
+  description: "Admin Page",
+}; */
 
 
 const AdminLayout = ({ children }) => {
@@ -21,8 +22,17 @@ const router = useRouter()
 
   return (
     <>
+      <head>
+        <title>Admin</title>
+        <meta
+          name="description"
+          content="Admin Page"
+        />
+      </head>
       <AuthProvider>
-        <button onClick={goBack} className='p-5'><BsChevronLeft/></button>
+        <button onClick={goBack} className="p-5">
+          <BsChevronLeft />
+        </button>
         {children}
       </AuthProvider>
     </>
