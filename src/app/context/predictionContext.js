@@ -1,5 +1,5 @@
 
-'use client'
+
 import React, {
   createContext,
   useContext,
