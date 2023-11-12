@@ -13,12 +13,12 @@ import { Inter } from "next/font/google";
 import { PredictionsProvider } from "./context/predictionContext";
 
 const inter = Inter({ subsets: ["latin"] });
-/*
+
 export const metadata = {
   title: "Success Secrets Bet",
   description: "The Home Of Betting Tips",
 };
-*/
+
 
 export default function RootLayout({ children }) {
   const queryClient = new QueryClient();
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3825617756167561"
           crossOrigin="anonymous"
-          strategy='afterInteractive'
+          strategy='lazyOnload'
         />
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
