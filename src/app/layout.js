@@ -1,4 +1,5 @@
-"use client";
+
+
 import Header from "./components/header";
 import GoogleAnalytics from "./components/googleAnalytics";
 import GoogleAdsense from "./components/googleAdsense";
