@@ -1,10 +1,16 @@
 "use client";
 
-import React from "react";
+
 import { SubscriptionsProvider } from "../context/subscriptionContext";
 
-const AccountLayout = ({ children }) => {
+
+export const metadata = {
+  title: "Account",
+  description: "Account page",
+};
+
+const AccountPageLayout = ({ children }) => {
   return <SubscriptionsProvider>{children}</SubscriptionsProvider>;
 };
 
-export default AccountLayout;
+export default AccountPageLayout;

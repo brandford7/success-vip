@@ -5,6 +5,12 @@ import { AuthProvider } from "../context/authContext";
 import {BsChevronLeft} from 'react-icons/bs'
 import {useRouter} from 'next/navigation'
 
+export const metadata = {
+  title: "Success Secrets Bet",
+  description: "The Home Of Betting Tips",
+};
+
+
 const AdminLayout = ({ children }) => {
 
 const router = useRouter()
