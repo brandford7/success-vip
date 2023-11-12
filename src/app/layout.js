@@ -1,5 +1,5 @@
 
-'use client'
+
 import Header from "./components/header";
 import GoogleAnalytics from "./components/googleAnalytics";
 import GoogleAdsense from "./components/googleAdsense";
@@ -13,31 +13,35 @@ import { Inter } from "next/font/google";
 import { PredictionsProvider } from "./context/predictionContext";
 
 const inter = Inter({ subsets: ["latin"] });
-
+/*
 export const metadata = {
   title: "Success Secrets Bet",
   description: "The Home Of Betting Tips",
 };
-
+*/
 
 export default function RootLayout({ children }) {
   const queryClient = new QueryClient();
 
   return (
     <html lang="en">
+      <head>
+        <title>Success Secrets Bet</title>
+        <meta name="description" content="The Home Of Betting Tips" />
+      </head>
       <body className={inter.className}>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3825617756167561"
           crossOrigin="anonymous"
-          strategy='lazyOnload'
+          strategy="lazyOnload"
         />
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <PredictionsProvider>
               <UsersProvider>
                 <GoogleAnalytics />
-                <GoogleAdsense />
+                {/* <GoogleAdsense />*/}
                 <Header />
                 {children}
                 <Footer />
