@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.successsecretsbet.com
+Host: https://successsecretsbet.com
 
 # Sitemaps
-Sitemap: https://www.successsecretsbet.com/sitemap.xml
+Sitemap: https://successsecretsbet.com/sitemap.xml

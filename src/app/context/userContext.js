@@ -145,7 +145,7 @@ const currentDate = new Date().toISOString().split("T")[0];
     } catch (error) {
       console.error("Error during fetchUserData:", error);
     }
-  }, []);
+  }, [userData]);
 
   // Function to edit a user's profile by logged in user
   const editUserDetails = async (id, updatedUser) => {

@@ -5,7 +5,7 @@ import GoogleAdsense from "./components/googleAdsense";
 import Footer from "./components/footer";
 import { AuthProvider } from "./context/authContext";
 import { UsersProvider } from "./context/userContext";
-import { ThemeProvider, useTheme } from "./context/themeContext";
+import Script from "next/script";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -25,21 +25,25 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-              <PredictionsProvider>
-                <UsersProvider>
-                  <GoogleAnalytics />
-                  <GoogleAdsense/>
-                  <Header />
-                  {children}
-                  <Footer />
-                </UsersProvider>
-              </PredictionsProvider>
-            </AuthProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3825617756167561"
+          crossOrigin="anonymous"
+          strategy='afterInteractive'
+        />
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <PredictionsProvider>
+              <UsersProvider>
+                <GoogleAnalytics />
+                <GoogleAdsense />
+                <Header />
+                {children}
+                <Footer />
+              </UsersProvider>
+            </PredictionsProvider>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
