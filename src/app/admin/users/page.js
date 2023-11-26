@@ -24,8 +24,9 @@ const AllUsers = () => {
             Loading users...
           </p>
         ) : (
-          // Render predictions once data has loaded
+          
           <div>
+            <p>{users.length}</p>
             <Users
               users={users}
               

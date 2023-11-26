@@ -1,3 +1,5 @@
+
+'use client'
 import { SubscriptionsProvider } from "../context/subscriptionContext";
 
 /*
