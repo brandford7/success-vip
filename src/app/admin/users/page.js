@@ -26,7 +26,7 @@ const AllUsers = () => {
         ) : (
           
           <div>
-            <p>{users.length}</p>
+            <p className='px-5 text-black text-2xl font-bold'>{users.length}</p>
             <Users
               users={users}
               

@@ -29,7 +29,7 @@ const Header = () => {
         {user?.name !== "" ? (
           <div className="flex items-center absolute top-1 right-12">
             <div className="flex items-center space-x-2">
-              <p className="text-white">{`Welcome, ${user.name}`}</p>
+              <p className="text-black">{`Welcome, ${user.name}`}</p>
               <UserAvatar />
             </div>
           </div>
