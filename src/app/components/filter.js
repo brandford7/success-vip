@@ -42,14 +42,14 @@ const Filter = () => {
           className="w-full border rounded-lg py-2 px-3"
         />
   </div>*/}
-      <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+  {/*   <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <button
           onClick={applyFilters}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
         >
           Apply
         </button>
-      </div>
+      </div>*/}
       <div className="w-full md:w-1/2 lg:w-1/4 p-2">
         <button
           onClick={resetFilters}
