@@ -21,7 +21,7 @@ const PlansPage = () => {
       "/subscriptions/initialize-transaction-with-plan",
       {
         email: userEmail,
-        amount: 0.50, // Change this to your desired amount
+        amount/*0.50GHS,*/ // Change this to your desired amount
         plan: planCode,
       }
     );
