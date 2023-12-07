@@ -58,7 +58,7 @@ const PlansPage = () => {
           >
             <h3 className="text-xl font-semibold mb-2">{plan.name}</h3>
             <p className="text-gray-600 mb-4">
-              Amount: {plan.amount} {plan.currency}
+              Amount: 50/*{plan.amount}*/ {plan.currency}
             </p>
             <button
               className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600"
