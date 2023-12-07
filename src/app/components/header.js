@@ -77,9 +77,10 @@ const Header = () => {
             </svg>
           </button>
         </div>
-        {/* <div className="hidden md:flex space-x-4 items-center mx-auto "><Link href="/vip">
+{/* VIP Nav Link Large screens */}
+         <div className="hidden md:flex space-x-4 items-center mx-auto "><Link href="/vip">
           <span className="text-white cursor-pointer">VIP</span>
-        </Link></div> */}
+        </Link></div> 
       
       </div>
 
@@ -87,13 +88,14 @@ const Header = () => {
       {menuOpen && (
         <nav className="md:hidden fixed inset-0 bg-blue-500 w-70vw h-screen flex flex-col justify-center text-white z-10 transform transition-transform duration-300 ease-in-out">
           <ul className="p-4 space-y-4 text-white text-center">
-            { /*  <li onClick={handleMenuItemClick}>
+        {/* VIP Nav Link small screens */}
+             <li onClick={handleMenuItemClick}>
               <Link href="/vip">
                 <span className="text-white cursor-pointer text-2xl">
                   VIP 
                 </span>
               </Link>
-      </li>*/}
+      </li>
 
             <li>
               <a
