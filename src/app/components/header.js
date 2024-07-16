@@ -132,12 +132,13 @@ const Header = () => {
               </a>
             </li>
 
-            {user?.name !== "" && (
+            {/*   {user?.name !== "" && (
               <div className="flex items-center text-center justify-center space-x-2">
                 <p className=" text-white">{`Welcome, ${user.name}`}</p>
                 <UserAvatar />
               </div>
             )}
+            */}
           </ul>
           <button
             className="text-white p-2 absolute top-4 right-4 focus:outline-none"
