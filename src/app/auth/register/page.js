@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../../context/authContext";
-import { useRouter,redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +23,7 @@ const RegisterPage = () => {
 
 
   if ((user && user.name !== "")) {
-    redirect("/");
+    router.push("/");
   }
 
   const handleInputChange = (e) => {
@@ -60,7 +60,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="h-screen container mx-auto mt-10 p-4 lg:w-1/3">
+    <div className="auth h-screen container mx-auto mt-10 p-4 lg:w-1/3">
       <h2 className="text-3xl font-semibold mb-4">Register</h2>
       {errorMessage && (
         <p className="text-red-500 mb-4 text-center">{errorMessage}</p>

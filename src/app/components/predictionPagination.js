@@ -8,7 +8,7 @@ const Pagination = () => {
 
   return (
     <>
-      <div className="w-full md:w-1/2 lg:w-1/3 mb-2 flex justify-between items-center px-5 text-black">
+      <div className="w-full md:w-1/2 lg:w-1/3 mb-2 flex justify-between items-center px-5 text-black dark:text-white">
         <button
           onClick={() => setPage(page - 1)}
           className="bg-blue-500 text-white px-3 py-1 rounded-lg mr-2"

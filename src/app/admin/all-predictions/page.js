@@ -5,13 +5,17 @@ import PredictionControls from "../../components/predictionControls";
 import Pagination from "../../components/predictionPagination";
 import { usePredictions } from "@/app/context/predictionContext";
 import { ToastContainer, toast } from "react-toastify";
+import { useQuery } from "react-query";
 
 const AllPredictions = () => {
-  const { predictions, setDate, isLoading } = usePredictions();
+  const { predictions, setDate, isLoading,currentDate } = usePredictions();
+
+
+console.log(predictions);
 
   useEffect(() => {
-    setDate('')
-  }, [setDate]);
+    setDate(currentDate)
+  }, [currentDate, setDate]);
 
   
 

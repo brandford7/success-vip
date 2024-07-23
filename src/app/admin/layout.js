@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
 import React from "react";
-import { AuthProvider } from "../context/authContext";
-import {BsChevronLeft} from 'react-icons/bs'
-import {useRouter} from 'next/navigation'
+import { BsChevronLeft } from "react-icons/bs";
+import { useRouter } from "next/navigation";
+import Providers from "../providers";
 
 /*
 export const metadata = {
@@ -11,31 +11,26 @@ export const metadata = {
   description: "Admin Page",
 }; */
 
-
 const AdminLayout = ({ children }) => {
-
-const router = useRouter()
+  const router = useRouter();
 
   const goBack = () => {
-  router.back()
-}
+    router.back();
+  };
 
   return (
-    <>
+    <div className="admin" suppressHydrationWarning>
       <head>
         <title>Admin</title>
-        <meta
-          name="description"
-          content="Admin Page"
-        />
+        <meta name="description" content="Admin Page" />
       </head>
-      <AuthProvider>
+      <Providers>
         <button onClick={goBack} className="p-5">
           <BsChevronLeft />
         </button>
         {children}
-      </AuthProvider>
-    </>
+      </Providers>
+    </div>
   );
 };
 

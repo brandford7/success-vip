@@ -30,13 +30,13 @@ const UserControls = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2 mx-2 text-black">
+    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2 mx-2 ">
       <input
         type="text"
         placeholder="Search Users"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none  "
       />
       {/*   <input
         type="text"
@@ -50,7 +50,7 @@ const UserControls = () => {
         placeholder="Date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none  "
       />
       <button
         onClick={handleSearch}
@@ -66,29 +66,6 @@ const UserControls = () => {
       >
         Reset Filters
       </button>
-
-      {/* Pagination controls */}
-      {/* <div className="md:flex md:items-center md:space-x-2">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Previous
-        </button>
-        <button
-          onClick={() => setPage(page + 1)}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Next
-        </button>
-        <input
-          type="number"
-          value={pageSize}
-          onChange={(e) => setPageSize(e.target.value)}
-          className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-  </div>*/}
     </div>
   );
 };

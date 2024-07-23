@@ -17,7 +17,6 @@ const UserAvatar = () => {
 
   return (
     <div className="relative inline-block">
-      
       <div
         className="flex flex-col items-center space-x-2 cursor-pointer"
         onClick={toggleDropdown}
@@ -28,7 +27,7 @@ const UserAvatar = () => {
       </div>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg">
+        <div className=" mt-2 w-40 bg-white border rounded-lg shadow-lg">
           <ul className="text-black">
             {user.role === "admin" && (
               <li

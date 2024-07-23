@@ -37,7 +37,7 @@ const PredictionsControls = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2 mx-2 text-black">
+    <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:items-center md:space-x-2 mx-2 text-black dark:text-white">
       <input
         type="text"
         placeholder="Search Predictions"
@@ -57,7 +57,7 @@ const PredictionsControls = () => {
         placeholder="Date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        className="px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none "
       />
       <select
         value={isVIP}

@@ -1,13 +1,11 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { useAuth } from "../../context/authContext"; // Import your auth context
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import Link from "next/link"; // Import Link from Next.js for navigation
-import { useRouter,redirect } from "next/navigation";
-
-
+import { useRouter, redirect } from "next/navigation";
 
 function LoginPage() {
   const { errorMessage, login } = useAuth(); // Use your authentication context here
@@ -15,20 +13,16 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  
   const [loading, setLoading] = useState(false);
-
 
   const router = useRouter();
 
+  const { user } = useAuth();
 
-const { user } = useAuth();
-
-
-/*if (user && user.name !== '') {
+  /*if (user && user.name !== '') {
   redirect("/");
 }*/
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -55,17 +49,15 @@ const { user } = useAuth();
     }
   };
 
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="auth min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold ">
             Log in to your account
           </h2>
         </div>
@@ -113,7 +105,6 @@ const { user } = useAuth();
                   type="button"
                   onClick={togglePasswordVisibility}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                
                 >
                   {showPassword ? (
                     <FaEyeSlash className="h-5 w-5 text-gray-400" />

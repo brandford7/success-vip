@@ -1,7 +1,7 @@
 "use client";
 // authContext.js
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { axiosInstance } from "../../../config";
 
 const AuthContext = createContext();
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
     }
   }, []);
- 
+
   const login = async (credentials) => {
     try {
       const response = await axiosInstance.post("/auth/login", credentials);
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     console.log(user);
-    router.push("auth/login");
+    router.push("/auth/login");
   };
 
   const register = async (formData) => {
@@ -75,18 +75,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
-// function to reset user password
-const forgotPassword = async (email) => {
+  // function to reset user password
+  const forgotPassword = async (email) => {
     try {
-      const response = await axiosInstance.post("/auth/forgot-password", { email });
+      const response = await axiosInstance.post("/auth/forgot-password", {
+        email,
+      });
 
       if (response.status === 200) {
         // Handle the success case
         console.log("Password reset email sent successfully");
         return true;
       } else {
-        console.error("Password reset request failed. Response status:", response.status);
+        console.error(
+          "Password reset request failed. Response status:",
+          response.status
+        );
         return false;
       }
     } catch (error) {
@@ -94,27 +98,27 @@ const forgotPassword = async (email) => {
       return false;
     }
   };
-  
-   const getUserProfile = async () => {
-     const token = localStorage.getItem("token");
-     if (!token) {
-       throw new Error("Token not found");
-     }
 
-     const response = await axiosInstance.get(`/auth/profile`, {
-       headers: {
-         Authorization: `Bearer ${token}`,
-       },
-     });
+  const getUserProfile = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("Token not found");
+    }
 
-     if (response.status === 200) {
-       return response.data;
-     } else {
-       throw new Error("Error fetching user data");
-     }
-   };
+    const response = await axiosInstance.get(`/auth/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-const editUserProfile = async (field, value) => {
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Error fetching user data");
+    }
+  };
+
+  const editUserProfile = async (field, value) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -147,7 +151,6 @@ const editUserProfile = async (field, value) => {
       return false;
     }
   };
-
 
   const authContextValue = {
     user,
