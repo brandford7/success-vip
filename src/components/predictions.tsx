@@ -1,11 +1,4 @@
 "use client";
-import { VscCheck, VscChromeClose } from "react-icons/vsc";
-import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useMutation, useQueryClient } from "react-query";
-import { usePredictions } from "@/app/context/predictionContext";
-import { useAuth } from "@/app/context/authContext";
 import { PredictionType } from "../../utils/types";
 import {
   Table,
@@ -16,8 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { headers } from "next/headers";
-// Define a mutation function for deleting a prediction
 
 interface PredictionProps {
   predictions: PredictionType[] | null;
