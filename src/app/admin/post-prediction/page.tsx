@@ -56,7 +56,7 @@ const PostPrediction = () => {
         toast.success("Failed to post prediction.", {
           position: "bottom-center",
         });
-        throw new Error("Failed to post prediction.");
+        return ("Failed to post prediction.");
       }
     } catch (error: any) {
       setErrorMessage(

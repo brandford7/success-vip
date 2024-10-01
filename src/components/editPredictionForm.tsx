@@ -63,7 +63,7 @@ const EditPredictionForm = ({
         toast.error("Failed to update prediction.", {
           position: "bottom-center",
         });
-        throw new Error("Failed to update prediction.");
+        return ("Failed to update prediction.");
       }
     } catch (error: any) {
       setErrorMessage(
