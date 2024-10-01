@@ -53,7 +53,7 @@ const PostPrediction = () => {
         setErrorMessage(null);
         router.push("/admin/all-predictions"); // Adjust the path as needed
       } else {
-        toast.error("Failed to post prediction.", {
+        toast.warn("Failed to post prediction.", {
           position: "bottom-center",
         });
         return "Failed to post prediction.";

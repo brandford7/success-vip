@@ -60,7 +60,7 @@ const EditPredictionForm = ({
         setErrorMessage(null);
         router.push("/admin/all-predictions"); // Adjust the path as needed
       } else {
-        toast.error("Failed to update prediction.", {
+        toast.warn("Failed to update prediction.", {
           position: "bottom-center",
         });
         return "Failed to update prediction.";
