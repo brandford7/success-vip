@@ -80,7 +80,6 @@ export async function fetchPredictions({
     }
 
     if (isVIP !== undefined) {
-      // Check for isVIP only if specified
       query.isVIP = isVIP;
     }
 
