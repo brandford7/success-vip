@@ -7,11 +7,10 @@ import {
 import { axiosInstance } from "../../config";
 import Prediction from "@/models/Prediction";
 import { endOfDay, startOfDay } from "date-fns";
-//import dbConnect from "./dbConnect";
-import { revalidatePath, unstable_cache } from "next/cache";
+import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 
-const today = startOfDay(new Date()).toISOString();
+//const today = startOfDay(new Date()).toISOString();
 
 type FetchAllPredictionsTypes = {
   search?: string;
@@ -52,13 +51,6 @@ export async function fetchPredictions({
 
     const query: Record<string, any> = {};
 
-    /*query.startPeriod = {
-      startPeriod: {
-        $gte: startOfDay(new Date(today)),
-        $lte: endOfDay(new Date(today)),
-      },
-    };
-*/
     // Add filters based on provided parameters
     if (search) {
       query.$or = [
@@ -137,6 +129,7 @@ export const fetchPrediction = async (
   }
 };
 
+/*
 export const fetchVIP = async (): Promise<PredictionType[] | null> => {
   await dbConnect();
   try {
@@ -153,16 +146,15 @@ export const fetchVIP = async (): Promise<PredictionType[] | null> => {
     return null;
   }
 };
-
+*/
 export const fetchTodayPredictions = async (): Promise<
   PredictionType[] | null
 > => {
-  await dbConnect();
-
   const todayStart = startOfDay(new Date()).toISOString();
   const todayEnd = endOfDay(new Date()).toISOString();
 
   try {
+    await dbConnect();
     const data: PredictionType[] = await Prediction.find({
       startPeriod: {
         $gte: todayStart,
@@ -177,22 +169,7 @@ export const fetchTodayPredictions = async (): Promise<
   }
 };
 
-/*
 export const postPrediction = async (
-  values: PostAndEditPredictionType
-): Promise<PredictionType | null> => {
-  try {
-    await dbConnect();
-    const prediction: PredictionType = await Prediction.create({
-      data: { ...values },
-    });
-    return prediction;
-  } catch (error: any) {
-    console.log(error.message);
-    return null;
-  }
-};
-*/ export const postPrediction = async (
   values: PostAndEditPredictionType
 ): Promise<PredictionType | null> => {
   try {
@@ -216,7 +193,7 @@ export const postPrediction = async (
 export const deletePrediction = async (
   id: string
 ): Promise<PredictionType | null> => {
-  //await dbConnect();
+  await dbConnect();
   try {
     const prediction: PredictionType | null = await Prediction.findOneAndDelete(
       {
@@ -239,6 +216,7 @@ export const editPrediction = async (
   values: PostAndEditPredictionType
 ): Promise<PredictionType | null> => {
   try {
+    await dbConnect();
     const prediction: PredictionType | null = await Prediction.findOneAndUpdate(
       { _id: id },
       { ...values },

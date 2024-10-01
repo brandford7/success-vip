@@ -19,7 +19,7 @@ async function AllPredictions({
    
   } = await fetchPredictions({ search, currentPage });
   //const { predictions} = await fetchPredictions({ search, currentPage });
-  console.log(predictions);
+  
 
   return (
     <div className="h-screen">
@@ -29,7 +29,7 @@ async function AllPredictions({
       <Suspense key={search + currentPage} fallback={<Loading />}>
         <AdminPredictionsTable
           predictions={predictions}
-          header="Free Predictions"
+          header="All Predictions"
           search={search}
           currentPage={currentPage}
         />

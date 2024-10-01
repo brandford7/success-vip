@@ -1,7 +1,7 @@
 import {
-  fetchPredictions,
+
   fetchTodayPredictions,
-  fetchVIP,
+  
 } from "../../utils/predictions/actions";
 import SearchBar from "@/components/searchBar";
 import { Suspense } from "react";
@@ -19,7 +19,8 @@ async function HomePage({
   const search = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  const predictions = await fetchTodayPredictions();
+const predictions = await fetchTodayPredictions();
+console.log(predictions);
 
   return (
     <div className="h-screen">

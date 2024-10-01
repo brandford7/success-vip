@@ -38,7 +38,7 @@ const PostPrediction = () => {
   const router = useRouter();
 
   const handlePost: SubmitHandler<PredictionType> = async (data) => {
-    console.log("Submitted data:", data); // Log the submitted data
+    //console.log("Submitted data:", data); // Log the submitted data
     const payload = {
       ...data,
       startPeriod: new Date(data.startPeriod).toISOString(),
@@ -56,7 +56,7 @@ const PostPrediction = () => {
         toast.success("Failed to post prediction.", {
           position: "bottom-center",
         });
-        return ("Failed to post prediction.");
+        return "Failed to post prediction.";
       }
     } catch (error: any) {
       setErrorMessage(

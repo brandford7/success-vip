@@ -45,7 +45,7 @@ const EditPredictionForm = ({
   const router = useRouter();
 
   const handleEdit: SubmitHandler<PredictionType> = async (data) => {
-    console.log("Submitted data:", data); // Log the submitted data
+    //console.log("Submitted data:", data); // Log the submitted data
     const payload = {
       ...data,
       startPeriod: new Date(data.startPeriod).toISOString(),
@@ -63,7 +63,7 @@ const EditPredictionForm = ({
         toast.error("Failed to update prediction.", {
           position: "bottom-center",
         });
-        return ("Failed to update prediction.");
+        return "Failed to update prediction.";
       }
     } catch (error: any) {
       setErrorMessage(
