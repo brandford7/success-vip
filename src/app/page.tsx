@@ -39,7 +39,7 @@ console.log(predictions);
 
       {/* </div>*/}
       {/*google tag mananger */}
-      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_ID} />
+      <GoogleTagManager gtmId={"G-4DPV6V4MS0"} />
 
       {/* <Pagination />*/}
     </div>
