@@ -7,6 +7,7 @@ import SearchBar from "@/components/searchBar";
 import { Suspense } from "react";
 import Loading from "./loading";
 import PredictionsTable from "@/components/predictions";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 async function HomePage({
   searchParams,
@@ -37,6 +38,8 @@ console.log(predictions);
       </Suspense>
 
       {/* </div>*/}
+      {/*google tag mananger */}
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_ID} />
 
       {/* <Pagination />*/}
     </div>
