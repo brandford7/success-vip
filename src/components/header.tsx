@@ -5,9 +5,11 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className=" flex px-3 gap-3 items-center lg:justify-center bg-primary  py-5 md:py-10 mb-10">
-      <h1 className="capitalize">Success Secrets Bet</h1>
-      <Link href="/">
+    <header className=" flex px-3  items-center lg:justify-center bg-primary  py-5 md:py-10 ">
+      <Link href="/" className="flex gap-3 items-center">
+        <h1 className="capitalize md:text-2xl lg:text-4xl">
+          Success Secrets Bet
+        </h1>
         <Image
           src="/success-image.webp"
           alt="logo"

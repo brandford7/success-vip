@@ -14,15 +14,11 @@ async function AllPredictions({
   const search = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  const {
-    predictions,
-   
-  } = await fetchPredictions({ search, currentPage });
+  const predictions = await fetchPredictions({ search, currentPage });
   //const { predictions} = await fetchPredictions({ search, currentPage });
-  
 
   return (
-    <div className="h-screen">
+    <div className="">
       {/*  <SearchBar placeholder={"search prediction"} />*/}
       {/*    <Filter />*/}
 

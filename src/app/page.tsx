@@ -1,13 +1,10 @@
-import {
-
-  fetchTodayPredictions,
-  
-} from "../../utils/predictions/actions";
+import { fetchTodayPredictions } from "../../utils/predictions/actions";
 import SearchBar from "@/components/searchBar";
 import { Suspense } from "react";
 import Loading from "./loading";
 import PredictionsTable from "@/components/predictions";
 import { GoogleTagManager } from "@next/third-parties/google";
+import Hero from "@/components/hero";
 
 async function HomePage({
   searchParams,
@@ -20,14 +17,13 @@ async function HomePage({
   const search = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-const predictions = await fetchTodayPredictions();
-console.log(predictions);
+  const predictions = await fetchTodayPredictions();
 
   return (
-    <div className="h-screen">
+    <div >
       {/*  <SearchBar placeholder={"search prediction"} />*/}
       {/*    <Filter />*/}
-
+      <Hero />
       <Suspense key={search + currentPage} fallback={<Loading />}>
         <PredictionsTable
           predictions={predictions}

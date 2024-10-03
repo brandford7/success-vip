@@ -25,95 +25,31 @@ type FetchAllPredictionsTypes = {
   limit?: number;
 };
 
-export async function fetchPredictions({
-  search,
-  currentPage = 1,
-  status,
+const dynamic = "force-dynamic";
+export const fetchPredictions = async ({
+  status, // or use PredictionStatus type if defined
   competition,
   game,
   tip,
   odd,
   isVIP,
+  search,
   startPeriod,
+  currentPage,
   limit = 10,
-}: FetchAllPredictionsTypes): Promise<{
-  predictions: PredictionType[] | null;
-  count: number;
-  currentPage: number;
-  totalPages: number;
-}> {
-  // Perform authentication
-  //authenticateAndRedirect();
-
+}: FetchAllPredictionsTypes): Promise<PredictionType[] | null> => {
   try {
-    // Build the query object
     await dbConnect();
+    const data: PredictionType[] = await Prediction.find({}).sort({
+      createdAt: 1,
+    });
 
-    const query: Record<string, any> = {};
-
-    // Add filters based on provided parameters
-    if (search) {
-      query.$or = [
-        { game: { $regex: search, $options: "i" } },
-        { competition: { $regex: search, $options: "i" } },
-        { tip: { $regex: search, $options: "i" } },
-        { status: { $regex: search, $options: "i" } },
-        { isVIP: { $regex: search, $options: "i" } },
-        { result: { $regex: search, $options: "i" } },
-      ];
-    }
-
-    if (competition) {
-      query.competition = competition;
-    }
-
-    if (game) {
-      query.game = game;
-    }
-
-    if (tip) {
-      query.tip = tip;
-    }
-
-    if (odd) {
-      query.odd = odd;
-    }
-
-    if (isVIP !== undefined) {
-      query.isVIP = isVIP;
-    }
-
-    if (startPeriod) {
-      query.startPeriod = startPeriod;
-    }
-
-    if (status) {
-      query.status = status;
-    }
-
-    const skip = (currentPage - 1) * limit;
-
-    // Fetch predictions from the database
-    const predictions: PredictionType[] = await Prediction.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: "desc" });
-
-    // Get the total count of predictions matching the query
-    const count: number = await Prediction.countDocuments(query);
-    const totalPages = Math.ceil(count / limit);
-
-    return {
-      predictions: JSON.parse(JSON.stringify(predictions)),
-      count,
-      currentPage,
-      totalPages,
-    };
-  } catch (error) {
-    console.error(error);
-    return { predictions: [], count: 0, currentPage: 1, totalPages: 0 };
+    return JSON.parse(JSON.stringify(data));
+  } catch (error: any) {
+    console.log(error.message);
+    return null;
   }
-}
+};
 
 export const fetchPrediction = async (
   id: string
