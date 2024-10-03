@@ -3,7 +3,7 @@ import SearchBar from "@/components/searchBar";
 import { Suspense } from "react";
 import Loading from "./loading";
 import PredictionsTable from "@/components/predictions";
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Hero from "@/components/hero";
 
 async function HomePage({
@@ -20,7 +20,7 @@ async function HomePage({
   const predictions = await fetchTodayPredictions();
 
   return (
-    <div >
+    <div>
       {/*  <SearchBar placeholder={"search prediction"} />*/}
       {/*    <Filter />*/}
       <Hero />
@@ -35,7 +35,7 @@ async function HomePage({
 
       {/* </div>*/}
       {/*google tag mananger */}
-      <GoogleTagManager gtmId={"G-4DPV6V4MS0"} />
+      <GoogleAnalytics gaId={"G-4DPV6V4MS0"} />
 
       {/* <Pagination />*/}
     </div>
