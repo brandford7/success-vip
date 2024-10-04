@@ -13,7 +13,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="admin ">
+    <div className="admin overflow-hidden ">
       <Head>
         <title>Admin</title>
         <meta name="description" content="Admin Page" />

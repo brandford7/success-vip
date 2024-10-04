@@ -41,7 +41,7 @@ export const fetchPredictions = async ({
   try {
     await dbConnect();
     const data: PredictionType[] = await Prediction.find({}).sort({
-      createdAt: -1,
+      startPeriod: -1,
     });
 
     return JSON.parse(JSON.stringify(data));
@@ -95,7 +95,7 @@ export const fetchTodayPredictions = async (): Promise<
         $gte: todayStart,
         $lte: todayEnd,
       },
-    }).sort({ createdAt: -1 });
+    }).sort({ startPeriod: -1 });
 
     return JSON.parse(JSON.stringify(data));
   } catch (error: any) {
