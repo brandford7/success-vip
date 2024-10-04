@@ -26,7 +26,7 @@ export default function RootLayout({
         <title>Success Secrets Bet</title>
         <meta name="description" content="The Home Of Betting Tips" />
       </head>
-      <body className={`${inter.className}flex flex-col gap-y-10 min-h-screen overflow-hidden`} >
+      <body className={`${inter.className}flex flex-col gap-y-10 min-h-screen overflow-x-hidden`} >
         {/* adsense script */}
         {/*
         <Script
