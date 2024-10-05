@@ -10,7 +10,8 @@ import { endOfDay, startOfDay } from "date-fns";
 import { revalidatePath } from "next/cache";
 import dbConnect from "../dbConnect";
 
-//const today = startOfDay(new Date()).toISOString();
+const todayStart = startOfDay(new Date()).toISOString();
+const todayEnd = endOfDay(new Date()).toISOString();
 
 type FetchAllPredictionsTypes = {
   search?: string;
@@ -85,9 +86,6 @@ export const fetchVIP = async (): Promise<PredictionType[] | null> => {
 export const fetchTodayPredictions = async (): Promise<
   PredictionType[] | null
 > => {
-  const todayStart = startOfDay(new Date()).toISOString();
-  const todayEnd = endOfDay(new Date()).toISOString();
-
   try {
     await dbConnect();
     const data: PredictionType[] = await Prediction.find({
@@ -162,6 +160,23 @@ export const editPrediction = async (
     //return prediction;
   } catch (error: any) {
     console.log(error.message);
+    return null;
+  }
+};
+
+export const filterPredictionsByDate = async (
+  date: string
+): Promise<PredictionType[] | null> => {
+  try {
+    await dbConnect();
+    const predictions = await Prediction.find({
+      startPeriod: {
+        $gte: date,
+        $lte: date,
+      },
+    });
+    return predictions;
+  } catch (error) {
     return null;
   }
 };

@@ -87,7 +87,7 @@ const PostPrediction = () => {
           id="startPeriod"
           type="date"
           {...form.register("startPeriod")} // Register the input for the form
-          className="w-[300px] border-2 rounded-md border-black"
+          className="w-[300px] border-2 rounded-md border-primary text-primary"
         />
         {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}

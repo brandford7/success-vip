@@ -24,17 +24,15 @@ const SearchBar = ({ placeholder }: { placeholder: string }) => {
   //console.log(searchParams);
 
   return (
-    <>
-      <form className="flex w-full md:w-1/2 lg:w-1/3 mb-2 px-5 text-black">
-        <input
-          type="text"
-          placeholder={placeholder}
-          defaultValue={searchParams.get("search")?.toString()}
-          onChange={(e) => handleSearch(e.target.value)}
-          className="w-full border p-2 rounded-lg"
-        />
-      </form>
-    </>
+    <form className="flex w-full md:w-1/2 lg:w-1/3 mb-2 px-5 text-black">
+      <input
+        type="text"
+        placeholder={placeholder}
+        defaultValue={searchParams.get("search")?.toString()}
+        onChange={(e) => handleSearch(e.target.value)}
+        className="w-full border p-2 rounded-lg"
+      />
+    </form>
   );
 };
 

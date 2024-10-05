@@ -5,8 +5,11 @@ import { Inter } from "next/font/google";
 import Providers from "./providers";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import GoogleAdsense from "@/components/google-adsense";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const pID = process.env.NEXT_PUBLIC_PUB_ID
 
 /*
 export const metadata = {
@@ -26,7 +29,9 @@ export default function RootLayout({
         <title>Success Secrets Bet</title>
         <meta name="description" content="The Home Of Betting Tips" />
       </head>
-      <body className={`${inter.className}flex flex-col gap-y-10 min-h-screen overflow-x-hidden`} >
+      <body
+        className={`${inter.className}flex flex-col gap-y-10 min-h-screen overflow-x-hidden max-w-full`}
+      >
         {/* adsense script */}
         {/*
         <Script
@@ -41,6 +46,7 @@ export default function RootLayout({
           <Footer />
         </Providers>
       </body>
+      <GoogleAdsense pId="3825617756167561" />
     </html>
   );
 }
