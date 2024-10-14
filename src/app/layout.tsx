@@ -6,6 +6,7 @@ import Providers from "./providers";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import GoogleAdsense from "@/components/google-adsense";
+import GrowScript from "@/components/mediavine-grow";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,6 +48,7 @@ export default function RootLayout({
         </Providers>
       </body>
       <GoogleAdsense pId="3825617756167561" />
+      <GrowScript/>
     </html>
   );
 }
