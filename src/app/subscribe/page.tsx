@@ -9,8 +9,7 @@ import { PaystackConsumer } from "react-paystack";
 const SubscriptionPage = () => {
   const [isClient, setIsClient] = useState(false); // to track if we are on the client side
   const { user } = useAuth();
-  const publicKey = (process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ||
-    "") as string;
+  const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string;
 
   const amount = {
     daily: 5000,

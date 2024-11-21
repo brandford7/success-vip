@@ -82,11 +82,11 @@ const EditPredictionForm = ({
         <h2 className="capitalize font-semibold text-4xl mb-6">
           Edit Prediction
         </h2>
-        <CustomInputField name="competition" control={form.control} />
-        <CustomInputField name="game" control={form.control} />
-        <CustomInputField name="tip" control={form.control} />
-        <CustomInputField name="odd" control={form.control} />
-        <CustomInputField name="result" control={form.control} />
+        <CustomInputField name="competition" control={form.control} type="text" />
+        <CustomInputField name="game" control={form.control} type="text" />
+        <CustomInputField name="tip" control={form.control} type="text" />
+        <CustomInputField name="odd" control={form.control} type="text" />
+        <CustomInputField name="result" control={form.control} type="text" />
         <PredictionStatusSelect name="status" control={form.control} />
         <VIPSelect name="isVIP" control={form.control} />
         <label htmlFor="start-period">Start Period</label>
