@@ -17,7 +17,7 @@ const UserAvatar = () => {
   const { user, isAuthenticated, logOut } = useAuth();
 
   return (
-    <div className="absolute rounded-full right-5 cursor-pointer">
+    <div className="absolute rounded-full right-10 cursor-pointer">
       {!isAuthenticated ? (
         <Link href='/login' className="text-white">Login</Link>
       ) : (
