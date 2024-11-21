@@ -9,6 +9,7 @@ import { handleSignUp } from "../../../../utils/auth/actions";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import CheckAuth from "../../../../utils/auth/checkAuth";
+import Link from "next/link";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -62,6 +63,16 @@ const SignUpPage = () => {
             control={form.control}
           />
           <Button type="submit">Submit</Button>
+
+          <div className="mt-4 text-sm gap-x-5">
+            <span>Don’t have an account?</span>
+            <Link
+              href="/login"
+              className="text-blue-500 hover:underline cursor-pointer"
+            >
+              Log in
+            </Link>
+          </div>
         </form>
       </Form>
     </CheckAuth>

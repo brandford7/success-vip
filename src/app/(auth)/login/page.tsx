@@ -10,14 +10,11 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 import { toast } from "react-toastify";
 import CheckAuth from "../../../../utils/auth/checkAuth";
-
+import Link from "next/link";
 
 const LoginPage = () => {
-  //const router = useRouter();
   const { loginUser, refreshUser } = useAuth();
-  
   const router = useRouter();
-
 
   const form = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
@@ -36,22 +33,19 @@ const LoginPage = () => {
         position: "top-center",
       });
       refreshUser();
+
       // Redirect to the home page after successful login
-
-      //router.push("/");
-
-     
+      router.push("/");
     } catch (error) {
-      console.log("Sign up failed:", error);
+      console.log("Login failed:", error);
+      toast.error("Login failed. Please check your credentials.", {
+        position: "top-center",
+      });
     }
   };
 
-
- 
-
   return (
     <CheckAuth>
-      {" "}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -65,6 +59,16 @@ const LoginPage = () => {
             control={form.control}
           />
           <Button type="submit">Submit</Button>
+
+          <div className="mt-4 text-sm ">
+            <span>Already have an account?</span>
+            <Link
+              href="/signup"
+              className="text-blue-500 hover:underline cursor-pointer"
+            >
+              Sign up
+            </Link>
+          </div>
         </form>
       </Form>
     </CheckAuth>

@@ -19,7 +19,7 @@ const UserAvatar = () => {
   return (
     <div className="absolute rounded-full right-5 cursor-pointer">
       {!isAuthenticated ? (
-        <p className="text-white">Login</p>
+        <Link href='/login' className="text-white">Login</Link>
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -36,9 +36,9 @@ const UserAvatar = () => {
                   <Link href="/admin">Admin</Link>
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem>
+                {/*   <DropdownMenuItem>
                 <Link href="/vip">VIP</Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem>*/}
               <DropdownMenuItem>
                 <Button onClick={logOut}>Logout</Button>
               </DropdownMenuItem>
