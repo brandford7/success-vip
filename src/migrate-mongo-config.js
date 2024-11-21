@@ -4,11 +4,10 @@ const config = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
     url:
-      process.env.MONGODB_URI ||
-      "mongodb+srv://successsecretsbet:pVyC9n3BHjey8HhP@cluster0.vkiej.mongodb.net/successsecretsdb",
-
+      process.env.MONGODB_URI ,
+      
     // TODO Change this to your database name:
-    databaseName: process.env.DB_NAME || "successsecretsdb",
+    databaseName: process.env.NEXT_PUBLIC_DB_NAME ,
 
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting

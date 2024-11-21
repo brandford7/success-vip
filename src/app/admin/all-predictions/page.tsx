@@ -1,7 +1,7 @@
 import Loading from "@/app/loading";
 import { Suspense } from "react";
 import { fetchPredictions } from "../../../../utils/predictions/actions";
-import AdminPredictionsTable from "@/components/adminPrediction";
+import PredictionsTable from "@/components/predictions";
 
 async function AllPredictions({
   searchParams,
@@ -23,7 +23,7 @@ async function AllPredictions({
       {/*    <Filter />*/}
 
       <Suspense key={search + currentPage} fallback={<Loading />}>
-        <AdminPredictionsTable
+        <PredictionsTable
           predictions={predictions}
           header="All Predictions"
           search={search}
