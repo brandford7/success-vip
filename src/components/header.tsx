@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import UserAvatar from "./userAvatar";
 
 const Header = () => {
   return (
@@ -14,10 +15,12 @@ const Header = () => {
           src="/success-image.webp"
           alt="logo"
           height="30"
+          priority
           width="30"
           className="rounded-full"
         />
       </Link>
+      <UserAvatar />
     </header>
   );
 };

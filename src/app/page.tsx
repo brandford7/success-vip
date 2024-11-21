@@ -19,6 +19,10 @@ async function HomePage({
 
   const predictions = await fetchTodayPredictions();
 
+  if (!predictions) {
+    return <p>Predictions have not been posted</p>;
+  }
+
   return (
     <div>
       {/*  <SearchBar placeholder={"search prediction"} />*/}

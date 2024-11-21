@@ -13,9 +13,11 @@ import { Input } from "./ui/input";
 type CustomFormFieldProps = {
   name: string;
   control: Control<any>;
+  type: string;
+  
 };
 
-const CustomInputField = ({ name, control }: CustomFormFieldProps) => {
+const CustomInputField = ({ name, control,type }: CustomFormFieldProps) => {
   return (
     <FormField
       control={control}
@@ -24,7 +26,7 @@ const CustomInputField = ({ name, control }: CustomFormFieldProps) => {
         <FormItem>
           <FormLabel className="capitalize">{name}</FormLabel>
           <FormControl>
-            <Input className="w-[300px]" {...field} />
+            <Input className="w-[300px]" {...field} type={type} />
           </FormControl>
           <FormDescription />
           <FormMessage />

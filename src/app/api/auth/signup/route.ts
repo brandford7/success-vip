@@ -2,63 +2,103 @@ import { HttpStatusCode } from "axios";
 import dbConnect from "../../../../../utils/dbConnect";
 import { NextResponse } from "next/server";
 import User from "@/models/User";
+import bcrypt from "bcryptjs";
 
+enum Role {
+  Admin = "admin",
+  User = "user",
+}
 
 export type SignUpDTO = {
   email: string;
   first_name: string;
   last_name: string;
   phone: string;
+  password: string;
+  role: Role;
 };
 
-const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET; // Ensure this is set in your environment variables
+const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET;
 
 export async function POST(request: Request) {
-  await dbConnect(); // Ensure the DB is connected
+  await dbConnect();
 
-  const { email, first_name, last_name, phone }: SignUpDTO =
+  const { email, first_name, last_name, phone, password }: SignUpDTO =
     await request.json();
 
-  // Validate request body
-  if (!email || !first_name || !last_name || !phone) {
+  if (!email || !first_name || !last_name || !phone || !password) {
     return NextResponse.json(
       { message: "All fields are required" },
       { status: HttpStatusCode.BadRequest }
     );
   }
 
-  // Create a new customer in Paystack
-  const paystackResponse = await fetch("https://api.paystack.co/customer", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, first_name, last_name, phone }),
-  });
-
-  const paystackData = await paystackResponse.json();
-
-  // Check if Paystack API call was successful
-  if (!paystackResponse.ok) {
-    return NextResponse.json(paystackData, { status: paystackResponse.status });
-  }
-
-  // Save customer to MongoDB
   try {
-    const newCustomer = await User.create({
+    const existingUserEmail = await User.findOne({ email });
+    if (existingUserEmail) {
+      return NextResponse.json(
+        { message: "User with this email already exists" },
+        { status: HttpStatusCode.Conflict }
+      );
+    }
+
+    const existingUserPhone = await User.findOne({ phone });
+    if (existingUserPhone) {
+      return NextResponse.json(
+        { message: "User with this phone already exists" },
+        { status: HttpStatusCode.Conflict }
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new customer in Paystack
+    const paystackResponse = await fetch("https://api.paystack.co/customer", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${PAYSTACK_SECRET}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, first_name, last_name, phone }),
+    });
+
+    const paystackData = await paystackResponse.json();
+
+    if (!paystackResponse.ok) {
+      return NextResponse.json(paystackData, {
+        status: paystackResponse.status,
+      });
+    }
+
+    const customerCode = paystackData.data?.customer_code || null;
+    const customerId = paystackData.data?.id || null;
+
+    // Save new user to MongoDB
+    const newUser = await User.create({
       email,
       first_name,
       last_name,
       phone,
+      password: hashedPassword,
+      role: Role.User,
+      customerId,
+      customerCode,
     });
-    await newCustomer.save();
-    return NextResponse.json(newCustomer, { status: HttpStatusCode.Created });
-  } catch (error) {
-    console.error(error);
+
+
     return NextResponse.json(
-      { message: "Error saving customer to database", error },
-      { status: 500 }
+      {
+        message: "User registered successfully",
+        user: newUser,
+        data: paystackResponse,
+      },
+      { status: HttpStatusCode.Created }
+    );
+  } catch (error) {
+    console.error("Error saving user:", error);
+    return NextResponse.json(
+      { message: "Error saving user to database", error },
+      { status: HttpStatusCode.InternalServerError }
     );
   }
 }

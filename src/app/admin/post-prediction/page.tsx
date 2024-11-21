@@ -35,6 +35,7 @@ const PostPrediction = () => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean | null>(null);
   const router = useRouter();
 
   const handlePost: SubmitHandler<PredictionType> = async (data) => {
@@ -75,11 +76,15 @@ const PostPrediction = () => {
         <h2 className="capitalize font-semibold text-4xl mb-6">
           Post Prediction
         </h2>
-        <CustomInputField name="competition" control={form.control} />
-        <CustomInputField name="game" control={form.control} />
-        <CustomInputField name="tip" control={form.control} />
-        <CustomInputField name="odd" control={form.control} />
-        <CustomInputField name="result" control={form.control} />
+        <CustomInputField
+          type="='text"
+          name="competition"
+          control={form.control}
+        />
+        <CustomInputField type="='text" name="game" control={form.control} />
+        <CustomInputField type="='text" name="tip" control={form.control} />
+        <CustomInputField type="='text" name="odd" control={form.control} />
+        <CustomInputField type="='text" name="result" control={form.control} />
         <PredictionStatusSelect name="status" control={form.control} />
         <VIPSelect name="isVIP" control={form.control} />
         <label htmlFor="start-period">Start Period</label>
@@ -96,7 +101,7 @@ const PostPrediction = () => {
           variant="default"
           className="mt-4 p-2 bg-blue-500 text-white rounded"
         >
-          Post Prediction
+          {loading ? "Posting" : "Post Prediction"}
         </Button>
         <ToastContainer />
       </form>

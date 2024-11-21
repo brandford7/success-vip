@@ -33,7 +33,7 @@ export const postAndEditPredictionSchema = z.object({
     .min(2, { message: "result must be at least 2 characters" }),
   status: z.nativeEnum(PredictionStatus),
   odd: z.string().min(1, { message: "odd must be at least 1 character" }),
-  startPeriod: z.string(),
+  startPeriod: z.string().date(),
   // TODO: add validation for startPeriod format
   isVIP: z.boolean(),
 });

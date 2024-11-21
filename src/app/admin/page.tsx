@@ -4,9 +4,11 @@ import AdminDashboard from "@/components/adminDashboard";
 
 const AdminPage = () => {
   return (
-    <main>
-      <AdminDashboard />
-    </main>
+  
+      <main>
+        <AdminDashboard />
+      </main>
+   
   );
 };
 

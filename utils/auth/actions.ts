@@ -1,51 +1,79 @@
 "use server";
-
-import { revalidatePath } from "next/cache";
 import { axiosInstance } from "../../config";
-
+import { LoginType, SignupType } from "./types";
 
 type UserType = {
   email: string;
   first_name: string;
   last_name: string;
-
-}
-
-export const handleSignUp = async (formData: FormData) => {
-  const rawFormData = {
-    email: formData.get("email"),
-    first_name: formData.get("first_name"),
-    last_name: formData.get("last_name"),
-    phone: formData.get("phone"),
-    password: formData.get("password"),
-  };
+  phone: string;
+  password: string;
+};
+export const handleSignUp = async (values: SignupType) => {
   try {
-    const response = await axiosInstance.post(`/auth/signup`, {
+    // Pass values directly as data in the post request
+    const response = await axiosInstance.post(`/auth/signup`, values, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        formData: rawFormData,
-      }),
     });
 
-    revalidatePath("/login");
-    const data = await response.data.data;
+    
 
-    console.log("Sign up successful:", data);
+    // Directly access response data
+    const data = response.data;
+
+   
   } catch (error) {
     console.log("Sign up failed:", error);
   }
 };
 
 
-export const getUsers = async (req: Request, res: Response): Promise<UserType> => {
+/*
+export const handleLogin= async (values: LoginType) => {
   try {
-    const response = await axiosInstance.get(`/users`);
+    // Pass values directly as data in the post request
+    const response = await axiosInstance.post(`/auth/login`, values, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Directly access response data
+    const data = response.data;
+
+    
+  } catch (error) {
+    console.log("log in failed:", error);
+  }
+};
+
+*/
+
+export const handleLogin = async (values: LoginType) => {
+  try {
+    const response = await axiosInstance.post(`/auth/login`, values, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    
+    return response.data;
+   
+  } catch (error) {
+    console.log("Log in failed:", error);
+  }
+};
+
+export const getUsers = async (): Promise<UserType> => {
+  try {
+    const response = await axiosInstance.get(`api/users`);
     const users = await response.data.json();
     return users;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw new Error("Failed to fetch users");
   }
- }
+};
