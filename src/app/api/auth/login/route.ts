@@ -10,7 +10,7 @@ export type LoginDTO = {
   password: string;
 };
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET;
+const JWT_SECRET_KEY = process.env.JWT_SECRET as string;
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
         firstName: user.firstName,
         role: user.role,
       },
-      "10686c37b37cb5c94379af461a37b155f3f1b5df67182d84a050f31bcb768792",
+      JWT_SECRET_KEY,
       {
         expiresIn: "1h",
       }

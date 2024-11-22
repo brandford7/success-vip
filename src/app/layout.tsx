@@ -47,8 +47,7 @@ export default function RootLayout({
           <Footer />
         </Providers>
       </body>
-      <GoogleAdsense pId="3825617756167561" />
-      <GrowScript/>
+    
     </html>
   );
 }
