@@ -5,8 +5,6 @@ import { Inter } from "next/font/google";
 import Providers from "./providers";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import GoogleAdsense from "@/components/google-adsense";
-import GrowScript from "@/components/mediavine-grow";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -5,6 +5,7 @@ import Loading from "./loading";
 import PredictionsTable from "@/components/predictions";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Hero from "@/components/hero";
+import GoogleAdsense from "@/components/google-adsense";
 
 async function HomePage({
   searchParams,
@@ -40,6 +41,9 @@ async function HomePage({
       {/* </div>*/}
       {/*google tag mananger */}
       <GoogleAnalytics gaId={"G-4DPV6V4MS0"} />
+
+      <GoogleAdsense pId="3825617756167561" />
+      
 
       {/* <Pagination />*/}
     </div>
