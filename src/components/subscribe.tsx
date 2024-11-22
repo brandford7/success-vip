@@ -11,7 +11,7 @@ const Subscribe = () => {
   const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string;
 
   const amount = {
-    daily: 100,
+    daily: 5000,
     seasonal: 50000,
   };
 

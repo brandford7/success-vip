@@ -42,7 +42,7 @@ export async function checkVipSubscription(customerId?: any): Promise<boolean> {
     const paidAtDate = parseISO(latestTransaction.paid_at);
 
     // Check Case 1: Amount is 5000 and paid today
-    if (latestTransaction.amount === 100) {
+    if (latestTransaction.amount === 5000) {
       if (isSameDay(paidAtDate, today)) {
         return true;
       }
