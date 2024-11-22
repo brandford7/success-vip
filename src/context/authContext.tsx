@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/navigation";
 import { handleLogin } from "../../utils/auth/actions";
-import { LoginType } from "../../utils/auth/types";
+import { LoginType, SignupType } from "../../utils/auth/types";
 
 enum Role {
   Admin = "admin",
@@ -30,7 +30,8 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   logOut: () => void;
   refreshUser: () => void;
-  loginUser: (values: LoginType) => Promise<void>;
+  loginUser: (values: LoginType) => {};
+  signUpUser: (values: SignupType) => {};
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -73,9 +74,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("user", JSON.stringify(user));
 
       setUser(user); // Update the context state
-      router.push("/"); // Redirect after login
     } catch (error) {
       console.error("Login failed:", error);
+    }
+  };
+
+  const signUpUser = async (values: SignupType) => {
+    try {
+      const data = handleSignup(values); // API call to create the user
+    } catch (error) {
+      console.error("Signup failed:", error);
     }
   };
 
@@ -86,6 +94,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated: !!user,
         logOut,
         loginUser,
+        signUpUser,
         refreshUser,
       }}
     >
@@ -101,3 +110,12 @@ export const useAuth = () => {
   }
   return context;
 };
+function handleSignup(values: {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+}) {
+  throw new Error("Function not implemented.");
+}

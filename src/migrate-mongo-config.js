@@ -4,7 +4,7 @@ const config = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
     url:
-      process.env.MONGODB_URI ,
+      process.env.NEXT_PUBLIC_MONGODB_URI ,
       
     // TODO Change this to your database name:
     databaseName: process.env.NEXT_PUBLIC_DB_NAME ,

@@ -1,18 +1,17 @@
-'use client'
+
 import { differenceInDays, isSameDay, parseISO } from "date-fns";
 
+const PAYSTACK_SECRET = process.env.NEXT_PUBLIC_PAYSTACK_SECRET;
 
-const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET;
-
-export async function checkVipSubscription(userId?: any): Promise<boolean> {
+export async function checkVipSubscription(customerId?: any): Promise<boolean> {
   try {
     // Fetch transactions for the user
     const response = await fetch(
-      `https://api.paystack.co/transaction`,
+      `https://api.paystack.co/transaction?customer=${customerId}`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer sk_test_0f9e3398799d43106aded76565f977cbda03d1b9`,
+          Authorization: `Bearer ${PAYSTACK_SECRET}`, // Use your secret key from env
           "Content-Type": "application/json",
         },
       }
@@ -23,17 +22,19 @@ export async function checkVipSubscription(userId?: any): Promise<boolean> {
       return false;
     }
 
-    const data = await response.json();
+    const apiResponse = await response.json();
 
     // Extract transactions from the response
-    const { transactions } = data;
+    const transactions = apiResponse.data; // Access `data` which contains the array of transactions
+
     if (!transactions || transactions.length === 0) {
       return false; // No transactions found
     }
 
     // Sort transactions by `paid_at` in descending order
     const sortedTransactions = transactions.sort(
-      (a:any, b:any) => new Date(b.paid_at).getTime() - new Date(a.paid_at).getTime()
+      (a: any, b: any) =>
+        new Date(b.paid_at).getTime() - new Date(a.paid_at).getTime()
     );
 
     const latestTransaction = sortedTransactions[0];
@@ -53,7 +54,6 @@ export async function checkVipSubscription(userId?: any): Promise<boolean> {
         return true;
       }
     }
-console.log(PAYSTACK_SECRET);
 
     return false; // No valid subscription found
   } catch (error) {

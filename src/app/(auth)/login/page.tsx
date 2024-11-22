@@ -27,7 +27,7 @@ const LoginPage = () => {
   // Form submission handler
   const onSubmit = async (data: LoginType) => {
     try {
-      await loginUser(data);
+      loginUser(data);
 
       toast.success("Logged in successfully!", {
         position: "top-center",

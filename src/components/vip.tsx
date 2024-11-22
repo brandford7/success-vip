@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
-import { useAuth } from "@/context/authContext"; // Path to your auth context
-import { checkVipAccess } from "../../utils/subscription/checkPayment";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/authContext";
 import { checkVipSubscription } from "../../utils/subscription/actions";
 
 export default function VipContent() {
@@ -14,13 +13,12 @@ export default function VipContent() {
       setHasAccess(false);
 
       return;
-      }
-      
-      console.log(user?.customerId);
-      
+    }
 
     async function verifyAccess() {
-      const isSubscribed = await checkVipSubscription(user?.customerId);
+      const isSubscribed =
+        (await checkVipSubscription(user?.customerId)) ||
+        user?.role === "admin";
       setHasAccess(isSubscribed);
     }
 
