@@ -19,13 +19,13 @@ const UserAvatar = () => {
   return (
     <div className="absolute rounded-full right-10 cursor-pointer">
       {!isAuthenticated ? (
-        <Link href='/login' className="text-white">Login</Link>
+        <Link href="/login" className="text-white">
+          Login
+        </Link>
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-           
-              <Menu className="bg-primary-foreground"/>
-           
+            <Menu className="bg-primary-foreground" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-48">
             <DropdownMenuLabel className="text-black">Menu</DropdownMenuLabel>
@@ -36,9 +36,12 @@ const UserAvatar = () => {
                   <Link href="/admin">Admin</Link>
                 </DropdownMenuItem>
               )}
-                {/*   <DropdownMenuItem>
+              <DropdownMenuItem>
                 <Link href="/vip">VIP</Link>
-              </DropdownMenuItem>*/}
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/subscribe">Subscribe</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <Button onClick={logOut}>Logout</Button>
               </DropdownMenuItem>

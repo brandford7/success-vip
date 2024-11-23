@@ -3,11 +3,16 @@
 import ProtectedRoute from "@/components/protectedRoute";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PaystackConsumer } from "react-paystack";
+import { checkVipSubscription } from "../../utils/subscription/actions";
 
 const Subscribe = () => {
   const { user } = useAuth();
+  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
+
+  const router = useRouter();
   const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string;
 
   const amount = {
@@ -19,7 +24,7 @@ const Subscribe = () => {
 
   const onSuccess = () => {
     // Implementation for whatever you want to do with reference and after success call.
-    console.log("reference");
+    router.push("/vip");
   };
 
   const onClose = () => {
@@ -39,6 +44,7 @@ const Subscribe = () => {
 
   const dailyComponentProps = {
     ...dailyConfig,
+    onSuccess,
     text: "Paystack Button Implementation",
   };
 
@@ -60,21 +66,34 @@ const Subscribe = () => {
 
   const seasonalComponentProps = {
     ...seasonalConfig,
+    onSuccess,
     text: "Paystack Button Implementation (Seasonal)",
   };
 
-  /* if (user?.role !== "admin") {
-   return (
-     <div>
-       You do not have access to this page.
-       <Link href=''>
-         
-         <Button>Please Subscribe</Button>
-       </Link>
-     </div>
-   );
- }*/
-  console.log(user?.customerId);
+
+  //check if user already has access to vip when the visit subscribe page
+ 
+    useEffect(() => {
+      if (!user?.customerId) {
+        setHasAccess(false);
+
+        return;
+      }
+
+      async function verifyAccess() {
+        const isSubscribed =
+          (await checkVipSubscription(user?.customerId)) ||
+          user?.role === "admin";
+        setHasAccess(isSubscribed);
+      }
+
+      verifyAccess();
+    }, [user?.customerId, user?.role]);
+
+   if (hasAccess ) {
+     router.push('/vip'); // Show a loading indicator while checking
+   }
+
 
   return (
     <ProtectedRoute>

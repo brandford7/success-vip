@@ -32,7 +32,7 @@ export default function VipContent({
     }
 
     verifyAccess();
-  }, [user?.customerId]);
+  }, [user?.customerId, user?.role]);
 
   if (hasAccess === null) {
     return <p>Loading...</p>; // Show a loading indicator while checking
@@ -40,9 +40,13 @@ export default function VipContent({
 
   if (!hasAccess) {
     return (
-      <div>
-        <h2>You do not have access to VIP tips</h2>
-        <Link href="/subscribe">Kindly click to Subscribe </Link>
+      <div className="h-screen flex items-center justify-center">
+        <p>You do not have access to VIP tips</p>
+
+        <span className="mr-5"> Kindly click to</span>
+        <Link href="/subscribe" className="text-blue-500">
+          Subscribe
+        </Link>
       </div>
     );
   }
@@ -55,7 +59,9 @@ export default function VipContent({
       <Suspense fallback={<Loading />}>
         <PredictionsTable
           predictions={predictions}
-          header="Free Predictions" currentPage={0} search={""}        
+          header="VIP Predictions"
+          currentPage={0}
+          search={""}
         />
       </Suspense>
     </div>
