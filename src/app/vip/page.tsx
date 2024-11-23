@@ -1,10 +1,11 @@
 import VIP from "@/components/vip";
-import { useAuth } from "@/context/authContext";
+import { fetchVIPPredictions } from "../../../utils/predictions/actions";
 
-export default function VipPage() {
+export default async function VipPage() {
+  const predictions = await fetchVIPPredictions();
   return (
     <div>
-      <VIP />
+      <VIP predictions={predictions} />
     </div>
   );
 }

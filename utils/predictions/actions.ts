@@ -52,6 +52,8 @@ export const fetchPredictions = async ({
   }
 };
 
+
+
 export const fetchPrediction = async (
   id: string
 ): Promise<PredictionType | null> => {
@@ -93,6 +95,27 @@ export const fetchTodayPredictions = async (): Promise<
         $gte: todayStart,
         $lte: todayEnd,
       },
+      isVIP: false,
+    }).sort({ startPeriod: -1 });
+
+    return JSON.parse(JSON.stringify(data));
+  } catch (error: any) {
+    console.log(error.message);
+    return null;
+  }
+};
+
+export const fetchVIPPredictions = async (): Promise<
+  PredictionType[] | null
+> => {
+  try {
+    await dbConnect();
+    const data: PredictionType[] = await Prediction.find({
+      startPeriod: {
+        $gte: todayStart,
+        $lte: todayEnd,
+      },
+      isVIP: true,
     }).sort({ startPeriod: -1 });
 
     return JSON.parse(JSON.stringify(data));

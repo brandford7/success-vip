@@ -26,6 +26,7 @@ export async function checkVipSubscription(customerId?: any): Promise<boolean> {
 
     // Extract transactions from the response
     const transactions = apiResponse.data; // Access `data` which contains the array of transactions
+    
 
     if (!transactions || transactions.length === 0) {
       return false; // No transactions found

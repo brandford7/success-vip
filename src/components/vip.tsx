@@ -1,10 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 import { checkVipSubscription } from "../../utils/subscription/actions";
+import Link from "next/link";
+import Loading from "@/app/loading";
+import Hero from "./hero";
+import PredictionsTable from "./predictions";
+import { PredictionType } from "../../utils/types";
 
-export default function VipContent() {
+export default function VipContent({
+  predictions,
+}: {
+  predictions: PredictionType[] | null;
+}) {
   const { user } = useAuth(); // Get user data from auth context
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
 
@@ -32,16 +41,23 @@ export default function VipContent() {
   if (!hasAccess) {
     return (
       <div>
-        <h2>Access Denied</h2>
-        <p>You do not have a valid subscription to access this page.</p>
+        <h2>You do not have access to VIP tips</h2>
+        <Link href="/subscribe">Kindly click to Subscribe </Link>
       </div>
     );
   }
 
   return (
     <div>
-      <h2>Welcome to the VIP Section!</h2>
-      <p>Your exclusive content goes here.</p>
+      {/*  <SearchBar placeholder={"search prediction"} />*/}
+      {/*    <Filter />*/}
+      <Hero />
+      <Suspense fallback={<Loading />}>
+        <PredictionsTable
+          predictions={predictions}
+          header="Free Predictions" currentPage={0} search={""}        
+        />
+      </Suspense>
     </div>
   );
 }

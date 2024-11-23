@@ -1,4 +1,8 @@
-import { fetchTodayPredictions } from "../../utils/predictions/actions";
+import {
+  fetchPredictions,
+  fetchTodayPredictions,
+  fetchVIPPredictions,
+} from "../../utils/predictions/actions";
 import SearchBar from "@/components/searchBar";
 import { Suspense } from "react";
 import Loading from "./loading";
@@ -43,7 +47,6 @@ async function HomePage({
       <GoogleAnalytics gaId={"G-4DPV6V4MS0"} />
 
       <GoogleAdsense pId="3825617756167561" />
-      
 
       {/* <Pagination />*/}
     </div>
