@@ -15,7 +15,7 @@ export type SignUpDTO = {
   last_name: string;
   phone: string;
   password: string;
-  role: Role;
+  role?: Role;
 };
 
 const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET;
