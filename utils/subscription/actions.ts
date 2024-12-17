@@ -1,9 +1,14 @@
-
 import { differenceInDays, isSameDay, parseISO } from "date-fns";
+import { checkRole } from "../auth/checkRole";
+import { Role } from "@/app/api/auth/signup/route";
 
 const PAYSTACK_SECRET = process.env.NEXT_PUBLIC_PAYSTACK_SECRET;
 
-export async function checkVipSubscription(customerId?: any): Promise<boolean> {
+
+export async function checkVipSubscription(
+  customerId?: any,
+  role?: Role 
+): Promise<boolean> {
   try {
     // Fetch transactions for the user
     const response = await fetch(
@@ -26,12 +31,13 @@ export async function checkVipSubscription(customerId?: any): Promise<boolean> {
 
     // Extract transactions from the response
     const transactions = apiResponse.data; // Access `data` which contains the array of transactions
-    
 
     if (!transactions || transactions.length === 0) {
       return false; // No transactions found
     }
-
+    if (role === "admin") {
+      return true; // Admin role has access to all subscriptions
+    }
     // Sort transactions by `paid_at` in descending order
     const sortedTransactions = transactions.sort(
       (a: any, b: any) =>

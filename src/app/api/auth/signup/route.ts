@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
-enum Role {
+export enum Role {
   Admin = "admin",
   User = "user",
 }

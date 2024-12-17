@@ -46,7 +46,7 @@ async function HomePage({
       {/*google tag mananger */}
       <GoogleAnalytics gaId={"G-4DPV6V4MS0"} />
 
-      <GoogleAdsense pId="3825617756167561" />
+      {/*  <GoogleAdsense pId="3825617756167561" /> */}
 
       {/* <Pagination />*/}
     </div>

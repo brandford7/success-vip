@@ -31,14 +31,7 @@ export default function RootLayout({
       <body
         className={`${inter.className}flex flex-col gap-y-10 min-h-screen overflow-x-hidden max-w-full`}
       >
-        {/* adsense script */}
-        {/*
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3825617756167561"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />*/}
+      
         <Providers>
           <Header />
           {children}

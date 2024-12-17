@@ -5,7 +5,15 @@ interface Transaction {
   paid_at: string; // ISO date string
 }
 
-export function checkVipAccess(transactions: Transaction[]): boolean {
+export function checkVipAccess(
+  transactions: Transaction[],
+  userRole: string
+): boolean {
+  // Case 1: Check if the user has admin role
+  if (userRole === "admin") {
+    return true; // Admins always have access
+  }
+
   if (!transactions || transactions.length === 0) {
     return false; // No transactions
   }
@@ -30,18 +38,14 @@ export function checkVipAccess(transactions: Transaction[]): boolean {
   // Convert amount to Naira (if in kobo)
   const amountInNaira = latestTransaction.amount / 100;
 
-  // Case 1: Check if the latest transaction is 5000 and is from today
-  if (amountInNaira === 5000) {
-    if (isSameDay(paidAtDate, today)) {
-      return true; // User is eligible based on today's transaction
-    }
+  // Case 2: Check if the latest transaction is 5000 and is from today
+  if (amountInNaira === 5000 && isSameDay(paidAtDate, today)) {
+    return true; // User is eligible based on today's transaction
   }
 
-  // Case 2: Check if the latest transaction is 50000 and within 300 days
-  if (amountInNaira === 50000) {
-    if (differenceInDays(today, paidAtDate) <= 300) {
-      return true; // User is eligible based on the long-term transaction
-    }
+  // Case 3: Check if the latest transaction is 50000 and within 300 days
+  if (amountInNaira === 50000 && differenceInDays(today, paidAtDate) <= 300) {
+    return true; // User is eligible based on the long-term transaction
   }
 
   return false; // User is not eligible

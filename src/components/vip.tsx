@@ -17,6 +17,8 @@ export default function VipContent({
   const { user } = useAuth(); // Get user data from auth context
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
 
+
+
   useEffect(() => {
     if (!user?.customerId) {
       setHasAccess(false);
@@ -25,32 +27,31 @@ export default function VipContent({
     }
 
     async function verifyAccess() {
-      const isSubscribed =
-        (await checkVipSubscription(user?.customerId)) ||
-        user?.role === "admin";
+      const isSubscribed = await checkVipSubscription(
+        user?.customerId,
+        user?.role
+      );
       setHasAccess(isSubscribed);
     }
+
 
     verifyAccess();
   }, [user?.customerId, user?.role]);
 
-  if (hasAccess === null) {
-    return <p>Loading...</p>; // Show a loading indicator while checking
-  }
-
   if (!hasAccess) {
     return (
-      <div className="h-screen flex items-center justify-center">
+      <div className="h-screen flex flex-col items-center justify-center">
         <p>You do not have access to VIP tips</p>
 
-        <span className="mr-5"> Kindly click to</span>
         <Link href="/subscribe" className="text-blue-500">
-          Subscribe
+          Kindly Subscribe
         </Link>
       </div>
     );
   }
 
+
+  
   return (
     <div>
       {/*  <SearchBar placeholder={"search prediction"} />*/}
