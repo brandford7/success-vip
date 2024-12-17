@@ -1,9 +1,13 @@
 import { differenceInDays, isSameDay, parseISO } from "date-fns";
 import { checkRole } from "../auth/checkRole";
-import { Role } from "@/app/api/auth/signup/route";
 
 const PAYSTACK_SECRET = process.env.NEXT_PUBLIC_PAYSTACK_SECRET;
 
+
+enum Role {
+  Admin = "admin",
+  User = "user",
+}
 
 export async function checkVipSubscription(
   customerId?: any,
