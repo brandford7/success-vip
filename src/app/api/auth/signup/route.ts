@@ -9,7 +9,7 @@ export enum Role {
   User = "user",
 }
 
-export type SignUpDTO = {
+type SignUpDTO = {
   email: string;
   first_name: string;
   last_name: string;
