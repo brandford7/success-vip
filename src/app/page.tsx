@@ -3,7 +3,11 @@ import {
   fetchTodayPredictions,
   fetchVIPPredictions,
 } from "../../utils/predictions/actions";
-//import SearchBar from "@/components/searchBar";
+<<<<<<< HEAD
+import SearchBar from "@/components/searchBar";
+=======
+import SearchBar from "@/components/searchBar";
+>>>>>>> c18db749cdafc625960842996841f4d5e252cecb
 import { Suspense } from "react";
 import Loading from "./loading";
 import PredictionsTable from "@/components/predictions";
@@ -46,7 +50,11 @@ async function HomePage({
       {/*google tag mananger */}
       <GoogleAnalytics gaId={"G-4DPV6V4MS0"} />
 
-      {  <GoogleAdsense pId="3825617756167561" /> }
+<<<<<<< HEAD
+      { /* <GoogleAdsense pId="3825617756167561" /> */}
+=======
+      {/*  <GoogleAdsense pId="3825617756167561" /> */}
+>>>>>>> c18db749cdafc625960842996841f4d5e252cecb
 
       {/* <Pagination />*/}
     </div>
